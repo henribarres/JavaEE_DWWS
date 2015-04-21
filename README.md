@@ -1,6 +1,14 @@
 # JavaEE_DWWS
 Repositorio para o Trabalho 1 no Desenvolvimento Java Web
 
+
+
+1   Create a database schema named gametime;
+2   Create a database user named gametime with password gametime;
+3   Give user \gametime full permission for the schema gametime.
+
+
+
     <datasource jta="true" jndi-name="java:jboss/datasources/GameTime" pool-name="GameTimePool" enabled="true" use-java-context="true">
       <connection-url>jdbc:mysql://localhost:3306/gametime</connection-url>
       <driver>mysql</driver>
