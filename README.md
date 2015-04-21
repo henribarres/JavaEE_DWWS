@@ -1,6 +1,8 @@
 # JavaEE_DWWS
 Repositorio para o Trabalho 1 no Desenvolvimento Java Web
 
+Este projeto Utiliza gerenciamento de dependências com Maven, de modo que não é necessário distribuir os arquivos JAR dos frameworks utilizados;
+
 # Database creation
 
 1   Create a database schema named gametime;
