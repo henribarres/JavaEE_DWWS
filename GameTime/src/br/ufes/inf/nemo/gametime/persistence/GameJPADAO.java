@@ -3,16 +3,17 @@ package br.ufes.inf.nemo.gametime.persistence;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
-import br.ufes.inf.nemo.gametime.domain.User;
+import br.ufes.inf.nemo.gametime.domain.Game;
 import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
 
+
 @Stateless
-public class UserJPADAO extends BaseJPADAO<User> implements UserDAO{
+public class GameJPADAO extends BaseJPADAO<Game> implements GameDAO{
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public Class<User> getDomainClass() {
+	public Class<Game> getDomainClass() {
 		// TODO Auto-generated method stub
 		return null;
 	}
