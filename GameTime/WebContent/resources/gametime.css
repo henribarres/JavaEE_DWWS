@@ -1,0 +1,70 @@
+
+
+/*** GAME FORMS ***/
+
+div.gameForm {
+	margin: 10px 0 10px 0;
+	width: 100%;
+}
+
+
+div.gameForm div.gametimeFormField {
+	width: 100%;
+	padding: 0;
+	/***background-color: #000000;***/
+	/***border-bottom: 5px solid white;***/
+}
+
+div.gameForm div.gametimeFormField div.label {
+	float: left;
+	width: 24%;
+	text-align: right;
+	padding: 5px 2px 5px 2px;
+}
+
+div.gameForm div.gametimeFormField div.field {
+	float: right;
+	width: 71%;
+	/*  border-left: 5px solid white; */
+	padding: 5px 7px 5px 7px;
+}
+
+div.gameForm div.gametimeFormField div.clear {
+	clear: both;
+}
+
+div.gameForm div.gametimeFormField div.field ul {
+	list-style-image: url(../images/error-icon.png);
+	display: block;
+	margin: 0 0 3px 0;
+	padding: 0;
+	width: 67%;
+}
+
+div.gameForm div.gametimeFormField div.field ul li {
+	margin-left: 23px;
+}
+
+div.gameForm div.gametimeFormFieldError {
+	background-color: #FFA07A;
+}
+
+div.gameForm div.gametimeFormFieldError div.label {
+	font-weight: bold;
+}
+
+div.gameForm div.gametimeFormFieldError div.field {
+	font-weight: bold;
+}
+
+div.gameForm div.gametimeFormButton {
+	width: 100%;
+	clear: both;
+	padding: 5px 0 5px 0;
+	text-align: right;
+}
+
+div.gametimeFormInternalButton {
+	width: 100%;
+	text-align: right;
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      template="/resources/decorator.xhtml">
+      
+      
+      <ui:define name="title">Cadastro Game</ui:define>
+      
+      <ui:define name="contents">
+      	<h1>Cadastro Game</h1>
+      	<p></p>
+      	
+      	
+      	
+      	<ui:decorate template="/resources/form.xhtml">
+	      	<h:form id="form">
+	      		
+	      		<h:panelGroup id="nameField">
+					<ui:decorate template="/resources/formfield.xhtml">
+						<ui:param name="fieldName" value="form:name" />
+						<ui:define name="label"><h:outputText value="nome" /></ui:define>
+						<p:inputText id="name" value="#{gameController.game.name}" size="30" required="true"/>
+					</ui:decorate>
+				</h:panelGroup>
+				
+				<h:panelGroup id="manufacturerField">
+					<ui:decorate template="/resources/formfield.xhtml">
+						<ui:param name="fieldName" value="form:manufacturer" />
+						<ui:define name="label"><h:outputText value="Fabricante" /></ui:define>
+						<p:inputText id="manufacturer" value="#{gameController.game.manufacturer}" size="30" required="true"/>
+					</ui:decorate>
+				</h:panelGroup>
+	      		
+	      		<ui:decorate template="/resources/formbutton.xhtml">
+					<p:commandButton action="#{registerController.registerUserFree}" value="Cadastrar" />
+				</ui:decorate>
+	      		
+	      	</h:form>
+      	</ui:decorate>
+      </ui:define>
+      
+</ui:composition>
