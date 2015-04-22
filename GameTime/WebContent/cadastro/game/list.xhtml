@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      template="/resources/decorator.xhtml">
+      
+      
+      <ui:define name="title"><h:outputText value="#{msgsGametime['game.title']}" /></ui:define>
+      
+      
+      
+      <ui:define name="contents">
+      		<h1><h:outputText value="#{msgsGametime['game.title']}" /></h1>
+      		
+      		<div class="crud">
+      		
+      		
+      		
+      		
+				<!-- Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
+				<h:form id="filterForm">
+					<h:panelGroup id="filterBar" rendered="#{(not empty manageSpiritistsController.filters)}">
+						<div class="crudFilterBar">
+							<h:outputText value="#{msgs['crud.text.filter']} " />
+							<p:selectOneMenu id="filter" required="true" value="#{manageSpiritistsController.filterKey}">
+								<f:selectItems value="#{manageSpiritistsController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
+								<f:ajax event="change" execute="@form" listener="#{manageSpiritistsController.changeFilter}" render="@form :listingForm :buttonsForm" />
+							</p:selectOneMenu>
+							<h:outputText value=": " />
+							<p:inputText id="filterText" size="20" required="false" value="#{manageSpiritistsController.filterParam}" rendered="#{manageSpiritistsController.filter.options == null}" />
+							<p:selectOneMenu id="filterSelect" required="false" value="#{manageSpiritistsController.filterParam}" rendered="#{manageSpiritistsController.filter.options != null}">
+								<f:selectItems value="#{manageSpiritistsController.filter.reversedOptionsLabels}" />
+							</p:selectOneMenu>
+							<p:commandLink action="#{manageSpiritistsController.filter}" process="@form" update=":listingForm :buttonsForm">
+								<h:graphicImage style="border: 0;" value="/resources/templates/#{coreInfo.decorator}/icons/button-find.png" title="#{msgs['crud.button.filter']}" />
+							</p:commandLink>
+							<p:hotkey bind="#{msgs['crud.hotkey.filterFocus']}" handler="if (findObjectById('filterForm:filterText') != null) findObjectById('filterForm:filterText').focus(); else findObjectById('filterForm:filterSelect').focus();" />
+						</div>
+					</h:panelGroup>
+				</h:form>
+				
+				
+				
+				
+				
+			</div>
+     
+     
+     
+     
+      </ui:define>
+      
+</ui:composition>

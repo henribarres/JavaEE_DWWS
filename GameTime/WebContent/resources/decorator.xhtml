@@ -2,62 +2,62 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="#{facesContext.externalContext.requestContextPath}/resources/templatemo_style.css" rel="stylesheet" type="text/css" />
-<link href="#{facesContext.externalContext.requestContextPath}/resources/gametime.css" rel="stylesheet" type="text/css" />
-<title><h:outputText value="GameTime :: " /><ui:insert name="title" /></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="#{facesContext.externalContext.requestContextPath}/resources/templatemo_style.css" rel="stylesheet" type="text/css" />
+	<link href="#{facesContext.externalContext.requestContextPath}/resources/gametime.css" rel="stylesheet" type="text/css" />
+	<title><h:outputText value="GameTime :: " /><ui:insert name="title" /></title>
 </h:head>
 <h:body>
+		
+	<div id="templatemo_container">
+	    
+	    <div id="templatemo_header">
+	        <div id="website_title">
+	            <div id="title"><h:outputText value="#{msgsGametime['text.system.name']}" /></div>
+	            <div id="salgon"><h:outputText value="#{msgsGametime['text.system.salgon']}" /></div>
+	        </div>
+	    </div> 
+    
+    
+	    <div id="templatemo_banner">
+	    	<div id="templatemo_menu">
+	            <ul>
+	                <li><a href="#{facesContext.externalContext.requestContextPath}/"><h:outputText value="#{msgsGametime['title.home']}" /></a></li>
+	                <li><a href="#{facesContext.externalContext.requestContextPath}/registration/index.faces">Registration</a></li>
+	                <li><a href="#{facesContext.externalContext.requestContextPath}/cadastro/game/list.faces"><h:outputText value="#{msgsGametime['title.game']}" /></a></li>
+	                <li><a href="#">Link 03</a></li>
+	                <li><a href="#">Link 04</a></li>
+	                <li><a href="#" class="last">Link 05</a></li>
+	            </ul> 
+	        </div>    
+	    </div>
+    
+	    <div id="templatemo_content">
 
-<div id="templatemo_container">
-	<!-- Free Website Template by www.TemplateMo.com -->
-    <div id="templatemo_header">
-        <div id="website_title">
-            <div id="title">GameTime</div>
-            <div id="salgon">Gerenciamento de Contas de Games</div>
-        </div>
-    </div> <!-- end of header -->
+	    	<div id="content_left">
+	        	<div class="content_left_section">
+	                <div class="cleaner">&nbsp;</div>
+	            </div> <!-- end of booking -->
+	            <div class="cleaner_h30">&nbsp;</div>
+	            <div class="cleaner_horizontal_divider_01">&nbsp;</div>
+	        </div> 
+	        
+	        <div id="content_right">
+	      		<h:form id="globalMessages">
+					<p:growl id="messages" globalOnly="true" showSummary="true" showDetail="true" sticky="true" />
+				</h:form>
+	        	<ui:insert name="contents">Blank page.</ui:insert>
+	        </div> 
+	        
+	        <div class="cleaner">&nbsp;</div>
+	    </div>
     
-    <div id="templatemo_banner">
-    	<div id="templatemo_menu">
-            <ul>
-                <li><a href="#{facesContext.externalContext.requestContextPath}/">Home</a></li>
-                <li><a href="#{facesContext.externalContext.requestContextPath}/registration/index.faces">Registration</a></li>
-                <li><a href="#{facesContext.externalContext.requestContextPath}/cadastro/game/index.faces">Game</a></li>
-                <li><a href="#">Link 03</a></li>
-                <li><a href="#">Link 04</a></li>
-                <li><a href="#" class="last">Link 05</a></li>
-            </ul> 
-        </div>    
-    </div> <!-- end of banner -->
-    
-    <div id="templatemo_content">
-    
-    	<div id="content_left">
-        	<div class="content_left_section">
-                <div class="cleaner">&nbsp;</div>
-            </div> <!-- end of booking -->
-            <div class="cleaner_h30">&nbsp;</div>
-            <div class="cleaner_horizontal_divider_01">&nbsp;</div>
-        </div> <!-- end of content left -->
-        
-        <div id="content_right">
-        	<ui:insert name="contents">Blank page.</ui:insert>
-        </div> <!-- end of content right -->
-        
-        <div class="cleaner">&nbsp;</div>
-    </div>
-    
-    <div id="templatemo_footer">
-    Copyright © 2015 <a href="#"><strong>GameTime</strong></a> | Designed by <a href="http://www.templatemo.com" rel="nofollow" target="_parent">Free CSS Templates</a>
-        <div style="clear: both; margin-top: 10px;">                
-            <a href="http://validator.w3.org/check?uri=referer"><img style="border:0;width:88px;height:31px" src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" width="88" height="31" vspace="8" border="0" /></a>
-            <a href="http://jigsaw.w3.org/css-validator/check/referer"><img style="border:0;width:88px;height:31px"  src="http://jigsaw.w3.org/css-validator/images/vcss-blue" alt="Valid CSS!" vspace="8" border="0" /></a>
-        </div> 
-	</div> <!-- end of footer -->
-</div> <!-- end of container -->
-
+	    <div id="templatemo_footer">
+	    Copyright © 2015 <a href="#"><strong>GameTime</strong></a> | Designed by <a href="http://www.templatemo.com" rel="nofollow" target="_parent">Free CSS Templates</a> 
+		</div> 
+	</div> 
 </h:body>
 </html>
