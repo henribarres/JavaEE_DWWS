@@ -7,7 +7,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import br.ufes.inf.nemo.gametime.application.GameService;
+import br.ufes.inf.nemo.gametime.application.ManageGameService;
 import br.ufes.inf.nemo.gametime.domain.Game;
 import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.application.filters.LikeFilter;
@@ -16,14 +16,14 @@ import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 
 @Named
 @SessionScoped
-public class GameController extends CrudController<Game>{
+public class ManageGameController extends CrudController<Game>{
 
-	private static final Logger logger = Logger.getLogger(GameController.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(ManageGameController.class.getCanonicalName());
 	
 	private static final long serialVersionUID = 1L;
 	
 	@EJB
-	private GameService gameService;
+	private ManageGameService gameService;
 	
 	
 	

@@ -10,7 +10,7 @@ import br.ufes.inf.nemo.util.ejb3.persistence.BaseDAO;
 
 
 @Stateless
-public class GameServiceBean extends CrudServiceBean<Game> implements GameService {
+public class ManageGameServiceBean extends CrudServiceBean<Game> implements ManageGameService {
 
 	private static final long serialVersionUID = 1L;
 

@@ -8,6 +8,6 @@ import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 
 
 @Local
-public interface GameService extends CrudService<Game>{
+public interface ManageGameService extends CrudService<Game>{
 
 }
