@@ -23,39 +23,27 @@ public class ManageGameController extends CrudController<Game>{
 	private static final long serialVersionUID = 1L;
 	
 	@EJB
-	private ManageGameService gameService;
+	private ManageGameService manageGameService;
 	
 	
+	public ManageGameController() {
+	    viewPath = "/manageGame/";
+	    bundleName = "msgsGametime";
+	}
 	
-	public String cadastraGame(){
-		try {	
-			logger.log(Level.INFO, "CADASTRO DE GAME");
-			return "/cadastro/game/success.xhtml?faces-redirect=true";
-		}
-		catch (Exception e) {
-			return "/cadastro/game/underage.xhtml?faces-redirect=true";
-		}
-	}
-	private Game game = new Game();
-	public Game getGame() {
-		return game;
-	}
-	public void setGame(Game game) {
-		this.game = game;
-	}
-
-	@Override
+	
+		@Override
 	protected void prepEntity() {
-		logger.log(Level.FINER, "Preparing spiritist for storage ({0})...", selectedEntity);
-		selectedEntity = createNewEntity();
-		selectedEntity.setName("game");
+		logger.log(Level.INFO, "PREPARANDO PARA SALVAR ({0})...", selectedEntity);
+		//selectedEntity = createNewEntity();
+		//selectedEntity.setName("gameoutro");
 		selectedEntity.setManufacturer("manufacturer");
 	}
 	
 	@Override
 	public CrudService<Game> getCrudService() {
-		gameService.authorize();
-		return gameService;
+		manageGameService.authorize();
+		return manageGameService;
 	}
 
 
@@ -74,11 +62,11 @@ public class ManageGameController extends CrudController<Game>{
 
 	@Override
 	protected void initFilters() {
-		// One can filter spiritists by name or e-mail.
-		addFilter(new LikeFilter("manageSpiritists.filter.byName", "name", getI18nMessage("msgsCore", "manageSpiritists.text.filter.byName")));
-		addFilter(new LikeFilter("manageSpiritists.filter.byEmail", "email", getI18nMessage("msgsCore", "manageSpiritists.text.filter.byEmail")));
+		addFilter(new LikeFilter("manageGame.filter.byName", "name", getI18nMessage("msgsGametime", "manageGame.text.filter.byName")));
+		//addFilter(new LikeFilter("manageSpiritists.filter.byEmail", "email", getI18nMessage("msgsCore", "manageSpiritists.text.filter.byEmail")));
 	}
 	
+	/*
 	@Override
 	public String save() {
 		try {	
@@ -90,4 +78,5 @@ public class ManageGameController extends CrudController<Game>{
 			return "/cadastro/game/underage.xhtml?faces-redirect=true";
 		}
 	}
+	*/
 }

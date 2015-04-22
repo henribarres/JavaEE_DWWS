@@ -8,7 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="#{facesContext.externalContext.requestContextPath}/resources/templatemo_style.css" rel="stylesheet" type="text/css" />
 	<link href="#{facesContext.externalContext.requestContextPath}/resources/gametime.css" rel="stylesheet" type="text/css" />
-	<title><h:outputText value="GameTime :: " /><ui:insert name="title" /></title>
+	<title><ui:insert name="title" /></title>
 </h:head>
 <h:body>
 		
@@ -27,7 +27,7 @@
 	            <ul>
 	                <li><a href="#{facesContext.externalContext.requestContextPath}/"><h:outputText value="#{msgsGametime['title.home']}" /></a></li>
 	                <li><a href="#{facesContext.externalContext.requestContextPath}/registration/index.faces">Registration</a></li>
-	                <li><a href="#{facesContext.externalContext.requestContextPath}/cadastro/game/list.faces"><h:outputText value="#{msgsGametime['title.game']}" /></a></li>
+	                <li><a href="#{facesContext.externalContext.requestContextPath}/manageGame/list.faces"><h:outputText value="#{msgsGametime['title.game']}" /></a></li>
 	                <li><a href="#">Link 03</a></li>
 	                <li><a href="#">Link 04</a></li>
 	                <li><a href="#" class="last">Link 05</a></li>
