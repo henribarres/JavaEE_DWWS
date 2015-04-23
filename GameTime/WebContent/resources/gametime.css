@@ -2,6 +2,15 @@
 
 /*** GAME FORMS ***/
 
+.ui-inputfield{
+	width: 100%;
+}
+
+div.crudFilterBar .ui-inputfield {
+	width: 40%;
+	margin-right: 20px;
+}
+
 div.gameForm {
 	margin: 10px 0 10px 0;
 	width: 100%;

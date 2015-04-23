@@ -7,13 +7,11 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/resources/decorator.xhtml">
 
-
     <ui:define name="title">
         <h:outputText value="#{msgsGametime['manageGame.title.create']}" rendered="#{(! manageGameController.readOnly) and (manageGameController.selectedEntity.id == null)}" />
         <h:outputText value="#{msgsGametime['manageGame.title.update']}" rendered="#{(! manageGameController.readOnly) and (manageGameController.selectedEntity.id != null)}" />
         <h:outputText value="#{msgsGametime['manageGame.title.retrieve']}" rendered="#{manageGameController.readOnly}" />
     </ui:define>
-    
 
     <ui:define name="contents">
         <h1>
@@ -27,6 +25,7 @@
                 <h:form id="form">
                     <p:hotkey bind="#{msgsGametime['crud.hotkey.focusFirstField']}" handler="findObjectById('form:name').focus();" />
 
+
                     <h:panelGroup id="nameField">
                         <ui:decorate template="/resources/formfield.xhtml">
                             <ui:param name="fieldName" value="form:name" />
@@ -37,6 +36,48 @@
                             </p:inputText>
                         </ui:decorate>
                     </h:panelGroup>
+
+					<h:panelGroup id="manufacturerField">
+                        <ui:decorate template="/resources/formfield.xhtml">
+                            <ui:param name="fieldName" value="form:manufacturer" />
+                            <ui:param name="tooltip" value="#{msgsGametime['manageGame.form.manufacturer.tooltip']}" />
+                            <ui:define name="label"><h:outputText value="#{msgsGametime['manageGame.form.manufacturer']}" /></ui:define>
+                            <p:inputText id="manufacturer" value="#{manageGameController.selectedEntity.manufacturer}" size="50" required="true" disabled="#{manageGameController.readOnly}">
+                                <p:ajax event="blur" update="manufacturerField" />
+                            </p:inputText>
+                        </ui:decorate>
+                    </h:panelGroup>
+                    
+                    
+                    <h:panelGroup id="generoField">
+                        <ui:decorate template="/resources/formfield.xhtml">
+                            <ui:param name="fieldName" value="form:genero" />
+                            <ui:param name="tooltip" value="#{msgsGametime['manageGame.form.genero.tooltip']}" />
+                            <ui:define name="label"><h:outputText value="#{msgsGametime['manageGame.form.genero']}" /></ui:define>
+                            <p:inputText id="genero" value="#{manageGameController.selectedEntity.genero}" size="50" required="true" disabled="#{manageGameController.readOnly}">
+                                <p:ajax event="blur" update="generoField" />
+                            </p:inputText>
+                        </ui:decorate>
+                    </h:panelGroup>
+                    
+                    
+                    
+                    <h:panelGroup id="requisitosField">
+                        <ui:decorate template="/resources/formfield.xhtml">
+                            <ui:param name="fieldName" value="form:requisitos" />
+                            <ui:param name="tooltip" value="#{msgsGametime['manageGame.form.requisitos.tooltip']}" />
+                            <ui:define name="label"><h:outputText value="#{msgsGametime['manageGame.form.requisitos']}" /></ui:define>
+                            <p:inputText id="requisitos" value="#{manageGameController.selectedEntity.requisitos_minimos}" size="50" required="true" disabled="#{manageGameController.readOnly}">
+                                <p:ajax event="blur" update="requisitosField" />
+                            </p:inputText>
+                        </ui:decorate>
+                    </h:panelGroup>
+                    
+                    
+                    
+
+
+
 
                     <ui:decorate template="/resources/formbutton.xhtml">
                         <h:panelGroup rendered="#{! manageGameController.readOnly}">
@@ -50,6 +91,10 @@
                             <p:hotkey bind="#{msgsGametime['crud.hotkey.backToList']}" action="#{manageGameController.list}" immediate="true" />
                         </h:panelGroup>
                     </ui:decorate>
+                    
+                    
+                    
+                    
                 </h:form>
             </ui:decorate>
         </div>

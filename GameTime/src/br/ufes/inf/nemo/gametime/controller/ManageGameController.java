@@ -13,7 +13,6 @@ import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.application.filters.LikeFilter;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 
-
 @Named
 @SessionScoped
 public class ManageGameController extends CrudController<Game>{
@@ -25,19 +24,14 @@ public class ManageGameController extends CrudController<Game>{
 	@EJB
 	private ManageGameService manageGameService;
 	
-	
 	public ManageGameController() {
 	    viewPath = "/manageGame/";
 	    bundleName = "msgsGametime";
 	}
 	
-	
-		@Override
+	@Override
 	protected void prepEntity() {
-		logger.log(Level.INFO, "PREPARANDO PARA SALVAR ({0})...", selectedEntity);
-		//selectedEntity = createNewEntity();
-		//selectedEntity.setName("gameoutro");
-		selectedEntity.setManufacturer("manufacturer");
+		logger.log(Level.INFO, "PREPARANDO PARA SALVAR O GAME ({0})...", selectedEntity.getName());
 	}
 	
 	@Override
@@ -46,7 +40,6 @@ public class ManageGameController extends CrudController<Game>{
 		return manageGameService;
 	}
 
-
 	@Override
 	protected Game createNewEntity() {
 		logger.log(Level.INFO, "INICIALIZANDO NOVO GAME");
@@ -54,7 +47,6 @@ public class ManageGameController extends CrudController<Game>{
 		return newEntity;
 	}
 
-	
 	@Override
 	protected String summarizeSelectedEntity() {
 		return (selectedEntity == null) ? "" : selectedEntity.getName()+" da empresa "+selectedEntity.getManufacturer();
@@ -63,20 +55,6 @@ public class ManageGameController extends CrudController<Game>{
 	@Override
 	protected void initFilters() {
 		addFilter(new LikeFilter("manageGame.filter.byName", "name", getI18nMessage("msgsGametime", "manageGame.text.filter.byName")));
-		//addFilter(new LikeFilter("manageSpiritists.filter.byEmail", "email", getI18nMessage("msgsCore", "manageSpiritists.text.filter.byEmail")));
+		addFilter(new LikeFilter("manageGame.filter.byManufacturer", "manufacturer", getI18nMessage("msgsGametime", "manageGame.text.filter.byManufacturer")));
 	}
-	
-	/*
-	@Override
-	public String save() {
-		try {	
-			super.save();
-			logger.log(Level.INFO, "CADASTRO DE GAME");
-			return "/cadastro/game/success.xhtml";
-		}
-		catch (Exception e) {
-			return "/cadastro/game/underage.xhtml?faces-redirect=true";
-		}
-	}
-	*/
 }

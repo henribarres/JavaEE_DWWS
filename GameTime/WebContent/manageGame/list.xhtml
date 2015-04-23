@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>     
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -6,13 +6,11 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 template="/resources/decorator.xhtml">
-          
+
     <ui:define name="title"><h:outputText value="#{msgsGametime['manageGame.title']}" /></ui:define>
-    
+
     <ui:define name="contents">
-       <h1><h:outputText value="#{msgsGametime['manageGame.title']}" /></h1>  
-
-
+        <h1><h:outputText value="#{msgsGametime['manageGame.title']}" /></h1>
 
         <div class="crud">
             <!-- Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
@@ -30,7 +28,7 @@
                             <f:selectItems value="#{manageGameController.filter.reversedOptionsLabels}" />
                         </p:selectOneMenu>
                         <p:commandLink action="#{manageGameController.filter}" process="@form" update=":listingForm :buttonsForm">
-                            <h:graphicImage style="border: 0;" value="/resources/templates/default/icons/button-find.png" title="#{msgsGametime['crud.button.filter']}" />
+                            <h:graphicImage style="border: 0;" value="/resources/icons/button-find.png" title="#{msgsGametime['crud.button.filter']}" />
                         </p:commandLink>
                         <p:hotkey bind="#{msgsGametime['crud.hotkey.filterFocus']}" handler="if (findObjectById('filterForm:filterText') != null) findObjectById('filterForm:filterText').focus(); else findObjectById('filterForm:filterSelect').focus();" />
                     </div>
@@ -47,7 +45,7 @@
                             <f:param value="#{manageGameController.filterLabel}" />
                         </h:outputFormat>
                         <p:commandLink action="#{manageGameController.cancelFilter}" process="@form" update="@form :buttonsForm">
-                            <h:graphicImage style="border: 0;" value="/resources/templates/default/icons/button-close.png" title="#{msgsGametime['crud.button.cancelFilter']}" />
+                            <h:graphicImage style="border: 0;" value="/resources/icons/button-close.png" title="#{msgsGametime['crud.button.cancelFilter']}" />
                         </p:commandLink>
                         <p:hotkey bind="#{msgsGametime['crud.hotkey.clearFilter']}" action="#{manageGameController.cancelFilter}" process="@form" update=":listingForm :buttonsForm" />
                     </div>
@@ -72,6 +70,9 @@
 
                         <p:column headerText="#{msgsGametime['manageGame.form.name']}">
                             <h:outputText value="#{entity.name}" />
+                        </p:column>
+                        <p:column headerText="#{msgsGametime['manageGame.form.manufacturer']}">
+                            <h:outputText value="#{entity.manufacturer}" />
                         </p:column>
 
                         <p:ajax event="rowSelect" update=":buttonsForm" />
