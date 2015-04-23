@@ -8,6 +8,6 @@ import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 
 
 @Local
-public interface ContaService extends CrudService<Conta>{
+public interface ManageContaService extends CrudService<Conta>{
 
 }
