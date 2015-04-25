@@ -10,7 +10,7 @@
 		<!-- Defines the resource bundle that contains the standard JSF messages (overriding the ones provided). -->
 		<message-bundle>br.ufes.inf.nemo.gametime.faces</message-bundle>
 		<resource-bundle>
-			<base-name>br.ufes.inf.nemo.gametime.view.messages</base-name>
+			<base-name>br.ufes.inf.nemo.gametime.messages</base-name>
 			<var>msgsGametime</var>
 		</resource-bundle>
 		<!-- Defines the default locale. -->
