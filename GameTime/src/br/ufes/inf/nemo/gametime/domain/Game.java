@@ -16,7 +16,7 @@ public class Game extends  PersistentObjectSupport{
 	@NotNull
 	private String manufacturer;
 
-	private String genero;
+	private String genre;
 	
 	private String requisitos_minimos;
 
@@ -37,11 +37,11 @@ public class Game extends  PersistentObjectSupport{
 	}
 
 	public String getGenero() {
-		return genero;
+		return genre;
 	}
 
 	public void setGenero(String genero) {
-		this.genero = genero;
+		this.genre = genero;
 	}
 
 	public String getRequisitos_minimos() {
@@ -53,11 +53,5 @@ public class Game extends  PersistentObjectSupport{
 	}
 	
 	
-	
-	
-	/*
-	empresa_fabricante,genero (MMRPG, FPS), versão (patch 1.9), requisitos_minimos (memoria, hd e etc)
-	isso ta bom ja
-	*/
-	
+
 }

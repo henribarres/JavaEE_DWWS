@@ -9,7 +9,7 @@ public class Game_ {
 
 	public static volatile SingularAttribute<Game, String> name;
 	public static volatile SingularAttribute<Game, String> manufacturer;
-	public static volatile SingularAttribute<Game, String> genero;
+	public static volatile SingularAttribute<Game, String> genre;
 	public static volatile SingularAttribute<Game, String> requisitos_minimos;
 	
 }

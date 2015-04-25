@@ -44,5 +44,10 @@
   		<artifactId>nemo-utils-jee-wp</artifactId>
   		<version>1.1</version>
   	</dependency>
+  	<dependency>
+  		<groupId>br.ufes.inf.nemo</groupId>
+  		<artifactId>nemo-utils-java</artifactId>
+  		<version>1.1</version>
+  	</dependency>
   </dependencies>
 </project>
