@@ -12,10 +12,11 @@ public class GameAccount extends  PersistentObjectSupport{
 	
 	private String name;
 	
-	
 	@ManyToOne
 	private GroupGame groupGame;
 	
+	@ManyToOne
+	private Game game;
 	
 	
 	public String getName() {
