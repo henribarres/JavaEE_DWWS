@@ -14,11 +14,10 @@ import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
 
 @Entity
 public class GroupGame extends  PersistentObjectSupport{
-
+	
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
-	
 	
 	private String descricao;
 	
@@ -42,9 +41,8 @@ public class GroupGame extends  PersistentObjectSupport{
 	
 	
 	/*  CONSTRUTOR  */
-	public GroupGame(User adminUser){
-		this.adminUser = adminUser;
-	}
+	public GroupGame (){}
+	public GroupGame(User adminUser){this.adminUser = adminUser;}
 	
 	
 
@@ -57,5 +55,14 @@ public class GroupGame extends  PersistentObjectSupport{
 
 	public Set<GameAccount> getGameAccounts() { return gameAccounts;  }
 	public void setGameAccounts(Set<GameAccount> gameAccounts) { this.gameAccounts = gameAccounts; }
+	
+	public String getName() {return name;}
+	public void setName(String name) {this.name = name;	}
+	
+	public String getDescricao() { return descricao;}
+	public void setDescricao(String descricao) { this.descricao = descricao; }
+	
+	public boolean isIsactive() { return isactive; }
+	public void setIsactive(boolean isactive) { this.isactive = isactive; }	
 	
 }

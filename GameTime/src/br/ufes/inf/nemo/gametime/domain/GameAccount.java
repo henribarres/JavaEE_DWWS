@@ -19,13 +19,16 @@ public class GameAccount extends  PersistentObjectSupport{
 	private Game game;
 	
 	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 	
+	
+	/*  GETS AND SETS*/
+	public String getName() { return name; }
+	public void setName(String name) { 	this.name = name; }
+
+	public GroupGame getGroupGame() { return groupGame; }
+	public void setGroupGame(GroupGame groupGame) { this.groupGame = groupGame; }
+
+	public Game getGame() { return game; }
+	public void setGame(Game game) { this.game = game; }
 
 }
