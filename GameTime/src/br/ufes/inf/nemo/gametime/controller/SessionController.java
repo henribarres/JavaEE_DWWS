@@ -32,7 +32,7 @@ public class SessionController extends JSFController{
 	private String password;
 	
 	
-	
+	/* FUNCAO PARA FAZER LOGIN NO SISTEMA */
 	public String login(){
 		try {
 			logger.log(Level.FINEST, "USUARIO TENTANDO LOGIN COM USERNAME = \"{0}\"...", email);
@@ -41,13 +41,11 @@ public class SessionController extends JSFController{
 		} catch (Exception e) {
 			logger.log(Level.INFO, "FALHA DE LOGIN PARA USERNAME \"{0}\".", email);
 			addGlobalI18nMessage("msgsGametime", FacesMessage.SEVERITY_ERROR, "error.login.summary", "error.login.detail");
-			return "index.xhtml?faces-redirect=true";
+			return null;
 		}
 	}
 	
-	
-	
-	
+	/* FUNCAO PARA FAZER LOGOUT */
 	public String logout(){
 		FacesContext fc = FacesContext.getCurrentInstance();     
 		HttpSession session = (HttpSession)fc.getExternalContext().getSession(false);     
@@ -64,7 +62,6 @@ public class SessionController extends JSFController{
 	/* FUNCAO QUE RETORNA O USUARIO ATENTICADO, ISTO É, QUE JA REALIZOU O LOGIN*/
 	public User getAuthenticatedUser() { return sessionService.getAuthenticatedUser();  }
 
-	
 	/*  GETS AND SETS*/
 	public String getEmail() { return email; }
 	public void setEmail(String email) { 	this.email = email; }
