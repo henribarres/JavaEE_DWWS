@@ -9,5 +9,5 @@ import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoun
 
 @Local
 public interface UserDAO extends BaseDAO<User>{
-	public User retrieveByUsername(String username)throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+	public User retrieveByUsername(String email)throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 }

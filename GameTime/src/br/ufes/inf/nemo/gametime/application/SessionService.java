@@ -12,5 +12,5 @@ public interface SessionService extends Serializable{
 
 	public User getAuthenticatedUser();
 	
-	void login(String username, String password) throws Exception;
+	void login(String email, String password) throws Exception;
 }

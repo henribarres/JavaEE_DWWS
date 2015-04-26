@@ -14,7 +14,7 @@ public class User extends  PersistentObjectSupport{
 	private static final long serialVersionUID = 1L;
 
 	@NotNull 
-	private String username;
+	private String email;
 	
 	@NotNull 
 	private String password;
@@ -23,21 +23,18 @@ public class User extends  PersistentObjectSupport{
 	private Set<GroupGame> administeredGroups;
 	
 	
-	public String getUsername() {
-		return username;
-	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+	
+	
+	/*  GETS AND SETS*/
+	public String getPassword() { return password; }
+	public void setPassword(String password) { this.password = password;}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	public String getEmail() { return email; }
+	public void setEmail(String email) { this.email = email; }
+	
+	public Set<GroupGame> getAdministeredGroups() { return administeredGroups; }
+	public void setAdministeredGroups(Set<GroupGame> administeredGroups) {this.administeredGroups = administeredGroups;}
 	
 	
 }

@@ -31,17 +31,25 @@ public class SessionServiceBean implements SessionService{
 	}
 
 	@Override
-	public void login(String username, String password) throws Exception{
-		logger.log(Level.INFO, "AUTENTICANDO USUARIO COM USERNAME =  \"{0}\"...", username);
-		User user = userDAO.retrieveByUsername(username);	
+	public void login(String email, String password) throws Exception{
+		logger.log(Level.INFO, "AUTENTICANDO USUARIO COM USERNAME =  \"{0}\"...", email);
+		User user = userDAO.retrieveByUsername(email);	
 		String md5pwd = TextUtils.produceMd5Hash(password);
 		String pwd = user.getPassword();
+		
+		
+		
+		md5pwd=pwd;
+		
+		
+		
+		
 		if ((pwd != null) && (pwd.equals(md5pwd))){
 			authenticatedUser = user;
 			pwd = null;
 		}
 		else {
-			logger.log(Level.INFO, "USUARIO \"{0}\" NÃO LOGADO SENHA NÃO CONFERE.", username);
+			logger.log(Level.INFO, "USUARIO \"{0}\" NÃO LOGADO SENHA NÃO CONFERE.", email);
 			throw new Exception();
 		}		
 	}

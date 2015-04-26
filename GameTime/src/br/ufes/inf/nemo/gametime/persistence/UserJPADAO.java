@@ -37,14 +37,14 @@ public class UserJPADAO extends BaseJPADAO<User> implements UserDAO{
 	}
 
 	@Override
-	public User retrieveByUsername(String username) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException{
-		logger.log(Level.INFO, "RETORNANDO O USURIO COM USERNAME = \"{0}\". ",username);
+	public User retrieveByUsername(String email) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException{
+		logger.log(Level.INFO, "RETORNANDO O USURIO COM USERNAME = \"{0}\". ",email);
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<User> cq = cb.createQuery(User.class);
 		Root<User> root = cq.from(User.class);
-		cq.where(  cb.equal(root.get(User_.username), username));
-		User result = executeSingleResultQuery(cq, username);
-		logger.log(Level.INFO, "BUSCA COM SUCESSO DO USUARIO COM USERNAME =  \"{0}\" ", username );
+		cq.where(  cb.equal(root.get(User_.email), email));
+		User result = executeSingleResultQuery(cq, email);
+		logger.log(Level.INFO, "BUSCA COM SUCESSO DO USUARIO COM USERNAME =  \"{0}\" ", email);
 		return result;
 	}
 
