@@ -25,7 +25,7 @@ public class RegistrationController extends JSFController{
 	private RegistrationService registrationService;
 	
 	
-	private User user = new User();
+	private User user;
 
 	public User getUser() {
 		return user;
@@ -37,10 +37,15 @@ public class RegistrationController extends JSFController{
 	
 	
 	public String register(){
-		logger.log(Level.INFO, "USUARIO TENTANDO CADASTRAR");
+		logger.log(Level.INFO, "USUARIO COM NOME \"{0}\" SE CADASTRANDO ", user.getName());
+		user.setAdmin(false);
 		registrationService.register(user);
-		//return "success.xhtml?faces-redirect=true";
-		return null;
+		return  "/index.xhtml?faces-redirect=true" ;
+	}
+	
+	public String begin(){
+		user = new User();
+		return "/registration/index.xhtml?faces-redirect=true";
 	}
 	
 	

@@ -32,7 +32,9 @@ public class SessionController extends JSFController{
 	private String password;
 	
 	
-	
+	public String begin(){
+		return "/login.xhtml?faces-redirect=true";
+	}
 	
 	public String autoLogin() {
 		email = "manzoli2122@gmail.com";

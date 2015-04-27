@@ -24,30 +24,41 @@ public class ManageGameAccountServiceBean extends CrudServiceBean<GameAccount> i
 	@EJB
 	private GameAccountDAO gameAccountDAO;
 	
+	@EJB
+	private SessionService sessionService;
 	
+	private boolean valido = false;
 	
 	@Override
 	public void authorize() {
-		super.authorize();
+		if(sessionService.getAuthenticatedUser()!=null){
+			valido = true;
+		}
+		else{
+			valido = false;
+		}
 	}
 	
 	
 	@Override
 	public BaseDAO<GameAccount> getDAO() {
-		return gameAccountDAO;
+		return valido ? gameAccountDAO : null;
 	}
 
 	@Override
 	protected GameAccount createNewEntity() {
-		return new GameAccount();
+		return valido ? new GameAccount():null;
 	}
 
+
+	
 	@Override
 	public void validateCreate(GameAccount entity) throws CrudException {
 		logger.log(Level.INFO, "VALIDAÇÃO PARA CONTA ");
-		super.validateCreate(entity);
+		if(valido){
+			super.validateCreate(entity);
+		}
 	}
-	
-	
-	
+
+
 }

@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2015-04-26T07:32:06.489-0300")
+@Generated(value="Dali", date="2015-04-27T15:52:55.230-0300")
 @StaticMetamodel(GroupGame.class)
 public class GroupGame_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<GroupGame, String> name;
@@ -15,4 +15,5 @@ public class GroupGame_ extends PersistentObjectSupport_ {
 	public static volatile SingularAttribute<GroupGame, User> adminUser;
 	public static volatile SetAttribute<GroupGame, User> usersMembers;
 	public static volatile SetAttribute<GroupGame, GameAccount> gameAccounts;
+	public static volatile SingularAttribute<GroupGame, Game> game;
 }

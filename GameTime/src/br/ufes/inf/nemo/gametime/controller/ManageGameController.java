@@ -66,8 +66,8 @@ public class ManageGameController extends CrudController<Game>{
 
 	@Override
 	protected void initFilters() {
-		addFilter(new LikeFilter("manageGame.filter.byName", "name", getI18nMessage("msgsGametime", "manageGame.text.filter.byName")));
-		addFilter(new LikeFilter("manageGame.filter.byManufacturer", "manufacturer", getI18nMessage("msgsGametime", "manageGame.text.filter.byManufacturer")));
+		addFilter(new LikeFilter("manageGame.filter.byName", "name", getI18nMessage(bundleName, "manageGame.text.filter.byName")));
+		addFilter(new LikeFilter("manageGame.filter.byManufacturer", "manufacturer", getI18nMessage(bundleName, "manageGame.text.filter.byManufacturer")));
 	}
 	
 	

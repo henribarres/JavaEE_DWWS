@@ -51,10 +51,15 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 	
 	@Override
 	protected void initFilters() {
-		addFilter(new LikeFilter("manageGameAccount.filter.byName", "name", getI18nMessage("msgsGametime", "manageGameAccount.text.filter.byName")));
+		addFilter(new LikeFilter("manageGameAccount.filter.byName", "name", getI18nMessage(bundleName, "manageGameAccount.text.filter.byName")));
 		
 	}
 	
-	
+	@Override
+	public String save() {
+		
+			return super.save();
+		
+	}
 
 }

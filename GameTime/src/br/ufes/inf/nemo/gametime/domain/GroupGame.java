@@ -3,8 +3,6 @@ package br.ufes.inf.nemo.gametime.domain;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -29,15 +27,14 @@ public class GroupGame extends  PersistentObjectSupport{
 	
 	/* LISTA DE USUARIOS PERTENCENTES AOS GRUPOS  */
 	@ManyToMany 
-	@JoinTable(
-		name="GroupGame_User",joinColumns = {@JoinColumn(name="GROUPGAME_ID" , referencedColumnName="ID")},
-			inverseJoinColumns={@JoinColumn(name="USER_ID" , referencedColumnName="ID")})
 	private Set<User> usersMembers;
 	
 	/* CONTAS PARA SEREM USADAS PELOS USUARIOS DESSE GRUPO  */
 	@OneToMany(mappedBy="groupGame")
 	private Set<GameAccount>  gameAccounts;
 
+	@ManyToOne
+	private Game game;
 	
 	
 	/*  CONSTRUTOR  */
@@ -63,6 +60,11 @@ public class GroupGame extends  PersistentObjectSupport{
 	public void setDescricao(String descricao) { this.descricao = descricao; }
 	
 	public boolean isIsactive() { return isactive; }
-	public void setIsactive(boolean isactive) { this.isactive = isactive; }	
+	public void setIsactive(boolean isactive) { this.isactive = isactive; }
+	
+	public Game getGame() {return game; }
+	public void setGame(Game game) { this.game = game; }	
+	
+	
 	
 }

@@ -19,8 +19,8 @@
 	            <div id="title"><h:outputText value="#{msgsGametime['text.system.name']}" /></div>
 	            <div id="salgon">
 	            	<h:outputText value="#{msgsGametime['text.system.salgon']}" /> <br/>
-	            	<h:outputText value="Bem-vindo #{sessionController.authenticatedUser.email}" rendered="#{ sessionController.loggedIn}"/>
-	            	<h:outputText value="Usuario não logado" rendered="#{not sessionController.loggedIn}"/>
+	            	<h:outputText value="#{msgsGametime['mensage.wellcome']} #{sessionController.authenticatedUser.name}" rendered="#{ sessionController.loggedIn}"/>
+	            	<h:outputText value="#{msgsGametime['mensage.not.login']}" rendered="#{not sessionController.loggedIn}"/>
 	            </div>
 	        </div>
 	    </div> 
@@ -29,20 +29,18 @@
 	    <div id="templatemo_banner">
 	    	<div id="templatemo_menu">
 	            <ul>
-	                <li><a href="#{facesContext.externalContext.requestContextPath}/"><h:outputText value="#{msgsGametime['title.home']}" /></a></li>
-	                <li>
-	                	<p:link rendered="#{not sessionController.loggedIn}">
-		                	<a href="#{facesContext.externalContext.requestContextPath}/registration/index.faces"><h:outputText value="#{msgsGametime['title.registration']}" /></a>
-		                </p:link>
-	                </li>
+	            	<li><a href="#{facesContext.externalContext.requestContextPath}/"><h:outputText value="#{msgsGametime['title.home']}" /></a></li>
+	                <li> <p:commandLink action="#{registrationController.begin}" rendered="#{not sessionController.loggedIn}" value="#{msgsGametime['title.registration']}"/> </li>
+	            	<li> <p:commandLink action="#{sessionController.begin}" rendered="#{not sessionController.loggedIn}" value="#{msgsGametime['title.login']}"/> </li> 
+	                <li> <p:commandLink action="#{sessionController.logout}" rendered="#{sessionController.loggedIn}" value="#{msgsGametime['title.logout']}"/> </li>
+	            
+	            <!--  
 	                <li><a href="#{facesContext.externalContext.requestContextPath}/manageGame/list.faces"><h:outputText value="#{msgsGametime['title.game']}" /></a></li>
+	                
+	                
 	                <li><a href="#{facesContext.externalContext.requestContextPath}/manageGameAccount/list.faces"><h:outputText value="#{msgsGametime['title.conta']}" /></a></li>
-	                <li>
-	                	<p:link rendered="#{not sessionController.loggedIn}">
-	                		<a href="#{facesContext.externalContext.requestContextPath}/login.faces" >login</a>
-	                	</p:link>
-	                	<p:commandLink action="#{sessionController.logout}" rendered="#{sessionController.loggedIn}" value="Logout"/>                 	
-	                </li>
+	              
+	                -->
 	            </ul> 
 	        </div>    
 	    </div>

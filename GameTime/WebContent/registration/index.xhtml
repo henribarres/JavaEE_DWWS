@@ -15,38 +15,43 @@
       	<ui:decorate template="/resources/form.xhtml">
       	
 			<h:form id="form">
-                    
-                    <h:panelGroup id="emailField">
+			
+					<h:panelGroup id="nameField">
                         <ui:decorate template="/resources/formfield.xhtml">
-                            <ui:param name="fieldName" value="form:email" />
-                            <ui:define name="label"><h:outputText value="#{msgsGametime['registration.form.email']}" /></ui:define>
-                            <p:inputText id="email" value="#{registrationController.user.email}" size="50" required="true">
-                                <p:ajax event="blur" update="emailField" />
+                            <ui:param name="fieldName" value="form:name" />
+                            <ui:define name="label"><h:outputText value="#{msgsGametime['registration.form.name']}" /></ui:define>
+                            <p:inputText id="name" value="#{registrationController.user.name	}" size="50" required="true">
+                                <p:ajax event="blur" update="nameField" />
                             </p:inputText>
                         </ui:decorate>
                     </h:panelGroup>
                     
                     
+                    <h:panelGroup id="emailField">
+						<ui:decorate template="/resources/formfield.xhtml">
+							<ui:param name="fieldName" value="form:email" />
+							<ui:param name="tooltip" value="#{msgsCore['register.form.email.tooltip']}" />
+							<ui:define name="label"><h:outputText value="#{msgsGametime['registration.form.email']}" /></ui:define>
+							<p:inputText id="email" value="#{registrationController.user.email}" size="40" required="true" validatorMessage="#{msgsGametime['registration.regex.email.message']}">
+								<f:validateRegex pattern="#{msgsGametime['registration.regex.email']}" />
+								<p:ajax event="blur" update="emailField" />
+							</p:inputText>
+						</ui:decorate>
+					</h:panelGroup>
+                    
                     <h:panelGroup id="passwordField">
 						<ui:decorate template="/resources/formfield.xhtml">
 							<ui:param name="fieldName" value="form:password" />
-							<ui:define name="label"><h:outputText value="Password" /></ui:define>
+							<ui:define name="label"><h:outputText value="#{msgsGametime['registration.form.password']}" /></ui:define>
 							<p:password id="password"  value="#{registrationController.user.password}" size="15" required="true" />
 						</ui:decorate>
 					</h:panelGroup>
 					
-                    
-                    
-                    
                     <ui:decorate template="/resources/formbutton.xhtml">
                             <p:commandButton action="#{registrationController.register}" value="Cadastrar123" update=":form :globalMessages"/>
                     </ui:decorate>
                     
-                    
 			</h:form>
-			
 		</ui:decorate>
-    
-      </ui:define>
-      
+      </ui:define> 
 </ui:composition>

@@ -2,6 +2,7 @@ package br.ufes.inf.nemo.gametime.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
 
@@ -10,13 +11,17 @@ public class GameAccount extends  PersistentObjectSupport implements Comparable<
 
 	private static final long serialVersionUID = 1L;
 	
+	@NotNull
 	private String name;
 	
-	@ManyToOne
-	private GroupGame groupGame;
+	@NotNull
+	private String login;
 	
-	@ManyToOne
-	private Game game;
+	@NotNull
+	private String senha;
+	
+	@ManyToOne @NotNull
+	private GroupGame groupGame;
 	
 	@Override
 	public int compareTo(GameAccount o) {
@@ -31,8 +36,13 @@ public class GameAccount extends  PersistentObjectSupport implements Comparable<
 	public GroupGame getGroupGame() { return groupGame; }
 	public void setGroupGame(GroupGame groupGame) { this.groupGame = groupGame; }
 
-	public Game getGame() { return game; }
-	public void setGame(Game game) { this.game = game; }
+
+	public String getLogin() { return login; }
+	public void setLogin(String login) { this.login = login; }
+
+	public String getSenha() { 	return senha; }
+	public void setSenha(String senha) { this.senha = senha; }
+	
 	
 
 }
