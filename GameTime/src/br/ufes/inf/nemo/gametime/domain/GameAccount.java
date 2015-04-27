@@ -6,7 +6,7 @@ import javax.persistence.ManyToOne;
 import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
 
 @Entity
-public class GameAccount extends  PersistentObjectSupport{
+public class GameAccount extends  PersistentObjectSupport implements Comparable<GameAccount>{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -18,7 +18,10 @@ public class GameAccount extends  PersistentObjectSupport{
 	@ManyToOne
 	private Game game;
 	
-	
+	@Override
+	public int compareTo(GameAccount o) {
+		return name.compareToIgnoreCase(o.name);
+	}
 	
 	
 	/*  GETS AND SETS*/
@@ -30,5 +33,6 @@ public class GameAccount extends  PersistentObjectSupport{
 
 	public Game getGame() { return game; }
 	public void setGame(Game game) { this.game = game; }
+	
 
 }

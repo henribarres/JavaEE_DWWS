@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.gametime.application.ManageGameService;
@@ -23,6 +24,9 @@ public class ManageGameController extends CrudController<Game>{
 	
 	@EJB
 	private ManageGameService manageGameService;
+	
+	@Inject
+	private SessionController sessionController;
 	
 	public ManageGameController() {
 	    viewPath = "/manageGame/";
@@ -56,5 +60,27 @@ public class ManageGameController extends CrudController<Game>{
 	protected void initFilters() {
 		addFilter(new LikeFilter("manageGame.filter.byName", "name", getI18nMessage("msgsGametime", "manageGame.text.filter.byName")));
 		addFilter(new LikeFilter("manageGame.filter.byManufacturer", "manufacturer", getI18nMessage("msgsGametime", "manageGame.text.filter.byManufacturer")));
+	}
+	
+	
+	
+	
+	
+	@Override
+	public String delete() {
+		if(sessionController.isLoggedIn()){
+			return super.delete();
+		}
+		return getViewPath() + "/error-permissao.xhtml?faces-redirect=" + getFacesRedirect();
+	}
+	
+	
+	@Override
+	public String save() {
+		if(sessionController.isLoggedIn()){
+			return super.save();
+		}
+		
+		return "/error-permissao.xhtml?faces-redirect=" + getFacesRedirect();
 	}
 }

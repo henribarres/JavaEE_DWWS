@@ -97,5 +97,7 @@ public class ManageGameServiceBean extends CrudServiceBean<Game> implements Mana
 		}
 		if (crudException != null) throw crudException;
 	}
+	
+	
 
 }

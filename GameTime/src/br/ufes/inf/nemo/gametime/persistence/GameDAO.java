@@ -9,5 +9,11 @@ import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoun
 
 @Local
 public interface GameDAO extends BaseDAO<Game>{
-	public Game retrieveByNameAndManufacturer(String name,String manufacturer) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
+	
+	/* 
+	 * FUNCAO PARA RETORNAR GAME COM NOME E EMPRESA EXASTOS
+	 * UTILIZADO PARA NAO PERMIRTIR CADASTRO DE UM GAME COM MESMO NOME E EMPRESA DE OUTRO
+	 */
+	public Game retrieveByNameAndManufacturer(String name,String manufacturer) 
+			throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException;
 }

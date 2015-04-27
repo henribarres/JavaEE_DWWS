@@ -37,6 +37,12 @@ public class GameJPADAO extends BaseJPADAO<Game> implements GameDAO{
 		return entityManager;
 	}
 
+	
+	
+	/* 
+	 * FUNCAO PARA RETORNAR GAME COM NOME E EMPRESA EXASTOS
+	 * UTILIZADO PARA NAO PERMIRTIR CADASTRO DE UM GAME COM MESMO NOME E EMPRESA DE OUTRO
+	 */
 	@Override
 	public Game retrieveByNameAndManufacturer(String name, String manufacturer) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException{
 		
