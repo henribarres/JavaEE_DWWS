@@ -9,7 +9,10 @@
 
     <ui:define name="title"><h:outputText value="#{msgsGametime['manageGame.title']}" /></ui:define>
 
+	
+    
     <ui:define name="contents">
+    	<h:panelGroup rendered="#{sessionController.loggedIn and sessionController.authenticatedUser.admin}">
         <h1><h:outputText value="#{msgsGametime['manageGame.title']}" /></h1>
 
         <div class="crud">
@@ -115,9 +118,13 @@
         </div>
 
         <p>&nbsp;</p>
-
+        
+	 </h:panelGroup>
     </ui:define>
+   
 
+	
+	
     <ui:define name="help">
         <h4><h:outputText value="#{msgsGametime['text.hotkeys']}" />:</h4>
         <ul>

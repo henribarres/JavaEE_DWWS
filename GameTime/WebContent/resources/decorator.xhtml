@@ -30,12 +30,18 @@
 	    	<div id="templatemo_menu">
 	            <ul>
 	            	<li><a href="#{facesContext.externalContext.requestContextPath}/"><h:outputText value="#{msgsGametime['title.home']}" /></a></li>
+	                
+	                <li> <p:commandLink action="#{manageGameController.begin}" rendered="#{sessionController.loggedIn and sessionController.authenticatedUser.admin}" value="#{msgsGametime['title.game']}"/> </li>
+	            	 
 	                <li> <p:commandLink action="#{registrationController.begin}" rendered="#{not sessionController.loggedIn}" value="#{msgsGametime['title.registration']}"/> </li>
 	            	<li> <p:commandLink action="#{sessionController.begin}" rendered="#{not sessionController.loggedIn}" value="#{msgsGametime['title.login']}"/> </li> 
+	                
+	                <li> <p:commandLink action="#{manageGroupGameController.begin}" rendered="#{sessionController.loggedIn}" value="#{msgsGametime['title.groupGame']}"/> </li>
 	                <li> <p:commandLink action="#{sessionController.logout}" rendered="#{sessionController.loggedIn}" value="#{msgsGametime['title.logout']}"/> </li>
-	            
+	            	
+	            	
+	            	           	
 	            <!--  
-	                <li><a href="#{facesContext.externalContext.requestContextPath}/manageGame/list.faces"><h:outputText value="#{msgsGametime['title.game']}" /></a></li>
 	                
 	                
 	                <li><a href="#{facesContext.externalContext.requestContextPath}/manageGameAccount/list.faces"><h:outputText value="#{msgsGametime['title.conta']}" /></a></li>

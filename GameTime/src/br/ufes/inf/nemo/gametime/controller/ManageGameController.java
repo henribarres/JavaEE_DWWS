@@ -40,6 +40,9 @@ public class ManageGameController extends CrudController<Game>{
 	    bundleName = "msgsGametime";
 	}
 	
+	public String begin(){
+		return "/manageGame/list.xhtml?faces-redirect=" + getFacesRedirect();
+	}
 	
 	@Override
 	protected void prepEntity() {
