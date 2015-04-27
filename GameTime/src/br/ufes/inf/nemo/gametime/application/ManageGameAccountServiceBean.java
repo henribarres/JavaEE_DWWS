@@ -24,6 +24,14 @@ public class ManageGameAccountServiceBean extends CrudServiceBean<GameAccount> i
 	@EJB
 	private GameAccountDAO gameAccountDAO;
 	
+	
+	
+	@Override
+	public void authorize() {
+		super.authorize();
+	}
+	
+	
 	@Override
 	public BaseDAO<GameAccount> getDAO() {
 		return gameAccountDAO;

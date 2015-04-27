@@ -22,8 +22,11 @@ public class ManageGameServiceBean extends CrudServiceBean<Game> implements Mana
 
 	private static final Logger logger = Logger.getLogger(ManageGameServiceBean.class.getCanonicalName());
 	
+	/* DAO PARA OPERAÇÕES NO BANCO DE DADOS*/
 	@EJB
 	private GameDAO gameDAO;
+	
+	
 	
 	@Override
 	public BaseDAO<Game> getDAO() {

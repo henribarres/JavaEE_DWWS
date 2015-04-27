@@ -10,18 +10,22 @@ public class Game extends  PersistentObjectSupport implements Comparable<Game>{
 
 	private static final long serialVersionUID = 1L;
 	
+	/* NOME DO GAME NAO PODE SE NULO*/
 	@NotNull
 	private String name;
 	
+	/* EMPRESA CRIADORA DO GAME NAO PODE SER NULA*/
 	@NotNull
 	private String manufacturer;
 
+	/* GENERO DO GAME */
 	private String genre;
 	
+	/* REQUISITOS MINIMOS PARA O GAME FUNCIONAR */
 	private String requisitos_minimos;
 
 	
-	
+	/* FUNCAO PARA COMPARAR, VERIFICA SE TEM O MESMO NOME E MESMA EMPRESA*/
 	@Override
 	public int compareTo(Game o) {
 		if(  (name.compareToIgnoreCase(o.name) == 0) && 

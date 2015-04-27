@@ -23,16 +23,23 @@ public class ManageGameController extends CrudController<Game>{
 	
 	private static final long serialVersionUID = 1L;
 	
+	
 	@EJB
 	private ManageGameService manageGameService;
 	
+	
+	/* CONTROLLER PARA VERIFICAR SE O USUARIO ESTA LOGADO */
 	@Inject
 	private SessionController sessionController;
 	
+	
+	
+	/*   CONSTRUTOR  DA CLASSE */
 	public ManageGameController() {
 	    viewPath = "/manageGame/";
 	    bundleName = "msgsGametime";
 	}
+	
 	
 	@Override
 	protected void prepEntity() {
@@ -64,17 +71,20 @@ public class ManageGameController extends CrudController<Game>{
 	}
 	
 	
+	
+	
+	
+	
+	
 	/*  FUNCOES QUE VERIFICAM SE O USUARIO ESTA LOGADO PARA CONTINUAR*/
 	@Override
 	public String create() {
 		if(sessionController.isLoggedIn()){
 			return super.create();
 		}
-		
 		logger.log(Level.INFO, " NAO FOI POSSIVEL CRIAR USUARIO NAO LOGADO");
 		addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.create","");
 		return null;
-		
 	}
 	
 	@Override
