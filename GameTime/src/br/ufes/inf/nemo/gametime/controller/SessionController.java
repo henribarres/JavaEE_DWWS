@@ -32,6 +32,14 @@ public class SessionController extends JSFController{
 	private String password;
 	
 	
+	
+	
+	public String autoLogin() {
+		email = "manzoli2122@gmail.com";
+		password = "bruno";
+		return login();
+	}
+	
 	/* FUNCAO PARA FAZER LOGIN NO SISTEMA */
 	public String login(){
 		try {
@@ -56,12 +64,14 @@ public class SessionController extends JSFController{
 		return "login.xhtml?faces-redirect=true";
 	}
 	
+	
 	/* FUNCAO QUE RETORNA TRUE SE O USUARIO FEZ LOGIN OU FALSE CASO CONTRARIO*/
 	public boolean isLoggedIn() { return sessionService.getAuthenticatedUser() != null; }
 	
 	/* FUNCAO QUE RETORNA O USUARIO ATENTICADO, ISTO É, QUE JA REALIZOU O LOGIN*/
 	public User getAuthenticatedUser() { return sessionService.getAuthenticatedUser();  }
 
+	
 	/*  GETS AND SETS*/
 	public String getEmail() { return email; }
 	public void setEmail(String email) { 	this.email = email; }

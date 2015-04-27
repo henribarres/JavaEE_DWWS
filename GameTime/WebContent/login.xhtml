@@ -43,6 +43,11 @@
 							<p:commandButton action="#{sessionController.login}" value="#{msgsGametime['login.button.login']}"  update=":globalMessages form" />
 						</ui:decorate>   
 			      	</h:form>
+			      	
+			      	<ui:decorate template="/resources/formbutton.xhtml">
+						<p:commandButton action="#{sessionController.autoLogin}" value="autoLogin"  update=":globalMessages form" />
+					</ui:decorate>  
+			      	
 				</ui:decorate>
 			</h:panelGroup>
 			

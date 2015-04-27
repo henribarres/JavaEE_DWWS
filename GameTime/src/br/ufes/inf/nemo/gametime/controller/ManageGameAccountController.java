@@ -54,5 +54,7 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 		addFilter(new LikeFilter("manageGameAccount.filter.byName", "name", getI18nMessage("msgsGametime", "manageGameAccount.text.filter.byName")));
 		
 	}
+	
+	
 
 }

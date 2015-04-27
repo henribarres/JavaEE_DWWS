@@ -4,28 +4,49 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
       template="/resources/decorator.xhtml">
       
-      <ui:define name="title">Registration</ui:define>
+	<ui:define name="title"><h:outputText value="#{msgsGametime['title.registration']}"/></ui:define>
       
-      <ui:define name="contents">
-      	<h1>Registration</h1>
+	<ui:define name="contents">
+		<h1><h:outputText value="#{msgsGametime['title.registration']}"/></h1>
       	
-      	<p>Fill in your data to become a guest at Java Hostel.</p>
+      	<ui:decorate template="/resources/form.xhtml">
       	
-      	<h:form id="regForm">
-      		<p>Name: <h:inputText id="name" value="#{registrationController.guest.name}" size="30" /></p>
-      		
-      		<p>Birthdate: <h:inputText id="birthDate" value="#{registrationController.guest.birthDate}" size="10">
-      			<f:convertDateTime pattern="dd/MM/yyyy" />
-      		</h:inputText></p>
-      		
-      		<p>E-mail: <h:inputText id="email" value="#{registrationController.guest.email}" size="20" /></p>
-      		
-      		<p>Password: <h:inputSecret id="password" value="#{registrationController.guest.password}" size="20" /></p>
-      		
-      		<p><h:commandButton action="#{registrationController.register}" value="Register" /></p>
-      	</h:form>
+			<h:form id="form">
+                    
+                    <h:panelGroup id="emailField">
+                        <ui:decorate template="/resources/formfield.xhtml">
+                            <ui:param name="fieldName" value="form:email" />
+                            <ui:define name="label"><h:outputText value="#{msgsGametime['registration.form.email']}" /></ui:define>
+                            <p:inputText id="email" value="#{registrationController.user.email}" size="50" required="true">
+                                <p:ajax event="blur" update="emailField" />
+                            </p:inputText>
+                        </ui:decorate>
+                    </h:panelGroup>
+                    
+                    
+                    <h:panelGroup id="passwordField">
+						<ui:decorate template="/resources/formfield.xhtml">
+							<ui:param name="fieldName" value="form:password" />
+							<ui:define name="label"><h:outputText value="Password" /></ui:define>
+							<p:password id="password"  value="#{registrationController.user.password}" size="15" required="true" />
+						</ui:decorate>
+					</h:panelGroup>
+					
+                    
+                    
+                    
+                    <ui:decorate template="/resources/formbutton.xhtml">
+                            <p:commandButton action="#{registrationController.register}" value="Cadastrar123" update=":form :globalMessages"/>
+                    </ui:decorate>
+                    
+                    
+			</h:form>
+			
+		</ui:decorate>
+    
       </ui:define>
       
 </ui:composition>

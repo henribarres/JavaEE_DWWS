@@ -40,4 +40,6 @@ public class ManageGameAccountServiceBean extends CrudServiceBean<GameAccount> i
 		super.validateCreate(entity);
 	}
 	
+	
+	
 }

@@ -38,9 +38,8 @@ public class SessionServiceBean implements SessionService{
 		String pwd = user.getPassword();
 		
 		
-		
-		md5pwd=pwd;
-		
+		// sem md5
+		md5pwd=password;
 		
 		
 		
