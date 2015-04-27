@@ -87,10 +87,10 @@
             <!-- Buttons shown below the listing. -->
             <h:form id="buttonsForm">
                 <div class="crudButtons">
-                    <p:commandButton action="#{manageGameController.create}" value="#{msgsGametime['crud.button.create']}" icon="buttonNew" />
-                    <p:commandButton action="#{manageGameController.retrieve}" value="#{msgsGametime['crud.button.retrieve']}" icon="buttonView" disabled="#{manageGameController.selectedEntity == null}" />
-                    <p:commandButton action="#{manageGameController.update}" value="#{msgsGametime['crud.button.update']}" icon="buttonEdit" disabled="#{manageGameController.selectedEntity == null}" />
-                    <p:commandButton action="#{manageGameController.trash}" value="#{msgsGametime['crud.button.delete']}" icon="buttonTrash" disabled="#{manageGameController.selectedEntity == null}" process="@this" update=":trashForm" />
+                    <p:commandButton action="#{manageGameController.create}" value="#{msgsGametime['crud.button.create']}" icon="buttonNew" update=":globalMessages"/>
+                    <p:commandButton action="#{manageGameController.retrieve}" value="#{msgsGametime['crud.button.retrieve']}" icon="buttonView" disabled="#{manageGameController.selectedEntity == null}" update=":globalMessages"/>
+                    <p:commandButton action="#{manageGameController.update}" value="#{msgsGametime['crud.button.update']}" icon="buttonEdit" disabled="#{manageGameController.selectedEntity == null}" update=":globalMessages"/>
+                    <p:commandButton action="#{manageGameController.trash}" value="#{msgsGametime['crud.button.delete']}" icon="buttonTrash" disabled="#{manageGameController.selectedEntity == null}" process="@this" update=":trashForm :globalMessages" />
                     <p:hotkey bind="#{msgsGametime['crud.hotkey.create']}" action="#{manageGameController.create}" />
                     <p:hotkey bind="#{msgsGametime['crud.hotkey.retrieve']}" action="#{manageGameController.retrieve}" rendered="#{manageGameController.selectedEntity != null}" />
                     <p:hotkey bind="#{msgsGametime['crud.hotkey.update']}" action="#{manageGameController.update}" rendered="#{manageGameController.selectedEntity != null}" />

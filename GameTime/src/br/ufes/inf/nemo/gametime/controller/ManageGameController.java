@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -63,24 +64,65 @@ public class ManageGameController extends CrudController<Game>{
 	}
 	
 	
+	/*  FUNCOES QUE VERIFICAM SE O USUARIO ESTA LOGADO PARA CONTINUAR*/
+	@Override
+	public String create() {
+		if(sessionController.isLoggedIn()){
+			return super.create();
+		}
+		
+		logger.log(Level.INFO, " NAO FOI POSSIVEL CRIAR USUARIO NAO LOGADO");
+		addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.create","");
+		return null;
+		
+	}
 	
+	@Override
+	public String retrieve() {
+		if(sessionController.isLoggedIn()){
+			return super.retrieve();
+		}
+		else{
+			logger.log(Level.INFO, " NAO FOI POSSIVEL CONSULTAR USUARIO NAO LOGADO");
+			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.retrieve", summarizeSelectedEntity());
+			return null;
+		}
+	}
 	
+	@Override
+	public void trash() {
+		if(sessionController.isLoggedIn()){
+			super.trash();
+		}
+		else{
+			logger.log(Level.INFO, " NAO FOI POSSIVEL DELETAR USUARIO NAO LOGADO");
+			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.delete", summarizeSelectedEntity());
+		}
+	}
+
+	@Override
+	public String update() {
+		if(sessionController.isLoggedIn()){
+			return super.update();
+		}
+		logger.log(Level.INFO, " NAO FOI POSSIVEL ATUALIZAR USUARIO NAO LOGADO");
+		addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.update", summarizeSelectedEntity());
+		return null;
+	}
 	
 	@Override
 	public String delete() {
 		if(sessionController.isLoggedIn()){
 			return super.delete();
 		}
-		return getViewPath() + "/error-permissao.xhtml?faces-redirect=" + getFacesRedirect();
+		return "/error-permissao.xhtml?faces-redirect=" + getFacesRedirect();
 	}
-	
 	
 	@Override
 	public String save() {
 		if(sessionController.isLoggedIn()){
 			return super.save();
 		}
-		
 		return "/error-permissao.xhtml?faces-redirect=" + getFacesRedirect();
 	}
 }
