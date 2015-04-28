@@ -14,6 +14,10 @@
     </ui:define>
 
     <ui:define name="contents">
+        
+        
+<h:panelGroup rendered="#{sessionController.loggedIn and sessionController.authenticatedUser.admin}">
+        
         <h1>
             <h:outputText value="#{msgsGametime['manageGame.title.create']}" rendered="#{(! manageGameController.readOnly) and (manageGameController.selectedEntity.id == null)}" />
             <h:outputText value="#{msgsGametime['manageGame.title.update']}" rendered="#{(! manageGameController.readOnly) and (manageGameController.selectedEntity.id != null)}" />
@@ -98,14 +102,20 @@
                 </h:form>
             </ui:decorate>
         </div>
+</h:panelGroup>
     </ui:define>
 
-    <ui:define name="help">
-        <h4><h:outputText value="#{msgsGametime['text.hotkeys']}" />:</h4>
-        <ul>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.focusFirstField']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.focusFirstField']}" />;</li>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.backToList']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.backToList']}" />;</li>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.save']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.save']}" />.</li>
-        </ul>
-    </ui:define>
+
+		    <ui:define name="help">
+		<h:panelGroup rendered="#{sessionController.loggedIn and sessionController.authenticatedUser.admin}">
+		        <h4><h:outputText value="#{msgsGametime['text.hotkeys']}" />:</h4>
+		        <ul>
+		            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.focusFirstField']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.focusFirstField']}" />;</li>
+		            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.backToList']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.backToList']}" />;</li>
+		            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.save']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.save']}" />.</li>
+		        </ul>
+		</h:panelGroup>
+		    </ui:define>
+		    
+    
 </ui:composition>

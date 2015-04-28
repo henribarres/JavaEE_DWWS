@@ -15,6 +15,10 @@ import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.application.filters.LikeFilter;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 
+
+
+
+
 @Named
 @SessionScoped
 public class ManageGameController extends CrudController<Game>{
@@ -24,6 +28,7 @@ public class ManageGameController extends CrudController<Game>{
 	private static final long serialVersionUID = 1L;
 	
 	
+	/* CRUDSERVICE*/
 	@EJB
 	private ManageGameService manageGameService;
 	
@@ -41,32 +46,30 @@ public class ManageGameController extends CrudController<Game>{
 	}
 	
 	public String begin(){
-		return "/manageGame/list.xhtml?faces-redirect=" + getFacesRedirect();
+		return  viewPath +"list.xhtml?faces-redirect=" + getFacesRedirect();
 	}
 	
-	@Override
-	protected void prepEntity() {
-		logger.log(Level.INFO, "PREPARANDO PARA SALVAR O GAME ({0})...", selectedEntity.getName());
-	}
 	
 	@Override
 	public CrudService<Game> getCrudService() {
-		manageGameService.authorize();
 		return manageGameService;
 	}
+	
 
 	@Override
 	protected Game createNewEntity() {
 		logger.log(Level.INFO, "INICIALIZANDO NOVO GAME");
-		Game newEntity = new Game();
-		return newEntity;
+		return new Game();
 	}
 
+	
 	@Override
 	protected String summarizeSelectedEntity() {
 		return (selectedEntity == null) ? "" : selectedEntity.getName()+" da empresa "+selectedEntity.getManufacturer();
 	}
 
+	
+	/* FILTROS CRIADOS PARA GAME POR NOME OU EMPRESA */
 	@Override
 	protected void initFilters() {
 		addFilter(new LikeFilter("manageGame.filter.byName", "name", getI18nMessage(bundleName, "manageGame.text.filter.byName")));
@@ -79,61 +82,71 @@ public class ManageGameController extends CrudController<Game>{
 	
 	
 	
-	/*  FUNCOES QUE VERIFICAM SE O USUARIO ESTA LOGADO PARA CONTINUAR*/
+	/*  FUNCOES QUE VERIFICAM SE O USUARIO ESTA LOGADO PARA CONTINUAR E SE ELE E ADMIN*/
 	@Override
 	public String create() {
-		if(sessionController.isLoggedIn()){
+		if(sessionController.isLoggedIn() && sessionController.getAuthenticatedUser().isAdmin()){
 			return super.create();
 		}
-		logger.log(Level.INFO, " NAO FOI POSSIVEL CRIAR USUARIO NAO LOGADO");
+		logger.log(Level.INFO, " NAO FOI POSSIVEL CRIAR GAME, USUARIO NAO LOGADO OU NÃO É ADMINISTRADOR");
 		addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.create","");
 		return null;
 	}
 	
+	
+	/* PARA CONSULTAR UM GAME TEM QUE ESTAR LOGADO */
 	@Override
 	public String retrieve() {
 		if(sessionController.isLoggedIn()){
 			return super.retrieve();
 		}
 		else{
-			logger.log(Level.INFO, " NAO FOI POSSIVEL CONSULTAR USUARIO NAO LOGADO");
+			logger.log(Level.INFO, " NAO FOI POSSIVEL CONSULTAR GAME, USUARIO NAO LOGADO");
 			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.retrieve", summarizeSelectedEntity());
 			return null;
 		}
 	}
 	
+	
+	/* PARA MOVER UM GAME PARA LIXEIRA TEM QUE SER UM USUARIO ADMINISTRADOR*/
 	@Override
 	public void trash() {
-		if(sessionController.isLoggedIn()){
+		if(sessionController.isLoggedIn() && sessionController.getAuthenticatedUser().isAdmin()){
 			super.trash();
 		}
 		else{
-			logger.log(Level.INFO, " NAO FOI POSSIVEL DELETAR USUARIO NAO LOGADO");
+			logger.log(Level.INFO, " NAO FOI POSSIVEL DELETAR GAME, USUARIO NAO LOGADO OU NÃO É ADMINISTRADOR");
 			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.delete", summarizeSelectedEntity());
 		}
 	}
 
+	
+	/* PARA ATUALIZAR UM GAME TEM QUE SER UM USUARIO ADMINISTRADOR*/
 	@Override
 	public String update() {
-		if(sessionController.isLoggedIn()){
+		if(sessionController.isLoggedIn() && sessionController.getAuthenticatedUser().isAdmin()){
 			return super.update();
 		}
-		logger.log(Level.INFO, " NAO FOI POSSIVEL ATUALIZAR USUARIO NAO LOGADO");
+		logger.log(Level.INFO, " NAO FOI POSSIVEL ATUALIZAR GAME, USUARIO NAO LOGADO OU NÃO É ADMINISTRADOR");
 		addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.update", summarizeSelectedEntity());
 		return null;
 	}
 	
+	
+	/* PARA DELETAR UM GAME TEM QUE SER UM USUARIO ADMINISTRADOR */
 	@Override
 	public String delete() {
-		if(sessionController.isLoggedIn()){
+		if(sessionController.isLoggedIn() && sessionController.getAuthenticatedUser().isAdmin()){
 			return super.delete();
 		}
 		return "/error-permissao.xhtml?faces-redirect=" + getFacesRedirect();
 	}
 	
+	
+	/* PARA SALVAR UMA GAME TEM QUE SER UM USUARIO ADMINISTRADOR CASO CONTRARIO VOLTAR PARA UMA PAGINA DE ERRO*/
 	@Override
 	public String save() {
-		if(sessionController.isLoggedIn()){
+		if(sessionController.isLoggedIn() && sessionController.getAuthenticatedUser().isAdmin()){
 			return super.save();
 		}
 		return "/error-permissao.xhtml?faces-redirect=" + getFacesRedirect();

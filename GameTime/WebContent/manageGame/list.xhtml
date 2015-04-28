@@ -12,10 +12,12 @@
 	
     
     <ui:define name="contents">
-    	<h:panelGroup rendered="#{sessionController.loggedIn and sessionController.authenticatedUser.admin}">
+    	
+        
         <h1><h:outputText value="#{msgsGametime['manageGame.title']}" /></h1>
 
         <div class="crud">
+  
             <!-- Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
             <h:form id="filterForm">
                 <h:panelGroup id="filterBar" rendered="#{(not empty manageGameController.filters)}">
@@ -86,7 +88,7 @@
                     <p:hotkey bind="ctrl+right" handler="goToLastPage(listingTable);" />
                 </h:panelGroup>
             </h:form>
-
+<h:panelGroup rendered="#{sessionController.loggedIn and sessionController.authenticatedUser.admin}">
             <!-- Buttons shown below the listing. -->
             <h:form id="buttonsForm">
                 <div class="crudButtons">
@@ -115,17 +117,19 @@
                     </div>
                 </p:panel>
             </h:form>
+</h:panelGroup>
         </div>
 
         <p>&nbsp;</p>
         
-	 </h:panelGroup>
+	
     </ui:define>
    
 
 	
 	
     <ui:define name="help">
+	<h:panelGroup rendered="#{sessionController.loggedIn and sessionController.authenticatedUser.admin}">
         <h4><h:outputText value="#{msgsGametime['text.hotkeys']}" />:</h4>
         <ul>
             <li><b><h:outputText value="#{msgsGametime['crud.hotkey.filterFocus']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.filterFocus']}" />;</li>
@@ -137,5 +141,8 @@
             <li><b><h:outputText value="#{msgsGametime['crud.hotkey.cancelDeletion']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.cancelDeletion']}" />;</li>
             <li><b><h:outputText value="#{msgsGametime['crud.hotkey.confirmDeletion']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.confirmDeletion']}" />.</li>
         </ul>
-    </ui:define>
+	</h:panelGroup>
+	</ui:define>
+	
+	
 </ui:composition>

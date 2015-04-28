@@ -19,7 +19,8 @@
 	            <div id="title"><h:outputText value="#{msgsGametime['text.system.name']}" /></div>
 	            <div id="salgon">
 	            	<h:outputText value="#{msgsGametime['text.system.salgon']}" /> <br/>
-	            	<h:outputText value="#{msgsGametime['mensage.wellcome']} #{sessionController.authenticatedUser.name}" rendered="#{ sessionController.loggedIn}"/>
+	            	<h:outputText value="#{msgsGametime['mensage.wellcome.admin']} '#{sessionController.authenticatedUser.name}'" rendered="#{sessionController.loggedIn and sessionController.authenticatedUser.admin}"/>
+	            	<h:outputText value="#{msgsGametime['mensage.wellcome.user']} '#{sessionController.authenticatedUser.name}'" rendered="#{sessionController.loggedIn and not sessionController.authenticatedUser.admin}"/>
 	            	<h:outputText value="#{msgsGametime['mensage.not.login']}" rendered="#{not sessionController.loggedIn}"/>
 	            </div>
 	        </div>
@@ -31,7 +32,7 @@
 	            <ul>
 	            	<li><a href="#{facesContext.externalContext.requestContextPath}/"><h:outputText value="#{msgsGametime['title.home']}" /></a></li>
 	                
-	                <li> <p:commandLink action="#{manageGameController.begin}" rendered="#{sessionController.loggedIn and sessionController.authenticatedUser.admin}" value="#{msgsGametime['title.game']}"/> </li>
+	                <li> <p:commandLink action="#{manageGameController.begin}" rendered="#{sessionController.loggedIn}" value="#{msgsGametime['title.game']}"/> </li>
 	            	 
 	                <li> <p:commandLink action="#{registrationController.begin}" rendered="#{not sessionController.loggedIn}" value="#{msgsGametime['title.registration']}"/> </li>
 	            	<li> <p:commandLink action="#{sessionController.begin}" rendered="#{not sessionController.loggedIn}" value="#{msgsGametime['title.login']}"/> </li> 
@@ -55,6 +56,11 @@
 
 	    	<div id="content_left">
 	        	<div class="content_left_section">
+	        		<p:panel id="helpPanel" header="#{msgsGametime['text.help.title']}" collapsed="true" toggleable="true" toggleSpeed="500" style="width:235px;">
+						<ui:insert name="help">
+							<h:outputText value="#{msgsGametime['text.help.defaultContent']}" />
+						</ui:insert>
+					</p:panel>
 	                <div class="cleaner">&nbsp;</div>
 	            </div> <!-- end of booking -->
 	            <div class="cleaner_h30">&nbsp;</div>
