@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.convert.Converter;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -14,9 +15,12 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import br.ufes.inf.nemo.gametime.application.ManageGroupGameService;
+import br.ufes.inf.nemo.gametime.domain.Game;
 import br.ufes.inf.nemo.gametime.domain.GroupGame;
+import br.ufes.inf.nemo.gametime.persistence.GameDAO;
 import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
+import br.ufes.inf.nemo.util.ejb3.controller.PersistentObjectConverterFromId;
 import br.ufes.inf.nemo.util.ejb3.controller.PrimefacesLazyEntityDataModel;
 
 
@@ -31,6 +35,12 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	@EJB
 	private ManageGroupGameService manageGroupGameService;
 	
+	/** The DAO for City objects. */
+	@EJB
+	private GameDAO gameDAO;
+	
+	/* JSF Converter for Game objects. */
+	private PersistentObjectConverterFromId<Game> gameConverter;
 	
 	/* CONTROLLER PARA VERIFICAR SE O USUARIO ESTA LOGADO */
 	@Inject
@@ -41,6 +51,24 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	public ManageGroupGameController() {
 	    viewPath = "/manageGroupGame/";
 	    bundleName = "msgsGametime";
+	}
+	
+	public List<Game> suggestGame(String query) {
+		if (query.length() > 0) {
+			List<Game> cities = gameDAO.findByName(query);
+			return cities;
+		}
+		return null;
+	}
+	
+	/** Getter for cityConverter. */
+	public Converter getGameConverter() {
+		// Lazily create the converter.
+		if (gameConverter == null) {
+			logger.log(Level.FINEST, "Creating a city converter...");
+			gameConverter = new PersistentObjectConverterFromId<Game>(gameDAO);
+		}
+		return gameConverter;
 	}
 	
 	

@@ -36,6 +36,34 @@
                             </p:inputText>
                         </ui:decorate>
                     </h:panelGroup>
+                   		
+					
+                    
+                    <h:panelGroup id="gameField">
+                        <ui:decorate template="/resources/formfield.xhtml">
+                            <ui:param name="fieldName" value="form:game" />
+                            <ui:define name="label"><h:outputText value="#{msgsGametime['manageGroupGame.form.game']}" /></ui:define>
+                            
+                            <p:autoComplete 
+									id="game" 
+									value="#{manageGroupGameController.selectedEntity.game}" 
+									completeMethod="#{manageGroupGameController.suggestGame}" 
+									minQueryLength="2" forceSelection="true" 
+									var="c" itemLabel="#{c.name}" itemValue="#{c}" 
+									converter="#{manageGroupGameController.gameConverter}" 
+									disabled="#{manageGroupGameController.readOnly}"
+									size="30">
+							</p:autoComplete>
+                           
+                        </ui:decorate>
+                    </h:panelGroup>
+                    
+                    
+
+
+
+
+
 
 
                     <ui:decorate template="/resources/formbutton.xhtml">

@@ -15,6 +15,7 @@ public class GroupGame extends  PersistentObjectSupport{
 	
 	private static final long serialVersionUID = 1L;
 	
+	@NotNull
 	private String name;
 	
 	private String descricao;
@@ -33,7 +34,7 @@ public class GroupGame extends  PersistentObjectSupport{
 	@OneToMany(mappedBy="groupGame")
 	private Set<GameAccount>  gameAccounts;
 
-	@ManyToOne
+	@ManyToOne @NotNull
 	private Game game;
 	
 	

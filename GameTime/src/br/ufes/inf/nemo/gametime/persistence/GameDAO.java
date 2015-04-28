@@ -1,5 +1,7 @@
 package br.ufes.inf.nemo.gametime.persistence;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import br.ufes.inf.nemo.gametime.domain.Game;
@@ -9,6 +11,9 @@ import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoun
 
 @Local
 public interface GameDAO extends BaseDAO<Game>{
+	
+	
+	public List<Game> findByName(String name);
 	
 	/* 
 	 * FUNCAO PARA RETORNAR GAME COM NOME E EMPRESA EXASTOS
