@@ -72,6 +72,13 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	}
 	
 	
+	@Override
+	protected void prepEntity() {
+		selectedEntity.setAdminUser(sessionController.getAuthenticatedUser());
+		selectedEntity.setIsactive(true);
+		super.prepEntity();
+	}
+	
 	public String begin(){
 		return viewPath + "list.xhtml?faces-redirect=" + getFacesRedirect();
 	}
@@ -130,4 +137,9 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public String save() {
+		 super.save();
+		 return "index.xhtml?faces-redirect=" + getFacesRedirect();
+	}
 }
