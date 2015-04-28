@@ -8,16 +8,16 @@
                 template="/resources/decorator.xhtml">
 
     <ui:define name="title">
-        <h:outputText value="#{msgsGametime['manageGame.title.create']}" rendered="#{(! manageGameController.readOnly) and (manageGameController.selectedEntity.id == null)}" />
-        <h:outputText value="#{msgsGametime['manageGame.title.update']}" rendered="#{(! manageGameController.readOnly) and (manageGameController.selectedEntity.id != null)}" />
-        <h:outputText value="#{msgsGametime['manageGame.title.retrieve']}" rendered="#{manageGameController.readOnly}" />
+        <h:outputText value="#{msgsGametime['manageGroupGame.title.create']}" rendered="#{(! manageGroupGameController.readOnly) and (manageGroupGameController.selectedEntity.id == null)}" />
+        <h:outputText value="#{msgsGametime['manageGroupGame.title.update']}" rendered="#{(! manageGroupGameController.readOnly) and (manageGroupGameController.selectedEntity.id != null)}" />
+        <h:outputText value="#{msgsGametime['manageGroupGame.title.retrieve']}" rendered="#{manageGroupGameController.readOnly}" />
     </ui:define>
 
     <ui:define name="contents">
         <h1>
-            <h:outputText value="#{msgsGametime['manageGame.title.create']}" rendered="#{(! manageGameController.readOnly) and (manageGameController.selectedEntity.id == null)}" />
-            <h:outputText value="#{msgsGametime['manageGame.title.update']}" rendered="#{(! manageGameController.readOnly) and (manageGameController.selectedEntity.id != null)}" />
-            <h:outputText value="#{msgsGametime['manageGame.title.retrieve']}" rendered="#{manageGameController.readOnly}" />
+            <h:outputText value="#{msgsGametime['manageGroupGame.title.create']}" rendered="#{(! manageGroupGameController.readOnly) and (manageGroupGameController.selectedEntity.id == null)}" />
+            <h:outputText value="#{msgsGametime['manageGroupGame.title.update']}" rendered="#{(! manageGroupGameController.readOnly) and (manageGroupGameController.selectedEntity.id != null)}" />
+            <h:outputText value="#{msgsGametime['manageGroupGame.title.retrieve']}" rendered="#{manageGroupGameController.readOnly}" />
         </h1>
 
         <div class="crud">
@@ -29,83 +29,31 @@
                     <h:panelGroup id="nameField">
                         <ui:decorate template="/resources/formfield.xhtml">
                             <ui:param name="fieldName" value="form:name" />
-                            <ui:param name="tooltip" value="#{msgsGametime['manageGame.form.name.tooltip']}" />
-                            <ui:define name="label"><h:outputText value="#{msgsGametime['manageGame.form.name']}" /></ui:define>
-                            <p:inputText id="name" value="#{manageGameController.selectedEntity.name}" size="50" required="true" disabled="#{manageGameController.readOnly}">
+                            <ui:param name="tooltip" value="#{msgsGametime['manageGroupGame.form.name.tooltip']}" />
+                            <ui:define name="label"><h:outputText value="#{msgsGametime['manageGroupGame.form.name']}" /></ui:define>
+                            <p:inputText id="name" value="#{manageGroupGameController.selectedEntity.name}" size="50" required="true" disabled="#{manageGroupGameController.readOnly}">
                                 <p:ajax event="blur" update="nameField" />
                             </p:inputText>
                         </ui:decorate>
                     </h:panelGroup>
 
-					<h:panelGroup id="manufacturerField">
-                        <ui:decorate template="/resources/formfield.xhtml">
-                            <ui:param name="fieldName" value="form:manufacturer" />
-                            <ui:param name="tooltip" value="#{msgsGametime['manageGame.form.manufacturer.tooltip']}" />
-                            <ui:define name="label"><h:outputText value="#{msgsGametime['manageGame.form.manufacturer']}" /></ui:define>
-                            <p:inputText id="manufacturer" value="#{manageGameController.selectedEntity.manufacturer}" size="50" required="true" disabled="#{manageGameController.readOnly}">
-                                <p:ajax event="blur" update="manufacturerField" />
-                            </p:inputText>
-                        </ui:decorate>
-                    </h:panelGroup>
-                    
-                    
-                    <h:panelGroup id="generoField">
-                        <ui:decorate template="/resources/formfield.xhtml">
-                            <ui:param name="fieldName" value="form:genero" />
-                            <ui:param name="tooltip" value="#{msgsGametime['manageGame.form.genero.tooltip']}" />
-                            <ui:define name="label"><h:outputText value="#{msgsGametime['manageGame.form.genero']}" /></ui:define>
-                            <p:inputText id="genero" value="#{manageGameController.selectedEntity.genero}" size="50" required="true" disabled="#{manageGameController.readOnly}">
-                                <p:ajax event="blur" update="generoField" />
-                            </p:inputText>
-                        </ui:decorate>
-                    </h:panelGroup>
-                    
-                    
-                    
-                    <h:panelGroup id="requisitosField">
-                        <ui:decorate template="/resources/formfield.xhtml">
-                            <ui:param name="fieldName" value="form:requisitos" />
-                            <ui:param name="tooltip" value="#{msgsGametime['manageGame.form.requisitos.tooltip']}" />
-                            <ui:define name="label"><h:outputText value="#{msgsGametime['manageGame.form.requisitos']}" /></ui:define>
-                            <p:inputText id="requisitos" value="#{manageGameController.selectedEntity.requisitos_minimos}" size="50" required="true" disabled="#{manageGameController.readOnly}">
-                                <p:ajax event="blur" update="requisitosField" />
-                            </p:inputText>
-                        </ui:decorate>
-                    </h:panelGroup>
-                    
-                    
-                    
-
-
-
 
                     <ui:decorate template="/resources/formbutton.xhtml">
-                        <h:panelGroup rendered="#{! manageGameController.readOnly}">
-                            <p:commandButton action="#{manageGameController.list}" value="#{msgsGametime['crud.button.cancel']}" immediate="true" icon="buttonCancel" />
-                            <p:commandButton action="#{manageGameController.save}" value="#{msgsGametime['crud.button.save']}" icon="buttonOk" update=":form :globalMessages" />
-                            <p:hotkey bind="#{msgsGametime['crud.hotkey.backToList']}" action="#{manageGameController.list}" immediate="true" />
-                            <p:hotkey bind="#{msgsGametime['crud.hotkey.save']}" action="#{manageGameController.save}" update=":form :globalMessages" />
+                        <h:panelGroup rendered="#{! manageGroupGameController.readOnly}">
+                            <p:commandButton action="#{manageGroupGameController.list}" value="#{msgsGametime['crud.button.cancel']}" immediate="true" icon="buttonCancel" />
+                            <p:commandButton action="#{manageGroupGameController.save}" value="#{msgsGametime['crud.button.save']}" icon="buttonOk" update=":form :globalMessages" />
+                            <p:hotkey bind="#{msgsGametime['crud.hotkey.backToList']}" action="#{manageGroupGameController.list}" immediate="true" />
+                            <p:hotkey bind="#{msgsGametime['crud.hotkey.save']}" action="#{manageGroupGameController.save}" update=":form :globalMessages" />
                         </h:panelGroup>
-                        <h:panelGroup rendered="#{manageGameController.readOnly}">
-                            <p:commandButton action="#{manageGameController.list}" value="#{msgsGametime['crud.button.back']}" immediate="true" icon="buttonBack" />
-                            <p:hotkey bind="#{msgsGametime['crud.hotkey.backToList']}" action="#{manageGameController.list}" immediate="true" />
+                        <h:panelGroup rendered="#{manageGroupGameController.readOnly}">
+                            <p:commandButton action="#{manageGroupGameController.list}" value="#{msgsGametime['crud.button.back']}" immediate="true" icon="buttonBack" />
+                            <p:hotkey bind="#{msgsGametime['crud.hotkey.backToList']}" action="#{manageGroupGameController.list}" immediate="true" />
                         </h:panelGroup>
                     </ui:decorate>
-                    
-                    
-                    
                     
                 </h:form>
             </ui:decorate>
         </div>
     </ui:define>
 
-    <ui:define name="help">
-        <h4><h:outputText value="#{msgsGametime['text.hotkeys']}" />:</h4>
-        <ul>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.focusFirstField']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.focusFirstField']}" />;</li>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.backToList']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.backToList']}" />;</li>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.save']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.save']}" />.</li>
-        </ul>
-    </ui:define>
 </ui:composition>
