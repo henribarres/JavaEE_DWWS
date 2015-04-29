@@ -41,6 +41,7 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	@EJB
 	private GameDAO gameDAO;
 	
+	private boolean addUser = false;
 	
 	@EJB
 	private GroupGameDAO groupGameDAO;
@@ -59,8 +60,32 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	    bundleName = "msgsGametime";
 	}
 	
+	@Override
+	public String retrieve() {
+		addUser = false;
+		logger.log(Level.INFO, " ADD USER FALSE");
+		return super.retrieve();
+	}
 	
 	
+	public String addConta(){
+		return null;
+	}
+	
+	public String addUser(){
+		readOnly = true;
+		addUser = true;
+		logger.log(Level.INFO, " ADD USER TRUE");
+		
+		return  getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();
+	}
+	
+	public boolean isAddUser() {
+		return addUser;
+	}
+	public void setAddUser(boolean addUser) {
+		this.addUser = addUser;
+	}
 	
 	
 	@Override
@@ -85,6 +110,7 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 		return lazyEntities;
 	}
 	
+	
 	@Override
 	protected void retrieveEntities() {
 		if (lastEntityIndex > entityCount) lastEntityIndex = (int) entityCount;
@@ -100,7 +126,9 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 		
 	}
 	
+	
 	private List<GroupGame> teste;
+	
 	
 	public List<GroupGame> getTeste() {
 		if(teste == null)
@@ -108,6 +136,7 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 		return teste;
 	}
 
+	
 	public void setTeste(List<GroupGame> teste) {
 		this.teste = teste;
 	}
@@ -165,7 +194,6 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	
 	/** Getter for gameConverter. */
 	public Converter getGameConverter() {
-		// Lazily create the converter.
 		if (gameConverter == null) {
 			logger.log(Level.FINEST, "Creating a city converter...");
 			gameConverter = new PersistentObjectConverterFromId<Game>(gameDAO);
@@ -174,9 +202,4 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	}
 
 
-
-
-
-
-	
 }

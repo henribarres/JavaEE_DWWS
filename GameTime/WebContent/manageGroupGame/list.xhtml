@@ -55,12 +55,21 @@
                  </h:panelGroup>
              </h:form>
                  
+                 
+                 
+                 
+                 
+                 
              <h:form id="buttonsForm">
                 <div class="crudButtons">
                     <p:commandButton action="#{manageGroupGameController.create}" value="#{msgsGametime['crud.button.create']}" icon="buttonNew" update=":globalMessages"/>
                     <p:commandButton action="#{manageGroupGameController.retrieve}" value="#{msgsGametime['crud.button.retrieve']}" icon="buttonView" disabled="#{manageGroupGameController.selectedEntity == null}" update=":globalMessages"/>
                     <p:commandButton action="#{manageGroupGameController.update}" value="#{msgsGametime['crud.button.update']}" icon="buttonEdit" disabled="#{manageGroupGameController.selectedEntity == null}" update=":globalMessages"/>
                     <p:commandButton action="#{manageGroupGameController.trash}" value="#{msgsGametime['crud.button.delete']}" icon="buttonTrash" disabled="#{manageGroupGameController.selectedEntity == null}" process="@this" update=":trashForm :globalMessages" />
+                    
+                    <p:commandButton action="#{manageGroupGameController.addUser}" value="add user"  disabled="#{manageGroupGameController.selectedEntity.adminUser != sessionController.authenticatedUser}" process="@this" update=":globalMessages" />
+                    
+                    
                     <p:hotkey bind="#{msgsGametime['crud.hotkey.create']}" action="#{manageGroupGameController.create}" />
                     <p:hotkey bind="#{msgsGametime['crud.hotkey.retrieve']}" action="#{manageGroupGameController.retrieve}" rendered="#{manageGroupGameController.selectedEntity != null}" />
                     <p:hotkey bind="#{msgsGametime['crud.hotkey.update']}" action="#{manageGroupGameController.update}" rendered="#{manageGroupGameController.selectedEntity != null}" />
