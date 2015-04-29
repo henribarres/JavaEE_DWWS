@@ -23,6 +23,9 @@ public class GameAccount extends  PersistentObjectSupport implements Comparable<
 	@ManyToOne @NotNull
 	private GroupGame groupGame;
 	
+	@ManyToOne @NotNull
+	private User userOwner;
+	
 	@Override
 	public int compareTo(GameAccount o) {
 		return name.compareToIgnoreCase(o.name);

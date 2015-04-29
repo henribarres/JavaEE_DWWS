@@ -37,17 +37,10 @@
 	                <li> <p:commandLink action="#{registrationController.begin}" rendered="#{not sessionController.loggedIn}" value="#{msgsGametime['title.registration']}"/> </li>
 	            	<li> <p:commandLink action="#{sessionController.begin}" rendered="#{not sessionController.loggedIn}" value="#{msgsGametime['title.login']}"/> </li> 
 	                
-	                <li> <p:commandLink action="#{manageGroupGameController.create}" rendered="#{sessionController.loggedIn}" value="#{msgsGametime['title.groupGame']}"/> </li>
+	                <li> <p:commandLink action="#{manageGroupGameController.list}" rendered="#{sessionController.loggedIn}" value="#{msgsGametime['title.groupGame']}"/> </li>
 	                <li> <p:commandLink action="#{sessionController.logout}" rendered="#{sessionController.loggedIn}" value="#{msgsGametime['title.logout']}"/> </li>
-	            	
-	            	
-	            	           	
-	            <!--  
-	                
-	                
-	                <li><a href="#{facesContext.externalContext.requestContextPath}/manageGameAccount/list.faces"><h:outputText value="#{msgsGametime['title.conta']}" /></a></li>
-	              
-	                -->
+	          	           	
+	        
 	            </ul> 
 	        </div>    
 	    </div>

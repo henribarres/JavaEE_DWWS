@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
 
 @Entity
-public class GroupGame extends  PersistentObjectSupport{
+public class GroupGame extends  PersistentObjectSupport implements Comparable<GroupGame>{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -43,6 +43,11 @@ public class GroupGame extends  PersistentObjectSupport{
 	public GroupGame(User adminUser){this.adminUser = adminUser;}
 	
 	
+	@Override
+	public int compareTo(GroupGame o) {
+		return uuid.compareTo(o.uuid);
+	}	
+	
 
 	/*  GETS AND SETS*/
 	public User getAdminUser() { return adminUser; }
@@ -64,7 +69,8 @@ public class GroupGame extends  PersistentObjectSupport{
 	public void setIsactive(boolean isactive) { this.isactive = isactive; }
 	
 	public Game getGame() {return game; }
-	public void setGame(Game game) { this.game = game; }	
+	public void setGame(Game game) { this.game = game; }
+	
 	
 	
 	

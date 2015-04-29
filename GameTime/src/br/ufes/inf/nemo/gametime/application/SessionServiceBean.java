@@ -33,7 +33,7 @@ public class SessionServiceBean implements SessionService{
 	@Override
 	public void login(String email, String password) throws Exception{
 		logger.log(Level.INFO, "AUTENTICANDO USUARIO COM USERNAME =  \"{0}\"...", email);
-		User user = userDAO.retrieveByUsername(email);	
+		User user = userDAO.retrieveByEmail(email);	
 		String md5pwd = TextUtils.produceMd5Hash(password);
 		String pwd = user.getPassword();
 		

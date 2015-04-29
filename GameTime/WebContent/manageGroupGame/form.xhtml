@@ -73,16 +73,27 @@
                     </h:panelGroup>
                     
                     
-					<h:panelGroup id="addUserField" rendered="#{manageGroupGameController.addUser and manageGroupGameController.readOnly}">
+                    <h:panelGroup id="addUserField" rendered="#{manageGroupGameController.addUser and manageGroupGameController.readOnly}" >
                         <ui:decorate template="/resources/formfield.xhtml">
                             <ui:param name="fieldName" value="form:addUser" />
-                            <ui:define name="label"><h:outputText value="add User" /></ui:define>
-                            <p:inputText id="addUser" value="#{manageGroupGameController.selectedEntity.descricao}" size="50">
-                                <p:ajax event="blur" update="addUserField" />
-                            </p:inputText>
+                            <ui:define name="label"><h:outputText value="#{msgsGametime['manageGroupGame.form.addUser']}" /></ui:define>
+                            
+                            <p:autoComplete 
+									id="addUser" 
+									value="#{manageGroupGameController.newUser}" 
+									completeMethod="#{manageGroupGameController.suggestUser}" 
+									minQueryLength="2" forceSelection="true" 
+									var="c" itemLabel="#{c.email}" itemValue="#{c}" 
+									converter="#{manageGroupGameController.userConverter}" 
+									disabled="#{not manageGroupGameController.readOnly}"
+									size="30">
+							</p:autoComplete>
+                           
                         </ui:decorate>
                     </h:panelGroup>
-                   		
+                    
+                    
+					
 
 
 

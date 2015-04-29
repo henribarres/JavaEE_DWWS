@@ -18,8 +18,10 @@ import org.primefaces.model.SortOrder;
 import br.ufes.inf.nemo.gametime.application.ManageGroupGameService;
 import br.ufes.inf.nemo.gametime.domain.Game;
 import br.ufes.inf.nemo.gametime.domain.GroupGame;
+import br.ufes.inf.nemo.gametime.domain.User;
 import br.ufes.inf.nemo.gametime.persistence.GameDAO;
 import br.ufes.inf.nemo.gametime.persistence.GroupGameDAO;
+import br.ufes.inf.nemo.gametime.persistence.UserDAO;
 import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 import br.ufes.inf.nemo.util.ejb3.controller.PersistentObjectConverterFromId;
@@ -34,22 +36,31 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	
 	private static final long serialVersionUID = 1L;
 	
+	/* CRUDSERVICE DE GROUPGAME*/
 	@EJB
 	private ManageGroupGameService manageGroupGameService;
 	
-	/** The DAO for game objects. */
+	/* DAO PARA BUSCAR A LISTA DE GAME DO BANCO DE DADOS */
 	@EJB
 	private GameDAO gameDAO;
 	
+	/* DAO PARA BUSCAR USUARIO PARA ADD A UM GRUPO */
+	@EJB
+	private UserDAO userDAO;
+	
+	/* VARIAVEL PARA VERIFICAR SE É PARA ADICIONAR UM USUARIO A UM GRUPO*/
 	private boolean addUser = false;
 	
-	@EJB
-	private GroupGameDAO groupGameDAO;
+	/* PARA ADIOCIONAR  UM NOVO USUARIO A UM GRUPO*/
+	private User newUser ;
 	
-	/* JSF Converter for Game objects. */
+	/* JSF Converter PARA OBJETOS GAME */
 	private PersistentObjectConverterFromId<Game> gameConverter;
 	
-	/* CONTROLLER PARA VERIFICAR SE O USUARIO ESTA LOGADO */
+	/* JSF Converter PARA OBJETOS USER */
+	private PersistentObjectConverterFromId<User> userConverter;
+	
+	/* CONTROLLER PARA VERIFICAR SE O USUARIO ESTA LOGADO E TAMBÉM SABER QUEM É ESSE USUARIO*/
 	@Inject
 	private SessionController sessionController;
 
@@ -60,55 +71,98 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	    bundleName = "msgsGametime";
 	}
 	
-	@Override
-	public String retrieve() {
-		addUser = false;
-		logger.log(Level.INFO, " ADD USER FALSE");
-		return super.retrieve();
+	/* FUNÇÃO INICIAL PARA O LINK GRUPO */
+	public String begin(){
+		return viewPath + "list.xhtml?faces-redirect=" + getFacesRedirect();
 	}
 	
+	/* METODO OBRIGATORIO */
+	@Override
+	protected GroupGame createNewEntity() {
+		return new GroupGame();
+	}
+
+	/* METODO OBRIGATORIO */
+	@Override
+	protected void initFilters() {
+		// SEM FILTROS
+	}
+
+	/* METODO OBRIGATORIO */
+	@Override
+	protected CrudService<GroupGame> getCrudService() {
+		return manageGroupGameService;
+	}
 	
-	public String addConta(){
+	/* METODO UTILIZADO ANTES DE SALVAR UM GROUPGAME SETA O ADMINISTRADOR E O TORNA ATIVO*/
+	@Override
+	protected void prepEntity() {
+		selectedEntity.setAdminUser(sessionController.getAuthenticatedUser());
+		selectedEntity.setIsactive(true);
+		super.prepEntity();
+	}
+	
+	/* FUNÇÃO PARA SUGERIR GAMES PARA O GRUPO A SER CRIADO*/
+	public List<Game> suggestGame(String query) {
+		if (query.length() > 0) {
+			List<Game> cities = gameDAO.findByName(query);
+			return cities;
+		}
 		return null;
 	}
 	
+	/* GET PARA O CONVERTER DE GAME */
+	public Converter getGameConverter() {
+		if (gameConverter == null) {
+			logger.log(Level.FINEST, "Creating a city converter...");
+			gameConverter = new PersistentObjectConverterFromId<Game>(gameDAO);
+		}
+		return gameConverter;
+	}
+	
+	/* FUNÇÃO PARA SUGERIR USUARIOS PARA ADICIONAR AO GRUPO*/
+	public List<User> suggestUser(String query){
+		if (query.length() > 0) {
+			List<User> users = userDAO.findByEmailList(query);
+			users.remove(sessionController.getAuthenticatedUser());
+			return users;
+		}
+		return null;
+	}
+	
+	/* GET PARA O CONVERTER DE USER*/
+	public PersistentObjectConverterFromId<User> getUserConverter() {
+		if (userConverter == null) {
+			logger.log(Level.FINEST, "Creating a user converter...");
+			userConverter = new PersistentObjectConverterFromId<User>(userDAO);
+		}
+		return userConverter;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/* FUNÇÃO INICIAL PARA ADICIONAR USUARIO AO GRUPO*/
 	public String addUser(){
 		readOnly = true;
 		addUser = true;
-		logger.log(Level.INFO, " ADD USER TRUE");
-		
+		newUser = new User();
 		return  getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();
 	}
 	
+	/* GET PARA VER SE E PARA ADICIONAR USUARIOS AO GRUPO*/
 	public boolean isAddUser() {
 		return addUser;
 	}
-	public void setAddUser(boolean addUser) {
-		this.addUser = addUser;
-	}
 	
 	
-	@Override
-	public LazyDataModel<GroupGame> getLazyEntities() {
-		if (lazyEntities == null) {
-			count();
-			lazyEntities = new PrimefacesLazyEntityDataModel<GroupGame>(getListingService().getDAO()) {
-				
-				private static final long serialVersionUID = 1117380513193004406L;
-
-				@Override
-				public List<GroupGame> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-					firstEntityIndex = first;
-					lastEntityIndex = first + pageSize;
-					retrieveEntities();
-					return entities;
-				}
-			};
-			lazyEntities.setRowCount((int) entityCount);
-		}
-
-		return lazyEntities;
-	}
+	
 	
 	
 	@Override
@@ -120,86 +174,28 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 		
 		entities = new ArrayList<GroupGame>(sessionController.getAuthenticatedUser().getAdministeredGroups());
 		
-		entities.addAll(groupGameDAO.findByMember(sessionController.getAuthenticatedUser()));
+		entities.addAll(((GroupGameDAO) manageGroupGameService.getDAO()).findByMember(sessionController.getAuthenticatedUser()));
 		
 		lastEntityIndex = firstEntityIndex + entities.size();
 		
 	}
 	
 	
-	private List<GroupGame> teste;
-	
-	
-	public List<GroupGame> getTeste() {
-		if(teste == null)
-			teste = groupGameDAO.findByAdmin(sessionController.getAuthenticatedUser());
-		return teste;
-	}
-
-	
-	public void setTeste(List<GroupGame> teste) {
-		this.teste = teste;
-	}
 	
 	
 	
-	
-	
-	
-	
-	
-	@Override
-	protected CrudService<GroupGame> getCrudService() {
-		return manageGroupGameService;
-	}
-	
-	@Override
-	protected void prepEntity() {
-		selectedEntity.setAdminUser(sessionController.getAuthenticatedUser());
-		selectedEntity.setIsactive(true);
-		super.prepEntity();
-	}
-	
-	
-	public String begin(){
-		return viewPath + "list.xhtml?faces-redirect=" + getFacesRedirect();
-	}
-	
-	
-
-	@Override
-	protected GroupGame createNewEntity() {
-		return new GroupGame();
-	}
-
-	@Override
-	protected void initFilters() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public String save() {
-		 super.save();
-		 return "index.xhtml?faces-redirect=" + getFacesRedirect();
-	}
-
-
-	public List<Game> suggestGame(String query) {
-		if (query.length() > 0) {
-			List<Game> cities = gameDAO.findByName(query);
-			return cities;
-		}
+	public String addConta(){
 		return null;
 	}
 	
-	/** Getter for gameConverter. */
-	public Converter getGameConverter() {
-		if (gameConverter == null) {
-			logger.log(Level.FINEST, "Creating a city converter...");
-			gameConverter = new PersistentObjectConverterFromId<Game>(gameDAO);
-		}
-		return gameConverter;
+	
+	public User getNewUser() {
+		return newUser;
 	}
 
+	public void setNewUser(User user) {
+		this.newUser = user;
+	}
 
+	
 }
