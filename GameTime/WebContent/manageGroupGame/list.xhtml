@@ -10,61 +10,18 @@
     <ui:define name="title"><h:outputText value="#{msgsGametime['manageGroupGame.title']}" /></ui:define>
 
     <ui:define name="contents">
+       
         <h1><h:outputText value="#{msgsGametime['manageGroupGame.title']}" /></h1>
 
-        <div class="crud">
-            <!-- Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
-            <h:form id="filterForm">
-                <h:panelGroup id="filterBar" rendered="#{(not empty manageGroupGameController.filters)}">
-                    <div class="crudFilterBar">
-                        <h:outputText value="#{msgsGametime['crud.text.filter']} " />
-                        <p:selectOneMenu id="filter" required="true" value="#{manageGroupGameController.filterKey}">
-                            <f:selectItems value="#{manageGroupGameController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
-                            <f:ajax event="change" execute="@form" listener="#{manageGroupGameController.changeFilter}" render="@form :listingForm :buttonsForm" />
-                        </p:selectOneMenu>
-                        <h:outputText value=": " />
-                        <p:inputText id="filterText" size="20" required="false" value="#{manageGroupGameController.filterParam}" rendered="#{manageGroupGameController.filter.options == null}" />
-                        <p:selectOneMenu id="filterSelect" required="false" value="#{manageGroupGameController.filterParam}" rendered="#{manageGroupGameController.filter.options != null}">
-                            <f:selectItems value="#{manageGroupGameController.filter.reversedOptionsLabels}" />
-                        </p:selectOneMenu>
-                        <p:commandLink action="#{manageGroupGameController.filter}" process="@form" update=":listingForm :buttonsForm">
-                            <h:graphicImage style="border: 0;" value="/resources/icons/button-find.png" title="#{msgsGametime['crud.button.filter']}" />
-                        </p:commandLink>
-                        <p:hotkey bind="#{msgsGametime['crud.hotkey.filterFocus']}" handler="if (findObjectById('filterForm:filterText') != null) findObjectById('filterForm:filterText').focus(); else findObjectById('filterForm:filterSelect').focus();" />
-                    </div>
-                </h:panelGroup>
-            </h:form>
-
-
-
-
-            <!-- The listing form. -->
-            <h:form id="listingForm">
-                <!-- Filter information (displayed when the listing is being filtered. -->
-                <h:panelGroup id="filterInfo" rendered="#{manageGroupGameController.filtering}">
-                    <div class="crudFilterInfo">
-                        <h:outputFormat value="#{msgsGametime['crud.text.filterInfo']} ">
-                            <f:param value="#{manageGroupGameController.filter.label}" />
-                            <f:param value="#{manageGroupGameController.filterLabel}" />
-                        </h:outputFormat>
-                        <p:commandLink action="#{manageGroupGameController.cancelFilter}" process="@form" update="@form :buttonsForm">
-                            <h:graphicImage style="border: 0;" value="/resources/icons/button-close.png" title="#{msgsGametime['crud.button.cancelFilter']}" />
-                        </p:commandLink>
-                        <p:hotkey bind="#{msgsGametime['crud.hotkey.clearFilter']}" action="#{manageGroupGameController.cancelFilter}" process="@form" update=":listingForm :buttonsForm" />
-                    </div>
-                </h:panelGroup>
-
-
-
-
-
-
-
-                <!-- The list of entities.    #{sessionController.authenticatedUser.administeredGroups}   -->
-                <h:panelGroup id="listing" styleClass="listing" >
+		<div class="crud">
+		
+		
+			<h:form id="listingForm">
+                
+				<h:panelGroup id="listing" styleClass="listing">
                     <p:dataTable
                         widgetVar="listingTable"
-                        value="null" 
+                        value="#{manageGroupGameController.lazyEntities}" 
                         var="entity" 
                         rows="#{manageGroupGameController.maxDataTableRowsPerPage}" 
                         rowsPerPageTemplate="#{manageGroupGameController.halfMaxDataTableRowsPerPage},#{manageGroupGameController.maxDataTableRowsPerPage},#{manageGroupGameController.doubleMaxDataTableRowsPerPage}"
@@ -75,43 +32,42 @@
                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
                         paginatorPosition="bottom" 
                         loadingMessage="#{msgsGametime['text.ajax.loading']}" 
-                        emptyMessage="#{manageGroupGameController.filtering ? msgsGametime['manageGroupGame.text.noEntitiesFiltered'] : msgsGametime['manageGroupGame.text.noEntities']}">
+                        emptyMessage="#{ msgsGametime['manageGame.text.noEntities']}">
 
-                        <p:column headerText="#{msgsGametime['manageGroupGame.form.name']}">
+                        <p:column headerText="#{msgsGametime['manageGroupGame.table.name']}">
                             <h:outputText value="#{entity.name}" />
                         </p:column>
-                       
+                        
+                        <p:column headerText="#{msgsGametime['manageGroupGame.table.game']}">
+                            <h:outputText value="#{entity.game.name}" />
+                        </p:column>
+                        
+                        <p:column headerText="#{msgsGametime['manageGroupGame.table.admin']}">
+                            <h:outputText value="#{entity.adminUser.name}" />
+                        </p:column>
+
                         <p:ajax event="rowSelect" update=":buttonsForm" />
                     </p:dataTable>
                     <p:hotkey bind="ctrl+left" handler="goToFirstPage(listingTable);" />
                     <p:hotkey bind="left" handler="goToPreviousPage(listingTable);" />
                     <p:hotkey bind="right" handler="goToNextPage(listingTable);" />
                     <p:hotkey bind="ctrl+right" handler="goToLastPage(listingTable);" />
-                </h:panelGroup>
-                
-                
-                
-                
-                
-                
-                
-            </h:form>
-            
-            
-            <!-- Buttons shown below the listing. -->
-            <h:form id="buttonsForm" >
+                 </h:panelGroup>
+             </h:form>
+                 
+             <h:form id="buttonsForm">
                 <div class="crudButtons">
-                    <p:commandButton action="#{manageGroupGameController.create}" value="#{msgsGametime['crud.button.create']}" icon="buttonNew" />
-                    <p:commandButton action="#{manageGroupGameController.retrieve}" value="#{msgsGametime['crud.button.retrieve']}" icon="buttonView" disabled="#{manageGroupGameController.selectedEntity == null}" />
-                    <p:commandButton action="#{manageGroupGameController.update}" value="#{msgsGametime['crud.button.update']}" icon="buttonEdit" disabled="#{manageGroupGameController.selectedEntity == null}" />
-                    <p:commandButton action="#{manageGroupGameController.trash}" value="#{msgsGametime['crud.button.delete']}" icon="buttonTrash" disabled="#{manageGroupGameController.selectedEntity == null}" process="@this" update=":trashForm" />
+                    <p:commandButton action="#{manageGroupGameController.create}" value="#{msgsGametime['crud.button.create']}" icon="buttonNew" update=":globalMessages"/>
+                    <p:commandButton action="#{manageGroupGameController.retrieve}" value="#{msgsGametime['crud.button.retrieve']}" icon="buttonView" disabled="#{manageGroupGameController.selectedEntity == null}" update=":globalMessages"/>
+                    <p:commandButton action="#{manageGroupGameController.update}" value="#{msgsGametime['crud.button.update']}" icon="buttonEdit" disabled="#{manageGroupGameController.selectedEntity == null}" update=":globalMessages"/>
+                    <p:commandButton action="#{manageGroupGameController.trash}" value="#{msgsGametime['crud.button.delete']}" icon="buttonTrash" disabled="#{manageGroupGameController.selectedEntity == null}" process="@this" update=":trashForm :globalMessages" />
                     <p:hotkey bind="#{msgsGametime['crud.hotkey.create']}" action="#{manageGroupGameController.create}" />
                     <p:hotkey bind="#{msgsGametime['crud.hotkey.retrieve']}" action="#{manageGroupGameController.retrieve}" rendered="#{manageGroupGameController.selectedEntity != null}" />
                     <p:hotkey bind="#{msgsGametime['crud.hotkey.update']}" action="#{manageGroupGameController.update}" rendered="#{manageGroupGameController.selectedEntity != null}" />
                     <p:hotkey bind="#{msgsGametime['crud.hotkey.delete']}" action="#{manageGroupGameController.trash}" rendered="#{manageGroupGameController.selectedEntity != null}" process="@this" update=":trashForm" />
                 </div>
             </h:form>
-
+            
             <!-- The trash panel: shows entities that have been selected for deletion. -->
             <h:form id="trashForm">
                 <p:panel id="trashPanel" styleClass="trashPanel" header="#{msgsGametime['crud.text.trashHeader']}" toggleable="true" rendered="#{not empty manageGroupGameController.trashCan}">
@@ -126,11 +82,8 @@
                     </div>
                 </p:panel>
             </h:form>
-        </div>
-
-        <p>&nbsp;</p>
-
+                   
+		</div>
     </ui:define>
 
-    
 </ui:composition>

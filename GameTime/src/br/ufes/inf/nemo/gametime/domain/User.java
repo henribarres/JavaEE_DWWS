@@ -3,6 +3,7 @@ package br.ufes.inf.nemo.gametime.domain;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -27,7 +28,7 @@ public class User extends  PersistentObjectSupport{
 
 	private boolean admin;
 	
-	@OneToMany(mappedBy="adminUser")
+	@OneToMany(fetch = FetchType.EAGER , mappedBy="adminUser")
 	private Set<GroupGame> administeredGroups;
 	
 	@ManyToMany
