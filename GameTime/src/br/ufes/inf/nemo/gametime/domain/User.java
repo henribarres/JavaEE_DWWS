@@ -28,7 +28,7 @@ public class User extends  PersistentObjectSupport{
 
 	private boolean admin;
 	
-	@OneToMany(fetch = FetchType.EAGER , mappedBy="adminUser")
+	@OneToMany(mappedBy="adminUser")
 	private Set<GroupGame> administeredGroups;
 	
 	@ManyToMany

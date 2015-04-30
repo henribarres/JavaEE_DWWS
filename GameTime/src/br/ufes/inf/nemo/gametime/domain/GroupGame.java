@@ -3,6 +3,7 @@ package br.ufes.inf.nemo.gametime.domain;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -27,7 +28,7 @@ public class GroupGame extends  PersistentObjectSupport implements Comparable<Gr
 	private User adminUser;
 	
 	/* LISTA DE USUARIOS PERTENCENTES AOS GRUPOS  */
-	@ManyToMany 
+	@ManyToMany (fetch =FetchType.EAGER )
 	private Set<User> usersMembers;
 	
 	/* CONTAS PARA SEREM USADAS PELOS USUARIOS DESSE GRUPO  */

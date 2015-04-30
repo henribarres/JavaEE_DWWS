@@ -10,14 +10,12 @@
     <ui:define name="title">
         <h:outputText value="#{msgsGametime['manageGroupGame.title.create']}" rendered="#{(! manageGroupGameController.readOnly) and (manageGroupGameController.selectedEntity.id == null)}" />
         <h:outputText value="#{msgsGametime['manageGroupGame.title.update']}" rendered="#{(! manageGroupGameController.readOnly) and (manageGroupGameController.selectedEntity.id != null)}" />
-        <h:outputText value="#{msgsGametime['manageGroupGame.title.retrieve']}" rendered="#{manageGroupGameController.readOnly}" />
-    </ui:define>
+         </ui:define>
 
     <ui:define name="contents">
         <h1>
             <h:outputText value="#{msgsGametime['manageGroupGame.title.create']}" rendered="#{(! manageGroupGameController.readOnly) and (manageGroupGameController.selectedEntity.id == null)}" />
             <h:outputText value="#{msgsGametime['manageGroupGame.title.update']}" rendered="#{(! manageGroupGameController.readOnly) and (manageGroupGameController.selectedEntity.id != null)}" />
-            <h:outputText value="#{msgsGametime['manageGroupGame.title.retrieve']}" rendered="#{manageGroupGameController.readOnly}" />
         </h1>
 
         <div class="crud">
@@ -48,11 +46,7 @@
                         </ui:decorate>
                     </h:panelGroup>
                    		
-					
-					
-					
-					
-					
+                   		
                     <h:panelGroup id="gameField">
                         <ui:decorate template="/resources/formfield.xhtml">
                             <ui:param name="fieldName" value="form:game" />
@@ -80,7 +74,7 @@
                             
                             <p:autoComplete 
 									id="addUser" 
-									value="#{manageGroupGameController.newUser}" 
+									value="#{manageGroupGameController.userAdd}" 
 									completeMethod="#{manageGroupGameController.suggestUser}" 
 									minQueryLength="2" forceSelection="true" 
 									var="c" itemLabel="#{c.email}" itemValue="#{c}" 
@@ -93,11 +87,6 @@
                     </h:panelGroup>
                     
                     
-					
-
-
-
-
 
 
                     <ui:decorate template="/resources/formbutton.xhtml">
@@ -111,8 +100,8 @@
                             <p:commandButton action="#{manageGroupGameController.list}" value="#{msgsGametime['crud.button.back']}" immediate="true" icon="buttonBack" />
                             <p:hotkey bind="#{msgsGametime['crud.hotkey.backToList']}" action="#{manageGroupGameController.list}" immediate="true" />
                         </h:panelGroup>
-                        <h:panelGroup rendered="#{manageGroupGameController.readOnly and manageGroupGameController.addUser}">
-                            <p:commandButton action="#{manageGroupGameController.addUser}" value="add user" immediate="true" icon="buttonBack" />
+                        <h:panelGroup rendered="#{manageGroupGameController.addUser}">
+                            <p:commandButton action="#{manageGroupGameController.addUserInGroup}" value="add user" immediate="true" icon="buttonBack" />
                         </h:panelGroup>
                     </ui:decorate>
                     

@@ -15,4 +15,5 @@ public interface GroupGameDAO extends BaseDAO<GroupGame>{
 
 	List<GroupGame> findByMember(User member);
 
+	
 }

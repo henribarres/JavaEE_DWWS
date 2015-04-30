@@ -1,8 +1,6 @@
 package br.ufes.inf.nemo.gametime.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,9 +9,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.convert.Converter;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortOrder;
 
 import br.ufes.inf.nemo.gametime.application.ManageGroupGameService;
 import br.ufes.inf.nemo.gametime.domain.Game;
@@ -25,7 +20,6 @@ import br.ufes.inf.nemo.gametime.persistence.UserDAO;
 import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 import br.ufes.inf.nemo.util.ejb3.controller.PersistentObjectConverterFromId;
-import br.ufes.inf.nemo.util.ejb3.controller.PrimefacesLazyEntityDataModel;
 
 
 @Named
@@ -52,7 +46,7 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	private boolean addUser = false;
 	
 	/* PARA ADIOCIONAR  UM NOVO USUARIO A UM GRUPO*/
-	private User newUser ;
+	private User UserAdd ;
 	
 	/* JSF Converter PARA OBJETOS GAME */
 	private PersistentObjectConverterFromId<Game> gameConverter;
@@ -147,13 +141,13 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	
 	
 	
-	
 	/* FUNÇÃO INICIAL PARA ADICIONAR USUARIO AO GRUPO*/
 	public String addUser(){
-		readOnly = true;
 		addUser = true;
-		newUser = new User();
-		return  getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();
+		UserAdd = new User();
+		super.update();
+		readOnly = true;
+		return getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();
 	}
 	
 	/* GET PARA VER SE E PARA ADICIONAR USUARIOS AO GRUPO*/
@@ -161,23 +155,28 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 		return addUser;
 	}
 	
+	/* FUNCAO O USUARIO A SER ADICIONADO COMMO MEBRO DO GRUPO*/
+	public User getUserAdd() {
+		return UserAdd;
+	}
+	
+	/* FUNCAO QUE ADICIONA O USUARIO AO GRUPO*/
+	public String addUserInGroup(){
+		//selectedEntity = manageGroupGameService.getDAO().refresh(selectedEntity);
+		selectedEntity.getUsersMembers().add(UserAdd);
+		logger.log(Level.INFO, "GROUPO COM ID ======= {0} " , selectedEntity.getId());
+		return super.save();
+	}
 	
 	
-	
-	
+	/*FUNÇÃO QUE RETORNA OS GRUPOS*/
 	@Override
 	protected void retrieveEntities() {
-		if (lastEntityIndex > entityCount) lastEntityIndex = (int) entityCount;
-
-		// There's not. Retrieve all entities within range.
-		logger.log(Level.INFO, "Retrieving from the application layer {0} of a total of {1} entities: interval [{2}, {3})", new Object[] { (lastEntityIndex - firstEntityIndex), entityCount, firstEntityIndex, lastEntityIndex });
 		
-		entities = new ArrayList<GroupGame>(sessionController.getAuthenticatedUser().getAdministeredGroups());
-		
+		entities = ((GroupGameDAO) manageGroupGameService.getDAO()).findByAdmin(sessionController.getAuthenticatedUser());
+			
 		entities.addAll(((GroupGameDAO) manageGroupGameService.getDAO()).findByMember(sessionController.getAuthenticatedUser()));
-		
-		lastEntityIndex = firstEntityIndex + entities.size();
-		
+				
 	}
 	
 	
@@ -189,13 +188,6 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	}
 	
 	
-	public User getNewUser() {
-		return newUser;
-	}
-
-	public void setNewUser(User user) {
-		this.newUser = user;
-	}
 
 	
 }

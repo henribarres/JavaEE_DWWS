@@ -12,7 +12,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
-import br.ufes.inf.nemo.gametime.controller.ManageGroupGameController;
 import br.ufes.inf.nemo.gametime.domain.GroupGame;
 import br.ufes.inf.nemo.gametime.domain.GroupGame_;
 import br.ufes.inf.nemo.gametime.domain.User;
@@ -39,6 +38,8 @@ public class GroupGameJPADAO extends BaseJPADAO<GroupGame> implements GroupGameD
 		return entityManager;
 	}
 
+	
+	
 	@Override
 	public List<GroupGame> findByAdmin(User admin) {
 		
@@ -59,16 +60,33 @@ public class GroupGameJPADAO extends BaseJPADAO<GroupGame> implements GroupGameD
 		
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<GroupGame> cq = cb.createQuery(GroupGame.class);
+		Root<GroupGame> root = cq.from(GroupGame.class);
+			
+		cq.where(cb.isMember(member, root.get(GroupGame_.usersMembers)));
 		
+		cq.orderBy(cb.asc(root.get(GroupGame_.adminUser)));
+		
+		List<GroupGame> result = entityManager.createQuery(cq).getResultList();
+		
+		logger.log(Level.INFO, " RETORNANDO {0} GROUP GAME MEMBER ",  result.size() );
+		
+		return result;
+	}
+	
+	
+	
+public List<GroupGame> findByMemberTeste(User member) {
+		
+		logger.log(Level.INFO, " FIND BY MEMBER INIT ID {0} E {1} " , new Object[]{member.getId(), member.getName() } );
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<GroupGame> cq = cb.createQuery(GroupGame.class);
 		Root<GroupGame> root = cq.from(GroupGame.class);
 		cq.select(root);
 		
 		Subquery<GroupGame> cqs = cq.subquery(GroupGame.class);
-		
 		Root<GroupGame> subroot = cqs.from(GroupGame.class);
 		
 		cqs.select(subroot);
-		
 		cqs.where(cb.equal(subroot.get(GroupGame_.adminUser), member));	
 		
 		cq.where(cb.isMember(member, root.get(GroupGame_.usersMembers)));
@@ -77,10 +95,9 @@ public class GroupGameJPADAO extends BaseJPADAO<GroupGame> implements GroupGameD
 		List<GroupGame> result = entityManager.createQuery(cq).getResultList();
 		
 		logger.log(Level.INFO, " RETORNANDO {0} GROUP GAME MEMBER ",  result.size() );
-		
-		
 		return result;
 	}
+	
 	
 
 }
