@@ -1,11 +1,13 @@
 package br.ufes.inf.nemo.gametime.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.convert.Converter;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -46,7 +48,10 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	private boolean addUser = false;
 	
 	/* PARA ADIOCIONAR  UM NOVO USUARIO A UM GRUPO*/
-	private User UserAdd ;
+	private User user;
+	
+	/* PARA REMOVER  UM NOVO USUARIO A UM GRUPO*/
+	private User userRemove;
 	
 	/* JSF Converter PARA OBJETOS GAME */
 	private PersistentObjectConverterFromId<Game> gameConverter;
@@ -58,6 +63,8 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	@Inject
 	private SessionController sessionController;
 
+	
+	
 	
 	/*   CONSTRUTOR  DA CLASSE */
 	public ManageGroupGameController() {
@@ -119,6 +126,7 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 		if (query.length() > 0) {
 			List<User> users = userDAO.findByEmailList(query);
 			users.remove(sessionController.getAuthenticatedUser());
+			users.removeAll(selectedEntity.getUsersMembers());
 			return users;
 		}
 		return null;
@@ -133,6 +141,11 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 		return userConverter;
 	}
 	
+	/* FUNCAO PARA IMPRIMIR INFORMACAO DO GRUPO */
+	@Override
+	protected String summarizeSelectedEntity() {
+		return (selectedEntity == null) ? "" : selectedEntity.getName()+" com Administrador "+ selectedEntity.getAdminUser().getEmail();
+	}
 	
 	
 	
@@ -141,43 +154,88 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	
 	
 	
-	/* FUNÇÃO INICIAL PARA ADICIONAR USUARIO AO GRUPO*/
-	public String addUser(){
-		addUser = true;
-		UserAdd = new User();
-		super.update();
-		readOnly = true;
-		return getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();
+	
+	/* FUNCAO PARA LISTAR OS USUARIOS MEMBROS DE UM GRUPO */
+	public List<User> getUserMembers(){
+		return new ArrayList<User>(selectedEntity.getUsersMembers());
+	}
+	
+	public void setUserMembers(List<User> list){}
+	
+	
+	
+	
+	
+	
+	public User getUserRemove() {
+		return userRemove;
+	}
+
+	public void setUserRemove(User userRemove) {
+		this.userRemove = userRemove;
+	}
+	
+	/* FUNCAO GET PARA USUARIO A SER ADICIONADO A UM GRUPO*/
+	public User getUser() {
+		return user;
+	}
+	
+	/* FUNCAO SET PARA USUARIO A SER ADICIONADO A UM GRUPO*/
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	/* GET PARA VER SE E PARA ADICIONAR USUARIOS AO GRUPO*/
 	public boolean isAddUser() {
 		return addUser;
 	}
-	
-	/* FUNCAO O USUARIO A SER ADICIONADO COMMO MEBRO DO GRUPO*/
-	public User getUserAdd() {
-		return UserAdd;
+
+	/* FUNÇÃO INICIAL PARA ADICIONAR USUARIO AO GRUPO*/
+	public String addUser(){
+		user = null;
+		userRemove = null;
+		addUser = true;
+		readOnly = true;
+		return getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();
 	}
+
 	
 	/* FUNCAO QUE ADICIONA O USUARIO AO GRUPO*/
 	public String addUserInGroup(){
-		//selectedEntity = manageGroupGameService.getDAO().refresh(selectedEntity);
-		selectedEntity.getUsersMembers().add(UserAdd);
-		logger.log(Level.INFO, "GROUPO COM ID ======= {0} " , selectedEntity.getId());
-		return super.save();
+		if(user == null){
+			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".text.add.user.fail", summarizeSelectedEntity());
+			return null;
+		}
+		selectedEntity.getUsersMembers().add(user);
+		GroupGame tmp = selectedEntity;
+		super.save();
+		selectedEntity = getCrudService().getDAO().refresh(tmp);
+		user = null;
+		return null;
 	}
 	
+	/* FUNCAO QUE ADICIONA O USUARIO AO GRUPO*/
+	public String removeUserInGroup(){
+		if(userRemove == null){
+			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".text.delete.user.fail", summarizeSelectedEntity());
+			return null;
+		}
+		selectedEntity.getUsersMembers().remove(userRemove);
+		GroupGame tmp = selectedEntity;
+		super.save();
+		selectedEntity = getCrudService().getDAO().refresh(tmp);
+		userRemove = null;
+		return null;
+	}
 	
 	/*FUNÇÃO QUE RETORNA OS GRUPOS*/
 	@Override
 	protected void retrieveEntities() {
-		
 		entities = ((GroupGameDAO) manageGroupGameService.getDAO()).findByAdmin(sessionController.getAuthenticatedUser());
-			
 		entities.addAll(((GroupGameDAO) manageGroupGameService.getDAO()).findByMember(sessionController.getAuthenticatedUser()));
-				
 	}
+	
+	
 	
 	
 	
@@ -186,6 +244,8 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	public String addConta(){
 		return null;
 	}
+
+	
 	
 	
 

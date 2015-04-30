@@ -31,10 +31,11 @@ public class User extends  PersistentObjectSupport{
 	@OneToMany(mappedBy="adminUser")
 	private Set<GroupGame> administeredGroups;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy="usersMembers")
+	/*
 	@JoinTable( name="GroupGame_User",
 			joinColumns = {@JoinColumn(name="USER_ID" , referencedColumnName="ID")},
-			inverseJoinColumns={@JoinColumn(name="GROUPGAME_ID" , referencedColumnName="ID")})
+			inverseJoinColumns={@JoinColumn(name="GROUPGAME_ID" , referencedColumnName="ID")})*/
 	private Set<GroupGame> memberGroups;
 	
 	

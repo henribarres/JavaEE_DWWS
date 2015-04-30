@@ -47,12 +47,13 @@ div.gameForm div.gametimeFormField div.field ul {
 	display: block;
 	margin: 0 0 3px 0;
 	padding: 0;
-	width: 67%;
+	width: 100%;
 }
 
 div.gameForm div.gametimeFormField div.field ul li {
 	margin-left: 23px;
 }
+
 
 div.gameForm div.gametimeFormFieldError {
 	background-color: #FFA07A;
@@ -76,4 +77,9 @@ div.gameForm div.gametimeFormButton {
 div.gametimeFormInternalButton {
 	width: 100%;
 	text-align: right;
+}
+
+
+div.gameForm div.gametimeFormField div.field table{
+	width: 100%;
 }
