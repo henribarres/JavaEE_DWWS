@@ -7,10 +7,14 @@
       xmlns:p="http://primefaces.org/ui"
       template="/resources/decorator.xhtml">
       
-      <ui:define name="title">Welcome</ui:define>
+      <ui:define name="title"><h:outputText value="#{msgsGametime['title.page.index']}"/></ui:define>
       
       <ui:define name="contents">
-	      	<h1>Welcome to GameTime</h1>
-	      	<p>Under development.</p>
+	      	<h1 align="center"><h:outputText value="#{msgsGametime['title.home.index']}"/></h1>
+	      	<h2 align="left"><h:outputText value="#{msgsGametime['title.sub_1.index']}"/></h2>
+	      	<p align="justify"><h:outputText value="#{msgsGametime['title.text_1.index']}"/></p>
+	      	<h2 align="left"><h:outputText value="#{msgsGametime['title.sub_2.index']}"/></h2>
+	      	<h3 align="center"><h:outputText value="#{msgsGametime['title.text_2.index']}"/></h3>
+
       </ui:define>
 </ui:composition>

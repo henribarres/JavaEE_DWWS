@@ -18,10 +18,12 @@
 	        <div id="website_title">
 	            <div id="title"><h:outputText value="#{msgsGametime['text.system.name']}" /></div>
 	            <div id="salgon">
-	            	<h:outputText value="#{msgsGametime['text.system.salgon']}" /> <br/>
-	            	<h:outputText value="#{msgsGametime['mensage.wellcome.admin']} '#{sessionController.authenticatedUser.name}'" rendered="#{sessionController.loggedIn and sessionController.authenticatedUser.admin}"/>
-	            	<h:outputText value="#{msgsGametime['mensage.wellcome.user']} '#{sessionController.authenticatedUser.name}'" rendered="#{sessionController.loggedIn and not sessionController.authenticatedUser.admin}"/>
-	            	<h:outputText value="#{msgsGametime['mensage.not.login']}" rendered="#{not sessionController.loggedIn}"/>
+	            	<h:outputText style="font-size: 20px" value="#{msgsGametime['text.system.salgon']}" /> <br/>
+	            	<h:outputText value="#{msgsGametime['mensage.wellcome.admin']}" rendered="#{sessionController.loggedIn and sessionController.authenticatedUser.admin}"/>
+	            	<b><h:outputText value="'#{sessionController.authenticatedUser.name}'" rendered="#{sessionController.loggedIn and sessionController.authenticatedUser.admin}"/></b>
+	            	<h:outputText value="#{msgsGametime['mensage.wellcome.user']}" rendered="#{sessionController.loggedIn and not sessionController.authenticatedUser.admin}"/>
+	            	<b><h:outputText value="'#{sessionController.authenticatedUser.name}'" rendered="#{sessionController.loggedIn and not sessionController.authenticatedUser.admin}"/></b>
+	            	<b><h:outputText style="color: red;" value="#{msgsGametime['mensage.not.login']}" rendered="#{not sessionController.loggedIn}"/></b>
 	            </div>
 	        </div>
 	    </div> 
@@ -30,7 +32,7 @@
 	    <div id="templatemo_banner">
 	    	<div id="templatemo_menu">
 	            <ul>
-	            	<li><a href="#{facesContext.externalContext.requestContextPath}/"><h:outputText value="#{msgsGametime['title.home']}" /></a></li>
+	            	<li ><a href="#{facesContext.externalContext.requestContextPath}/"><h:outputText value="#{msgsGametime['title.home']}" /></a></li>
 	                
 	                <li> <p:commandLink action="#{manageGameController.begin}" rendered="#{sessionController.loggedIn}" value="#{msgsGametime['title.game']}"/> </li>
 	            	 
