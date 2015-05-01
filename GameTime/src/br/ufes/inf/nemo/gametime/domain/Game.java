@@ -25,15 +25,12 @@ public class Game extends  PersistentObjectSupport implements Comparable<Game>{
 	private String requisitos_minimos;
 
 	
-	/* FUNCAO PARA COMPARAR, VERIFICA SE TEM O MESMO NOME E MESMA EMPRESA*/
+	
+	
+	
+	/* FUNCAO PARA COMPARAR USANDO UUID*/
 	@Override
-	public int compareTo(Game o) {
-		if(  (name.compareToIgnoreCase(o.name) == 0) && 
-				(manufacturer.compareToIgnoreCase(o.manufacturer) == 0)  ){
-			return 0;
-		}
-		return 1;
-	}
+	public int compareTo(Game o) { 	return super.compareTo(o); }
 	
 	
 	

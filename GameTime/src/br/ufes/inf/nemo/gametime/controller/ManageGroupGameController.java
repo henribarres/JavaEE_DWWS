@@ -2,9 +2,6 @@ package br.ufes.inf.nemo.gametime.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -28,53 +25,21 @@ import br.ufes.inf.nemo.util.ejb3.controller.PersistentObjectConverterFromId;
 @SessionScoped
 public class ManageGroupGameController extends CrudController<GroupGame>{
 
-	private static final Logger logger = Logger.getLogger(ManageGroupGameController.class.getCanonicalName());
-	
 	private static final long serialVersionUID = 1L;
 	
 	/* CRUDSERVICE DE GROUPGAME*/
 	@EJB
 	private ManageGroupGameService manageGroupGameService;
 	
-	/* DAO PARA BUSCAR A LISTA DE GAME DO BANCO DE DADOS */
-	@EJB
-	private GameDAO gameDAO;
-	
-	/* DAO PARA BUSCAR USUARIO PARA ADD A UM GRUPO */
-	@EJB
-	private UserDAO userDAO;
-	
-	/* VARIAVEL PARA VERIFICAR SE É PARA ADICIONAR UM USUARIO A UM GRUPO*/
-	private boolean addUser = false;
-	
-	/* PARA ADIOCIONAR  UM NOVO USUARIO A UM GRUPO*/
-	private User user;
-	
-	/* PARA REMOVER  UM NOVO USUARIO A UM GRUPO*/
-	private User userRemove;
-	
-	/* JSF Converter PARA OBJETOS GAME */
-	private PersistentObjectConverterFromId<Game> gameConverter;
-	
-	/* JSF Converter PARA OBJETOS USER */
-	private PersistentObjectConverterFromId<User> userConverter;
-	
 	/* CONTROLLER PARA VERIFICAR SE O USUARIO ESTA LOGADO E TAMBÉM SABER QUEM É ESSE USUARIO*/
 	@Inject
 	private SessionController sessionController;
-
-	
 	
 	
 	/*   CONSTRUTOR  DA CLASSE */
 	public ManageGroupGameController() {
 	    viewPath = "/manageGroupGame/";
 	    bundleName = "msgsGametime";
-	}
-	
-	/* FUNÇÃO INICIAL PARA O LINK GRUPO */
-	public String begin(){
-		return viewPath + "list.xhtml?faces-redirect=" + getFacesRedirect();
 	}
 	
 	/* METODO OBRIGATORIO */
@@ -99,9 +64,35 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	@Override
 	protected void prepEntity() {
 		selectedEntity.setAdminUser(sessionController.getAuthenticatedUser());
-		selectedEntity.setIsactive(true);
 		super.prepEntity();
 	}
+	
+	/* FUNCAO PARA IMPRIMIR INFORMACAO DO GRUPO */
+	@Override
+	protected String summarizeSelectedEntity() {
+		return (selectedEntity == null) ? "" : selectedEntity.getName()+" com Administrador "+ selectedEntity.getAdminUser().getEmail();
+	}
+	
+	/*FUNÇÃO QUE RETORNA OS GRUPOS DO USUARIO LOGADO*/
+	@Override
+	protected void retrieveEntities() {
+		entities = ((GroupGameDAO) manageGroupGameService.getDAO()).findByAdmin(sessionController.getAuthenticatedUser());
+		entities.addAll(((GroupGameDAO) manageGroupGameService.getDAO()).findByMember(sessionController.getAuthenticatedUser()));
+	}
+	
+	
+	
+
+	
+	
+	/* ************ATRIBUTOS E FUNCOES PARA SELECIONAR GAME ****************************/
+	
+	/* DAO PARA BUSCAR A LISTA DE GAME DO BANCO DE DADOS */
+	@EJB
+	private GameDAO gameDAO;
+	
+	/* JSF Converter PARA OBJETOS GAME */
+	private PersistentObjectConverterFromId<Game> gameConverter;
 	
 	/* FUNÇÃO PARA SUGERIR GAMES PARA O GRUPO A SER CRIADO*/
 	public List<Game> suggestGame(String query) {
@@ -115,11 +106,35 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	/* GET PARA O CONVERTER DE GAME */
 	public Converter getGameConverter() {
 		if (gameConverter == null) {
-			logger.log(Level.FINEST, "Creating a city converter...");
 			gameConverter = new PersistentObjectConverterFromId<Game>(gameDAO);
 		}
 		return gameConverter;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/*  ************ ATRIBUTOS E FUNCOES PARA ADICIONAR E REMOVER USUARIOS A UM GRUPO *************** */
+	
+	/* DAO PARA BUSCAR USUARIO PARA ADD A UM GRUPO */
+	@EJB 
+	private UserDAO userDAO;
+	
+	/* VARIAVEL PARA VERIFICAR SE É PARA ADICIONAR UM USUARIO A UM GRUPO*/
+	private boolean addUser = false;
+	
+	/* PARA ADIOCIONAR  UM NOVO USUARIO A UM GRUPO*/
+	private User user;
+	
+	/* PARA REMOVER  UM NOVO USUARIO A UM GRUPO*/
+	private User userRemove;
+	
+	/* JSF Converter PARA OBJETOS USER */
+	private PersistentObjectConverterFromId<User> userConverter;
 	
 	/* FUNÇÃO PARA SUGERIR USUARIOS PARA ADICIONAR AO GRUPO*/
 	public List<User> suggestUser(String query){
@@ -135,42 +150,23 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	/* GET PARA O CONVERTER DE USER*/
 	public PersistentObjectConverterFromId<User> getUserConverter() {
 		if (userConverter == null) {
-			logger.log(Level.FINEST, "Creating a user converter...");
 			userConverter = new PersistentObjectConverterFromId<User>(userDAO);
 		}
 		return userConverter;
 	}
-	
-	/* FUNCAO PARA IMPRIMIR INFORMACAO DO GRUPO */
-	@Override
-	protected String summarizeSelectedEntity() {
-		return (selectedEntity == null) ? "" : selectedEntity.getName()+" com Administrador "+ selectedEntity.getAdminUser().getEmail();
-	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/* FUNCAO PARA LISTAR OS USUARIOS MEMBROS DE UM GRUPO */
 	public List<User> getUserMembers(){
 		return new ArrayList<User>(selectedEntity.getUsersMembers());
 	}
 	
-	public void setUserMembers(List<User> list){}
+	//public void setUserMembers(List<User> list){}
 	
-	
-	
-	
-	
-	
+	/* FUNCAO GET PARA USUARIO A SER REMOVIDO A UM GRUPO*/
 	public User getUserRemove() {
 		return userRemove;
 	}
-
+	/* FUNCAO SET PARA USUARIO A SER REMOVIDO A UM GRUPO*/
 	public void setUserRemove(User userRemove) {
 		this.userRemove = userRemove;
 	}
@@ -199,7 +195,6 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 		return getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();
 	}
 
-	
 	/* FUNCAO QUE ADICIONA O USUARIO AO GRUPO*/
 	public String addUserInGroup(){
 		if(user == null){
@@ -228,26 +223,6 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 		return null;
 	}
 	
-	/*FUNÇÃO QUE RETORNA OS GRUPOS*/
-	@Override
-	protected void retrieveEntities() {
-		entities = ((GroupGameDAO) manageGroupGameService.getDAO()).findByAdmin(sessionController.getAuthenticatedUser());
-		entities.addAll(((GroupGameDAO) manageGroupGameService.getDAO()).findByMember(sessionController.getAuthenticatedUser()));
-	}
 	
-	
-	
-	
-	
-	
-	
-	public String addConta(){
-		return null;
-	}
-
-	
-	
-	
-
 	
 }

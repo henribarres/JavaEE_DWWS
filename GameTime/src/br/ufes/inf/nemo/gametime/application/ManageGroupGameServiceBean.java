@@ -1,7 +1,5 @@
 package br.ufes.inf.nemo.gametime.application;
 
-import java.util.logging.Logger;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -17,8 +15,6 @@ public class ManageGroupGameServiceBean extends CrudServiceBean<GroupGame> imple
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger logger = Logger.getLogger(ManageGroupGameServiceBean.class.getCanonicalName());
-	
 	@EJB
 	private GroupGameDAO groupGgameDAO;
 	

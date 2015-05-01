@@ -7,27 +7,33 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/resources/decorator.xhtml">
 
+	<!--     DEFINNIÇÃO DO TITULO   -->
     <ui:define name="title">
         <h:outputText value="#{msgsGametime['manageGroupGame.title.create']}" rendered="#{(! manageGroupGameController.readOnly) and (manageGroupGameController.selectedEntity.id == null)}" />
         <h:outputText value="#{msgsGametime['manageGroupGame.title.update']}" rendered="#{(! manageGroupGameController.readOnly) and (manageGroupGameController.selectedEntity.id != null)}" />
     	<h:outputText value="#{msgsGametime['manageGroupGame.title.addUser']}" rendered="#{( manageGroupGameController.readOnly) and (manageGroupGameController.addUser)}" />
     </ui:define>
 
+
+	<!--  DEFINICAO DO CONTEUDO PPRINCIPAL -->
     <ui:define name="contents">
+        
+        <!--   TITULO DO CONTEUDO PRINCIPAL   -->
         <h1>
             <h:outputText value="#{msgsGametime['manageGroupGame.title.create']}" rendered="#{(! manageGroupGameController.readOnly) and (manageGroupGameController.selectedEntity.id == null)}" />
             <h:outputText value="#{msgsGametime['manageGroupGame.title.update']}" rendered="#{(! manageGroupGameController.readOnly) and (manageGroupGameController.selectedEntity.id != null)}" />
        		<h:outputText value="#{msgsGametime['manageGroupGame.title.addUser']}" rendered="#{( manageGroupGameController.readOnly) and (manageGroupGameController.addUser)}" />
         </h1>
 
+
+		<!--  FORMULARIO DOS ATRIBUTOS DO GRUPO  -->
         <div class="crud">
-            
             <ui:decorate template="/resources/form.xhtml">
-                
                 <h:form id="form">
                     
                     
 					<!-- PAINEL PARA INSERIR O NOME DO GRUPO -->
+					
                     <h:panelGroup id="nameField">
                         <ui:decorate template="/resources/formfield.xhtml">
                             <ui:param name="fieldName" value="form:name" />
@@ -116,18 +122,14 @@
                     </h:panelGroup>
                     
                     
-
-
+                    
+                    
+                    <!--  DEFINIÇÃO DOS BOTÕES   -->
+                    
                     <ui:decorate template="/resources/formbutton.xhtml">
+                    	<p:commandButton action="#{manageGroupGameController.list}" value="#{msgsGametime['crud.button.cancel']}" immediate="true" icon="buttonCancel" />
                         <h:panelGroup rendered="#{! manageGroupGameController.readOnly}">
-                            <p:commandButton action="#{manageGroupGameController.list}" value="#{msgsGametime['crud.button.cancel']}" immediate="true" icon="buttonCancel" />
                             <p:commandButton action="#{manageGroupGameController.save}" value="#{msgsGametime['crud.button.save']}" icon="buttonOk" update=":form :globalMessages" />
-                            <p:hotkey bind="#{msgsGametime['crud.hotkey.backToList']}" action="#{manageGroupGameController.list}" immediate="true" />
-                            <p:hotkey bind="#{msgsGametime['crud.hotkey.save']}" action="#{manageGroupGameController.save}" update=":form :globalMessages" />
-                        </h:panelGroup>
-                        <h:panelGroup rendered="#{manageGroupGameController.readOnly}">
-                            <p:commandButton action="#{manageGroupGameController.list}" value="#{msgsGametime['crud.button.back']}" immediate="true" icon="buttonBack" />
-                            <p:hotkey bind="#{msgsGametime['crud.hotkey.backToList']}" action="#{manageGroupGameController.list}" immediate="true" />
                         </h:panelGroup>
                         <h:panelGroup rendered="#{manageGroupGameController.addUser}">
                             <p:commandButton action="#{manageGroupGameController.addUserInGroup}" value="add user" icon="buttonOk" update=":form :globalMessages"  />
@@ -139,5 +141,4 @@
             </ui:decorate>
         </div>
     </ui:define>
-
 </ui:composition>

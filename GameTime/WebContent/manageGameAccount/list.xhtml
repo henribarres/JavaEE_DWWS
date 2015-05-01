@@ -7,93 +7,57 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/resources/decorator.xhtml">
 
+	<!--     DEFINNIÇÃO DO TITULO   -->
     <ui:define name="title"><h:outputText value="#{msgsGametime['manageGameAccount.title']}" /></ui:define>
 
+
+	<!--  DEFINICAO DO CONTEUDO PPRINCIPAL -->
     <ui:define name="contents">
+    
+    
+    	<!--   TITULO DO CONTEUDO PRINCIPAL   -->
         <h1><h:outputText value="#{msgsGametime['manageGameAccount.title']}" /></h1>
 
+
+		<!--  FORMULARIO DA LISTA DE CONTAS DE UM GRUPO  -->
         <div class="crud">
-            <!-- Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
-            <h:form id="filterForm">
-                <h:panelGroup id="filterBar" rendered="#{(not empty manageGameAccountController.filters)}">
-                    <div class="crudFilterBar">
-                        <h:outputText value="#{msgsGametime['crud.text.filter']} " />
-                        <p:selectOneMenu id="filter" required="true" value="#{manageGameAccountController.filterKey}">
-                            <f:selectItems value="#{manageGameAccountController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
-                            <f:ajax event="change" execute="@form" listener="#{manageGameAccountController.changeFilter}" render="@form :listingForm :buttonsForm" />
-                        </p:selectOneMenu>
-                        <h:outputText value=": " />
-                        <p:inputText id="filterText" size="20" required="false" value="#{manageGameAccountController.filterParam}" rendered="#{manageGameAccountController.filter.options == null}" />
-                        <p:selectOneMenu id="filterSelect" required="false" value="#{manageGameAccountController.filterParam}" rendered="#{manageGameAccountController.filter.options != null}">
-                            <f:selectItems value="#{manageGameAccountController.filter.reversedOptionsLabels}" />
-                        </p:selectOneMenu>
-                        <p:commandLink action="#{manageGameAccountController.filter}" process="@form" update=":listingForm :buttonsForm">
-                            <h:graphicImage style="border: 0;" value="/resources/icons/button-find.png" title="#{msgsGametime['crud.button.filter']}" />
-                        </p:commandLink>
-                        <p:hotkey bind="#{msgsGametime['crud.hotkey.filterFocus']}" handler="if (findObjectById('filterForm:filterText') != null) findObjectById('filterForm:filterText').focus(); else findObjectById('filterForm:filterSelect').focus();" />
-                    </div>
-                </h:panelGroup>
-            </h:form>
-
-            <!-- The listing form. -->
             <h:form id="listingForm">
-                <!-- Filter information (displayed when the listing is being filtered. -->
-                <h:panelGroup id="filterInfo" rendered="#{manageGameAccountController.filtering}">
-                    <div class="crudFilterInfo">
-                        <h:outputFormat value="#{msgsGametime['crud.text.filterInfo']} ">
-                            <f:param value="#{manageGameAccountController.filter.label}" />
-                            <f:param value="#{manageGameAccountController.filterLabel}" />
-                        </h:outputFormat>
-                        <p:commandLink action="#{manageGameAccountController.cancelFilter}" process="@form" update="@form :buttonsForm">
-                            <h:graphicImage style="border: 0;" value="/resources/icons/button-close.png" title="#{msgsGametime['crud.button.cancelFilter']}" />
-                        </p:commandLink>
-                        <p:hotkey bind="#{msgsGametime['crud.hotkey.clearFilter']}" action="#{manageGameAccountController.cancelFilter}" process="@form" update=":listingForm :buttonsForm" />
-                    </div>
-                </h:panelGroup>
-
-                <!-- The list of entities. -->
+                              
                 <h:panelGroup id="listing" styleClass="listing">
                     <p:dataTable
                         widgetVar="listingTable"
                         value="#{manageGameAccountController.lazyEntities}" 
                         var="entity" 
-                        rows="#{manageGameAccountController.maxDataTableRowsPerPage}" 
-                        rowsPerPageTemplate="#{manageGameAccountController.halfMaxDataTableRowsPerPage},#{manageGameAccountController.maxDataTableRowsPerPage},#{manageGameAccountController.doubleMaxDataTableRowsPerPage}"
+                        rows="#{manageGameAccountController.entities.size()}" 
                         lazy="true" 
-                        paginator="true" 
                         selection="#{manageGameAccountController.selectedEntity}" 
                         selectionMode="single" 
-                        paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
-                        paginatorPosition="bottom" 
                         loadingMessage="#{msgsGametime['text.ajax.loading']}" 
                         emptyMessage="#{manageGameAccountController.filtering ? msgsGametime['manageGameAccount.text.noEntitiesFiltered'] : msgsGametime['manageGameAccount.text.noEntities']}">
-
                         <p:column headerText="#{msgsGametime['manageGameAccount.form.name']}">
                             <h:outputText value="#{entity.name}" />
                         </p:column>
-                       
+                        <p:column headerText="#{msgsGametime['manageGameAccount.form.login']}">
+                            <h:outputText value="#{entity.login}" />
+                        </p:column>
                         <p:ajax event="rowSelect" update=":buttonsForm" />
                     </p:dataTable>
-                    <p:hotkey bind="ctrl+left" handler="goToFirstPage(listingTable);" />
-                    <p:hotkey bind="left" handler="goToPreviousPage(listingTable);" />
-                    <p:hotkey bind="right" handler="goToNextPage(listingTable);" />
-                    <p:hotkey bind="ctrl+right" handler="goToLastPage(listingTable);" />
                 </h:panelGroup>
             </h:form>
 
-            <!-- Buttons shown below the listing. -->
+
+
+            <!-- FORMULARIO DOS BOTOES  -->
             <h:form id="buttonsForm">
                 <div class="crudButtons">
+                	<p:commandButton action="#{manageGroupGameController.list}" value="#{msgsGametime['crud.button.cancel']}" immediate="true" icon="buttonCancel" />
                     <p:commandButton action="#{manageGameAccountController.create}" value="#{msgsGametime['crud.button.create']}" icon="buttonNew" />
-                    <p:commandButton action="#{manageGameAccountController.retrieve}" value="#{msgsGametime['crud.button.retrieve']}" icon="buttonView" disabled="#{manageGameAccountController.selectedEntity == null}" />
                     <p:commandButton action="#{manageGameAccountController.update}" value="#{msgsGametime['crud.button.update']}" icon="buttonEdit" disabled="#{manageGameAccountController.selectedEntity == null}" />
                     <p:commandButton action="#{manageGameAccountController.trash}" value="#{msgsGametime['crud.button.delete']}" icon="buttonTrash" disabled="#{manageGameAccountController.selectedEntity == null}" process="@this" update=":trashForm" />
-                    <p:hotkey bind="#{msgsGametime['crud.hotkey.create']}" action="#{manageGameAccountController.create}" />
-                    <p:hotkey bind="#{msgsGametime['crud.hotkey.retrieve']}" action="#{manageGameAccountController.retrieve}" rendered="#{manageGameAccountController.selectedEntity != null}" />
-                    <p:hotkey bind="#{msgsGametime['crud.hotkey.update']}" action="#{manageGameAccountController.update}" rendered="#{manageGameAccountController.selectedEntity != null}" />
-                    <p:hotkey bind="#{msgsGametime['crud.hotkey.delete']}" action="#{manageGameAccountController.trash}" rendered="#{manageGameAccountController.selectedEntity != null}" process="@this" update=":trashForm" />
                 </div>
             </h:form>
+
+
 
             <!-- The trash panel: shows entities that have been selected for deletion. -->
             <h:form id="trashForm">
@@ -104,28 +68,11 @@
                     <div class="nemoUtilsFormInternalButton">
                         <p:commandButton action="#{manageGameAccountController.cancelDeletion}" value="#{msgsGametime['crud.button.cancelDeletion']}" icon="buttonCancel" update=":trashForm :buttonsForm :listingForm" />
                         <p:commandButton action="#{manageGameAccountController.delete}" value="#{msgsGametime['crud.button.confirmDeletion']}" icon="buttonOk" />
-                        <p:hotkey bind="#{msgsGametime['crud.hotkey.cancelDeletion']}" action="#{manageGameAccountController.cancelDeletion}" update=":trashForm :buttonsForm :listingForm" />
-                        <p:hotkey bind="#{msgsGametime['crud.hotkey.confirmDeletion']}" action="#{manageGameAccountController.delete}" />
                     </div>
                 </p:panel>
             </h:form>
+            
         </div>
-
         <p>&nbsp;</p>
-
-    </ui:define>
-
-    <ui:define name="help">
-        <h4><h:outputText value="#{msgsGametime['text.hotkeys']}" />:</h4>
-        <ul>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.filterFocus']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.filterFocus']}" />;</li>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.clearFilter']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.clearFilter']}" />;</li>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.create']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.create']}" />;</li>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.retrieve']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.retrieve']}" />;</li>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.update']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.update']}" />;</li>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.delete']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.delete']}" />;</li>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.cancelDeletion']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.cancelDeletion']}" />;</li>
-            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.confirmDeletion']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.confirmDeletion']}" />.</li>
-        </ul>
     </ui:define>
 </ui:composition>

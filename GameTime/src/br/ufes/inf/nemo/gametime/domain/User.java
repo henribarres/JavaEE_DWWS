@@ -3,9 +3,6 @@ package br.ufes.inf.nemo.gametime.domain;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -13,30 +10,39 @@ import javax.validation.constraints.NotNull;
 import br.ufes.inf.nemo.util.ejb3.persistence.PersistentObjectSupport;
 
 @Entity
-public class User extends  PersistentObjectSupport{
+public class User extends  PersistentObjectSupport implements Comparable<User>{
 	
 	private static final long serialVersionUID = 1L;
 
+	/* EMAIL DO USUARIO, USADO PARA FAZER LOGIN */
 	@NotNull 
 	private String email;
 	
+	/* NOME DO USUARIO */
 	@NotNull
 	private String name;
 	
+	/* SENHA PARA ACESSAR */
 	@NotNull 
 	private String password;
 
+	/* BOLEANO PARA DIZER SE O USUARIO E UM ADMINISTRADOR OU NAO */
 	private boolean admin;
 	
+	
+	/* LISTA DE GRUPOS QUE O USUARIO ADMINISTRA*/
 	@OneToMany(mappedBy="adminUser")
 	private Set<GroupGame> administeredGroups;
 	
+	/* LISTA  DE GRUPOS QUE O USUARIO E MEMBRO */
 	@ManyToMany(mappedBy="usersMembers")
-	/*
-	@JoinTable( name="GroupGame_User",
-			joinColumns = {@JoinColumn(name="USER_ID" , referencedColumnName="ID")},
-			inverseJoinColumns={@JoinColumn(name="GROUPGAME_ID" , referencedColumnName="ID")})*/
 	private Set<GroupGame> memberGroups;
+	
+	
+	
+	
+	@Override
+	public int compareTo(User o) { return super.compareTo(o); }
 	
 	
 	/*  GETS AND SETS*/
@@ -57,5 +63,5 @@ public class User extends  PersistentObjectSupport{
 	
 	public Set<GroupGame> getMemberGroups() { return memberGroups; }
 	public void setMemberGroups(Set<GroupGame> memberGroups) { 	this.memberGroups = memberGroups; }
-	
+		
 }

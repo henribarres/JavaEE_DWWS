@@ -48,6 +48,7 @@ public class GroupGameJPADAO extends BaseJPADAO<GroupGame> implements GroupGameD
 		Root<GroupGame> root = cq.from(GroupGame.class);
 
 		cq.where(cb.equal(root.get(GroupGame_.adminUser), admin));
+		cq.orderBy(cb.asc(root.get(GroupGame_.name)));
 		
 		List<GroupGame> result = entityManager.createQuery(cq).getResultList();
 		return result;

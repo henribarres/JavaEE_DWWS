@@ -7,14 +7,20 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/resources/decorator.xhtml">
 
+	<!--     DEFINNIÇÃO DO TITULO   -->
     <ui:define name="title"><h:outputText value="#{msgsGametime['manageGroupGame.title']}" /></ui:define>
 
+
+	<!--  DEFINICAO DO CONTEUDO PPRINCIPAL -->
     <ui:define name="contents">
        
+       
+       	<!--   TITULO DO CONTEUDO PRINCIPAL   -->
         <h1><h:outputText value="#{msgsGametime['manageGroupGame.title']}" /></h1>
 
+
+		<!--  FORMULARIO DA LISTA DE GRUPO  -->
 		<div class="crud">
-		
 			<h:form id="listingForm">
                 
 				<h:panelGroup id="listing" styleClass="listing">
@@ -47,24 +53,20 @@
              </h:form>
                  
                  
+             <!--  FORMULARIO DOS BOTOES  -->
              <h:form id="buttonsForm">
                 <div class="crudButtons">
                     <p:commandButton action="#{manageGroupGameController.create}" value="#{msgsGametime['crud.button.create']}" icon="buttonNew" update=":globalMessages"/>
-                    <p:commandButton action="#{manageGroupGameController.update}" value="#{msgsGametime['crud.button.update']}" icon="buttonEdit" disabled="#{manageGroupGameController.selectedEntity == null}" update=":globalMessages"/>
-                    
-                    
                     <p:commandButton action="#{manageGroupGameController.trash}" value="#{msgsGametime['crud.button.delete']}" icon="buttonTrash" disabled="#{manageGroupGameController.selectedEntity.adminUser != sessionController.authenticatedUser}" process="@this" update=":trashForm :globalMessages" />
                     
                     <p:commandButton action="#{manageGroupGameController.addUser}" value="add user"  disabled="#{manageGroupGameController.selectedEntity.adminUser != sessionController.authenticatedUser}" process="@this" update=":globalMessages" />
-                    
-                    
-                    <p:hotkey bind="#{msgsGametime['crud.hotkey.create']}" action="#{manageGroupGameController.create}" />
-                    <p:hotkey bind="#{msgsGametime['crud.hotkey.update']}" action="#{manageGroupGameController.update}" rendered="#{manageGroupGameController.selectedEntity != null}" />
-                    <p:hotkey bind="#{msgsGametime['crud.hotkey.delete']}" action="#{manageGroupGameController.trash}" rendered="#{manageGroupGameController.selectedEntity != null}" process="@this" update=":trashForm" />
+                    <p:commandButton action="#{manageGameAccountController.list}" value="ADD / RM CONTA"  disabled="#{(manageGroupGameController.selectedEntity.adminUser != sessionController.authenticatedUser) or manageGroupGameController.selectedEntity == null }" process="@this"/>
                 </div>
             </h:form>
             
-            <!-- The trash panel: shows entities that have been selected for deletion. -->
+            
+            
+            <!-- FORMULARIO QUE MOSTRAM OS GRUPOS A SEREM EXCLUIDOS   -->
             <h:form id="trashForm">
                 <p:panel id="trashPanel" styleClass="trashPanel" header="#{msgsGametime['crud.text.trashHeader']}" toggleable="true" rendered="#{not empty manageGroupGameController.trashCan}">
                     <p:dataList value="#{manageGroupGameController.trashCan}" var="entity" type="unordered">
@@ -73,13 +75,10 @@
                     <div class="nemoUtilsFormInternalButton">
                         <p:commandButton action="#{manageGroupGameController.cancelDeletion}" value="#{msgsGametime['crud.button.cancelDeletion']}" icon="buttonCancel" update=":trashForm :buttonsForm :listingForm" />
                         <p:commandButton action="#{manageGroupGameController.delete}" value="#{msgsGametime['crud.button.confirmDeletion']}" icon="buttonOk" />
-                        <p:hotkey bind="#{msgsGametime['crud.hotkey.cancelDeletion']}" action="#{manageGroupGameController.cancelDeletion}" update=":trashForm :buttonsForm :listingForm" />
-                        <p:hotkey bind="#{msgsGametime['crud.hotkey.confirmDeletion']}" action="#{manageGroupGameController.delete}" />
-                    </div>
+                       </div>
                 </p:panel>
             </h:form>
                    
 		</div>
     </ui:define>
-
 </ui:composition>
