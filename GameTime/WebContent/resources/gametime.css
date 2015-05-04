@@ -33,6 +33,7 @@ div.gameForm div.gametimeFormField div.label {
 div.gameForm div.gametimeFormField div.field {
 	width: 75%;
 	float: right;
+	margin-right: 25px;
 	/*  border-left: 5px solid white; */
 	padding: 5px 7px 5px 7px;
 }
