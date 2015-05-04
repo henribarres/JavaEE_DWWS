@@ -16,6 +16,8 @@ import br.ufes.inf.nemo.gametime.domain.GroupGame;
 import br.ufes.inf.nemo.gametime.domain.GroupGame_;
 import br.ufes.inf.nemo.gametime.domain.User;
 import br.ufes.inf.nemo.util.ejb3.persistence.BaseJPADAO;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.MultiplePersistentObjectsFoundException;
+import br.ufes.inf.nemo.util.ejb3.persistence.exceptions.PersistentObjectNotFoundException;
 
 @Stateless
 public class GroupGameJPADAO extends BaseJPADAO<GroupGame> implements GroupGameDAO{
@@ -39,7 +41,6 @@ public class GroupGameJPADAO extends BaseJPADAO<GroupGame> implements GroupGameD
 	}
 
 	
-	
 	@Override
 	public List<GroupGame> findByAdmin(User admin) {
 		
@@ -53,6 +54,7 @@ public class GroupGameJPADAO extends BaseJPADAO<GroupGame> implements GroupGameD
 		List<GroupGame> result = entityManager.createQuery(cq).getResultList();
 		return result;
 	}
+	
 	
 	@Override
 	public List<GroupGame> findByMember(User member) {
@@ -97,6 +99,20 @@ public List<GroupGame> findByMemberTeste(User member) {
 		
 		logger.log(Level.INFO, " RETORNANDO {0} GROUP GAME MEMBER ",  result.size() );
 		return result;
+	}
+
+
+	@Override
+	public GroupGame retrieveByNameAndAdmin(String name, User admin) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException{
+		
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<GroupGame> cq = cb.createQuery(GroupGame.class);
+		Root<GroupGame> root = cq.from(GroupGame.class);
+		
+		cq.where(   cb.equal(root.get(GroupGame_.name), name) , cb.equal(root.get(GroupGame_.adminUser), admin));
+		
+		GroupGame result = executeSingleResultQuery(cq, name , admin);
+		return  result;
 	}
 	
 	

@@ -27,20 +27,19 @@ public class ManageGameServiceBean extends CrudServiceBean<Game> implements Mana
 	private GameDAO gameDAO;
 	
 	
-	
+	/* METODO OBRIGATORIO */
 	@Override
 	public BaseDAO<Game> getDAO() {
 		return gameDAO;
 	}
 
+	/* METODO OBRIGATORIO */
 	@Override
 	public Game createNewEntity() {
 		return new Game();
 	}
 	
-	/*
-	 * PARA CRIAR UM GAME NÃO PODE JA TER UM COM O MESMO NOME E EMPRESA CADASTRADO.
-	 */
+	/*  PARA CRIAR UM GAME NÃO PODE JA TER UM COM O MESMO NOME E EMPRESA CADASTRADO.  */
 	@Override
 	public void validateCreate(Game entity) throws CrudException {
 		CrudException crudException = null;
@@ -48,7 +47,7 @@ public class ManageGameServiceBean extends CrudServiceBean<Game> implements Mana
 		String manufacturer = entity.getManufacturer();
 		String crudExceptionMessage = "The Game \"" + entity.getName() + " cannot be created, validation errors.";
 		
-		if (name != null && name.length() > 0 && manufacturer !=null && manufacturer.length()>0) 
+		if (name != null && name.length() > 0 && manufacturer !=null && manufacturer.length()>0) {
 			try {
 				Game anotherEntity = gameDAO.retrieveByNameAndManufacturer(name,manufacturer);
 				if (anotherEntity != null) {
@@ -57,22 +56,21 @@ public class ManageGameServiceBean extends CrudServiceBean<Game> implements Mana
 					crudException.addValidationError("manufacturer", "manageGame.error.repeated", null);
 				}
 			}
-		catch (PersistentObjectNotFoundException e) {
-			logger.log(Level.INFO, "VALIDAÇÃO  OK - O GAME: {0} VAI SER CADASTRADO", name);
-			return;
-		}
-		catch (MultiplePersistentObjectsFoundException e) {
-			logger.log(Level.INFO, "CRIAÇÃO DO GAME  \"" + name + "\" TEVE MULTIPLOS RESULTADOS COM O MESMO NOME E EMPRESA", e);
-			crudException = addValidationError(crudException, crudExceptionMessage, "name", "manageGame.error.multipleInstancesError");
-			crudException.addValidationError("manufacturer", "manageGame.error.multipleInstancesError", null);
+			catch (PersistentObjectNotFoundException e) {
+				logger.log(Level.INFO, "VALIDAÇÃO  OK - O GAME: {0} VAI SER CADASTRADO", name);
+				return;
+			}
+			catch (MultiplePersistentObjectsFoundException e) {
+				logger.log(Level.INFO, "CRIAÇÃO DO GAME  \"" + name + "\" TEVE MULTIPLOS RESULTADOS COM O MESMO NOME E EMPRESA");
+				crudException = addValidationError(crudException, crudExceptionMessage, "name", "manageGame.error.multipleInstancesError");
+				crudException.addValidationError("manufacturer", "manageGame.error.multipleInstancesError", null);
+			}
 		}
 		if (crudException != null) throw crudException;
 	}
 
 	
-	/*
-	 * PARA ATUALIZAR UM GAME NÃO SE PODE MODIFICAR O NOME E EMPRESA PARA UM IGUAL JA CADASTRADO
-	 * */
+	/*  PARA ATUALIZAR UM GAME NÃO SE PODE MODIFICAR O NOME E EMPRESA PARA UM IGUAL JA CADASTRADO  */
 	@Override
 	public void validateUpdate(Game entity) throws CrudException {
 		CrudException crudException = null;
@@ -80,7 +78,7 @@ public class ManageGameServiceBean extends CrudServiceBean<Game> implements Mana
 		String manufacturer = entity.getManufacturer();
 		String crudExceptionMessage = "The Game \"" + entity.getName() + " não ser atualizado, validation errors.";
 		
-		if (name != null && name.length() > 0 && manufacturer !=null && manufacturer.length()>0) 
+		if (name != null && name.length() > 0 && manufacturer !=null && manufacturer.length()>0) {
 			try {
 				Game anotherEntity = gameDAO.retrieveByNameAndManufacturer(name,manufacturer);
 				if ((anotherEntity != null) && (!anotherEntity.getId().equals(entity.getId()))) {
@@ -89,18 +87,18 @@ public class ManageGameServiceBean extends CrudServiceBean<Game> implements Mana
 					crudException.addValidationError("manufacturer", "manageGame.error.repeated", null);
 				}
 			}
-		catch (PersistentObjectNotFoundException e) {
-			logger.log(Level.INFO, "VALIDAÇÃO  OK - O GAME: {0} VAI SER CADASTRADO", name);
-			return;
-		}
-		catch (MultiplePersistentObjectsFoundException e) {
-			logger.log(Level.INFO, "ATUALIZAÇÃO DO GAME  \"" + name + "\" TEVE MULTIPLOS RESULTADOS COM O MESMO NOME E EMPRESA", e);
-			crudException = addValidationError(crudException, crudExceptionMessage, "name", "manageGame.error.multipleInstancesError");
-			crudException.addValidationError("manufacturer", "manageGame.error.multipleInstancesError", null);
+			catch (PersistentObjectNotFoundException e) {
+				logger.log(Level.INFO, "VALIDAÇÃO  OK - O GAME: {0} VAI SER CADASTRADO", name);
+				return;
+			}
+			catch (MultiplePersistentObjectsFoundException e) {
+				logger.log(Level.INFO, "ATUALIZAÇÃO DO GAME  \"" + name + "\" TEVE MULTIPLOS RESULTADOS COM O MESMO NOME E EMPRESA", e);
+				crudException = addValidationError(crudException, crudExceptionMessage, "name", "manageGame.error.multipleInstancesError");
+				crudException.addValidationError("manufacturer", "manageGame.error.multipleInstancesError", null);
+			}
 		}
 		if (crudException != null) throw crudException;
 	}
-	
 	
 
 }

@@ -9,7 +9,7 @@ body {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	color: #e0e0ba;
-	background: #12110f;
+	background: url(images/henrique.png) no-repeat;
 }
 
 a:link, a:visited { color: #ff5400; text-decoration: none; font-weight: normal;} 
@@ -105,7 +105,7 @@ img {
 }
 
 #templatemo_container{
-	width: 960px;
+	width: 940px;
 	margin: 0 auto;
 	padding: 0 10px;
 } 
@@ -152,6 +152,8 @@ img {
 	float: left;
 	width: 580px;
 	height: 50px;
+	margin-left: 180px;
+	margin-top: 5px;
 	/* background: url(images/templatemo_menu_bg.png) no-repeat; */
 }
 
@@ -353,5 +355,10 @@ img {
 	color: #b0af54;
 	text-decoration: underline;
 	font-weight: normal;
+}
+
+.ui-widget-content {
+    background: #2f2c29;
+    color: #e0e0ba;
 }
 /* end of footer */
