@@ -1,5 +1,7 @@
 package br.ufes.inf.nemo.gametime.controller;
 
+import java.util.Date;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.convert.Converter;
@@ -64,8 +66,18 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 		this.jogando = jogando;
 	}
 	
+	private Date dataInicio;
+	public Date getDataInicio() {
+		return dataInicio;
+	}
+
+	public void setDataInicio(Date dataInicio) {
+		this.dataInicio = dataInicio;
+	}
+
 	public String iniciar(){
 		jogando = true;
+		dataInicio= new Date();
 		number = 60;
 		return null;
 	}
@@ -135,6 +147,7 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 		super.prepEntity();
 	}
 
+	
 
 
 
