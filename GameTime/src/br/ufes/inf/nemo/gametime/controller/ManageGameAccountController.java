@@ -1,7 +1,5 @@
 package br.ufes.inf.nemo.gametime.controller;
 
-import java.util.List;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.convert.Converter;
@@ -9,10 +7,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.gametime.application.ManageGameAccountService;
-import br.ufes.inf.nemo.gametime.domain.Game;
 import br.ufes.inf.nemo.gametime.domain.GameAccount;
 import br.ufes.inf.nemo.gametime.persistence.GameAccountDAO;
-import br.ufes.inf.nemo.gametime.persistence.GameDAO;
 import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 import br.ufes.inf.nemo.util.ejb3.controller.PersistentObjectConverterFromId;
@@ -42,6 +38,17 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 	    bundleName = "msgsGametime";
 	   
 	}
+	
+	
+	private int number;
+	 
+    public int getNumber() {
+        return number;
+    }
+ 
+    public void increment() {
+        number++;
+    }
 	
 	
 	

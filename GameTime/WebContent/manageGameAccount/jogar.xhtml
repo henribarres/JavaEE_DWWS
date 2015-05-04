@@ -15,6 +15,12 @@
             <ui:decorate template="/resources/form.xhtml">
                 <h:form id="form">
                   
+                  	
+                  	
+                  	<h:outputText id="txt_count" value="#{manageGameAccountController.number}" />
+    				<p:poll interval="3" listener="#{manageGameAccountController.increment}" update="txt_count" />
+					
+					
 					<h:panelGroup id="contaPlayField" >
                         <ui:decorate template="/resources/formfield.xhtml">
                             <ui:param name="fieldName" value="form:contaPlay" />
