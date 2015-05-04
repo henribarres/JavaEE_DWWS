@@ -40,6 +40,10 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 	}
 	
 	
+	
+	
+	
+	
 	private int number;
 	 
     public int getNumber() {
@@ -47,16 +51,31 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
     }
  
     public void increment() {
-        number++;
+        number--;
     }
 	
 	
 	
+	private boolean jogando;
+	public boolean isJogando() {
+		return jogando;
+	}
+	public void setJogando(boolean jogando) {
+		this.jogando = jogando;
+	}
 	
+	public String iniciar(){
+		jogando = true;
+		number = 60;
+		return null;
+	}
+	public String parar(){
+		jogando = false;
+		return null;
+	}
 	private GameAccount contaplay;
 	public GameAccount getContaplay() { return contaplay; }
 	public void setContaplay(GameAccount contaplay) { this.contaplay = contaplay; }
-	
 	public String jogar(){	  
 		retrieveEntities();
 		return  getViewPath() + "jogar.xhtml?faces-redirect=" + getFacesRedirect();
@@ -65,7 +84,6 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 	
 	/* JSF Converter PARA OBJETOS  */
 	private PersistentObjectConverterFromId<GameAccount> gameAccountConverter;
-
 	/* GET PARA O CONVERTER DE  */
 	public Converter getGameAccountConverter() {
 		if (gameAccountConverter == null) {

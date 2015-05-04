@@ -16,10 +16,12 @@
                 <h:form id="form">
                   
                   	
-                  	
-                  	<h:outputText id="txt_count" value="#{manageGameAccountController.number}" />
-    				<p:poll interval="3" listener="#{manageGameAccountController.increment}" update="txt_count" />
-					
+                  	<h:panelGroup id="contadorField" rendered="#{manageGameAccountController.jogando}" >
+                  		<h:outputText value="você ainda tem : "/>   
+	                  	<h:outputText id="txt_count" value="#{manageGameAccountController.number}" />
+	                  	<h:outputText value="  minutos  ">  </h:outputText>
+	    				<p:poll interval="60" listener="#{manageGameAccountController.increment}" update="txt_count" />
+					</h:panelGroup>
 					
 					<h:panelGroup id="contaPlayField" >
                         <ui:decorate template="/resources/formfield.xhtml">
@@ -33,6 +35,7 @@
                     
                     <ui:decorate template="/resources/formbutton.xhtml">
                     	<p:commandButton action="#{manageGameAccountController.iniciar}" value="#{msgsGametime['manageGameAccount.jogar.button.play']}"  update=":form :globalMessages" />
+                    	<p:commandButton action="#{manageGameAccountController.parar}" value="#{msgsGametime['manageGameAccount.jogar.button.parar']}"  update=":form :globalMessages" />
                     </ui:decorate>
                  
                 </h:form>
