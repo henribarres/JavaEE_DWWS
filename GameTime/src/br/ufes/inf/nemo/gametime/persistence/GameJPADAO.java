@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.gametime.persistence;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +39,19 @@ public class GameJPADAO extends BaseJPADAO<Game> implements GameDAO{
 	}
 
 	
+	@Override
+	public List<Game> findByName(String name) {
+		
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Game> cq = cb.createQuery(Game.class);
+		Root<Game> root = cq.from(Game.class);
+
+		cq.where(cb.like(cb.lower(root.get(Game_.name)), name.toLowerCase() + "%"));
+		cq.orderBy(cb.asc(root.get(Game_.name)));
+
+		List<Game> result = entityManager.createQuery(cq).getResultList();
+		return result;
+	}
 	
 	/* 
 	 * FUNCAO PARA RETORNAR GAME COM NOME E EMPRESA EXASTOS

@@ -11,22 +11,31 @@ public class GameAccount extends  PersistentObjectSupport implements Comparable<
 
 	private static final long serialVersionUID = 1L;
 	
+	/* NOME DA CONTA */
 	@NotNull
 	private String name;
 	
+	/* LOGIN DA CONTA UTILIZADO PARA ACESSAR O GAME ONLINE*/
 	@NotNull
 	private String login;
 	
+	/* SENHA DO LOGIN */
 	@NotNull
-	private String senha;
+	private String password;
 	
+	/* GRUPO QUE COMPARTILHA A CONTA  */
 	@ManyToOne @NotNull
 	private GroupGame groupGame;
 	
+	
+	/* USUARIO  PROPRIETARIO DA CONTA */
+	@ManyToOne @NotNull
+	private User userOwner;
+	
+	
+	
 	@Override
-	public int compareTo(GameAccount o) {
-		return name.compareToIgnoreCase(o.name);
-	}
+	public int compareTo(GameAccount o) { return super.compareTo(o); }
 	
 	
 	/*  GETS AND SETS*/
@@ -40,9 +49,12 @@ public class GameAccount extends  PersistentObjectSupport implements Comparable<
 	public String getLogin() { return login; }
 	public void setLogin(String login) { this.login = login; }
 
-	public String getSenha() { 	return senha; }
-	public void setSenha(String senha) { this.senha = senha; }
-	
-	
+
+	public String getPassword() {	return password; }
+	public void setPassword(String password) {  this.password = password; }
+
+
+	public User getUserOwner() { return userOwner; 	}
+	public void setUserOwner(User userOwner) { this.userOwner = userOwner;	}
 
 }

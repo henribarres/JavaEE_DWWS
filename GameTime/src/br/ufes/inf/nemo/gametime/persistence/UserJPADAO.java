@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.gametime.persistence;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,9 +36,23 @@ public class UserJPADAO extends BaseJPADAO<User> implements UserDAO{
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
+	
+	@Override
+	public List<User> findByEmailList(String email) {
+		
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<User> cq = cb.createQuery(User.class);
+		Root<User> root = cq.from(User.class);
+
+		cq.where(cb.like(cb.lower(root.get(User_.email)), email.toLowerCase() + "%"));
+		cq.orderBy(cb.asc(root.get(User_.email)));
+
+		List<User> result = entityManager.createQuery(cq).getResultList();
+		return result;
+	}
 
 	@Override
-	public User retrieveByUsername(String email) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException{
+	public User retrieveByEmail(String email) throws PersistentObjectNotFoundException, MultiplePersistentObjectsFoundException{
 		logger.log(Level.INFO, "RETORNANDO O USURIO COM USERNAME = \"{0}\". ",email);
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<User> cq = cb.createQuery(User.class);
