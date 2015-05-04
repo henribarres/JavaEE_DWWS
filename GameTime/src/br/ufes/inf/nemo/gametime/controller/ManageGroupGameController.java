@@ -82,6 +82,11 @@ public class ManageGroupGameController extends CrudController<GroupGame>{
 	
 	
 	
+	
+	
+	
+	
+	
 
 	
 	

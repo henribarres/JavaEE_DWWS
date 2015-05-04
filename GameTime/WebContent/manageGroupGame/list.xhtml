@@ -59,8 +59,10 @@
                     <p:commandButton action="#{manageGroupGameController.create}" value="#{msgsGametime['crud.button.create']}" icon="buttonNew" update=":globalMessages"/>
                     <p:commandButton action="#{manageGroupGameController.trash}" value="#{msgsGametime['crud.button.delete']}" icon="buttonTrash" disabled="#{manageGroupGameController.selectedEntity.adminUser != sessionController.authenticatedUser}" process="@this" update=":trashForm :globalMessages" />
                     
-                    <p:commandButton action="#{manageGroupGameController.addUser}" value="add user"  disabled="#{manageGroupGameController.selectedEntity.adminUser != sessionController.authenticatedUser}" process="@this" update=":globalMessages" />
-                    <p:commandButton action="#{manageGameAccountController.list}" value="ADD / RM CONTA"  disabled="#{(manageGroupGameController.selectedEntity.adminUser != sessionController.authenticatedUser) or manageGroupGameController.selectedEntity == null }" process="@this"/>
+                    <p:commandButton action="#{manageGroupGameController.addUser}" value="#{msgsGametime['manageGroupGame.button.addUser']}"  disabled="#{manageGroupGameController.selectedEntity.adminUser != sessionController.authenticatedUser}" process="@this" update=":globalMessages" />
+                    <p:commandButton action="#{manageGameAccountController.list}" value="#{msgsGametime['manageGroupGame.button.addConta']}"  disabled="#{(manageGroupGameController.selectedEntity.adminUser != sessionController.authenticatedUser) or manageGroupGameController.selectedEntity == null }" process="@this"/>
+                	<p:commandButton action="#{manageGameAccountController.jogar}" value="#{msgsGametime['manageGroupGame.button.play']}"  disabled="#{(manageGroupGameController.selectedEntity == null)}" process="@this" update=":globalMessages" />
+                    
                 </div>
             </h:form>
             

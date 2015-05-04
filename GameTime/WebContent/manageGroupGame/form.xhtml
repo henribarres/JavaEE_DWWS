@@ -131,9 +131,9 @@
                         <h:panelGroup rendered="#{! manageGroupGameController.readOnly}">
                             <p:commandButton action="#{manageGroupGameController.save}" value="#{msgsGametime['crud.button.save']}" icon="buttonOk" update=":form :globalMessages" />
                         </h:panelGroup>
-                        <h:panelGroup rendered="#{manageGroupGameController.addUser}">
-                            <p:commandButton action="#{manageGroupGameController.addUserInGroup}" value="add user" icon="buttonOk" update=":form :globalMessages"  />
-                       		<p:commandButton action="#{manageGroupGameController.removeUserInGroup}" value="remover user" icon="buttonOk" update=":form :globalMessages"  />
+                        <h:panelGroup rendered="#{manageGroupGameController.addUser and manageGroupGameController.readOnly}">
+                            <p:commandButton action="#{manageGroupGameController.addUserInGroup}" value="#{msgsGametime['manageGroupGame.form.button.addUser']}" icon="buttonOk" update=":form :globalMessages"  />
+                       		<p:commandButton action="#{manageGroupGameController.removeUserInGroup}" value="#{msgsGametime['manageGroupGame.form.button.rmUser']}" icon="buttonOk" update=":form :globalMessages"  />
                         </h:panelGroup>
                     </ui:decorate>
                     
