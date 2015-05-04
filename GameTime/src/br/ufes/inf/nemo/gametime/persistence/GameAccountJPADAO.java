@@ -61,7 +61,7 @@ public class GameAccountJPADAO extends BaseJPADAO<GameAccount> implements GameAc
 		Join<GameAccount, GroupGame> join = root.join(GameAccount_.groupGame);
 	
 		cq.where(	cb.equal(root.get(GameAccount_.login), entity.getLogin()),
-					cb.equal(root.get(GameAccount_.password), entity.getPassword()),
+					//cb.equal(root.get(GameAccount_.password), entity.getPassword()),
 					cb.equal( join.get(GroupGame_.game),entity.getGroupGame().getGame() )
 				);
 		

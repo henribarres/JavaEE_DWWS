@@ -1,15 +1,21 @@
 package br.ufes.inf.nemo.gametime.controller;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.convert.Converter;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.gametime.application.ManageGameAccountService;
+import br.ufes.inf.nemo.gametime.domain.Game;
 import br.ufes.inf.nemo.gametime.domain.GameAccount;
 import br.ufes.inf.nemo.gametime.persistence.GameAccountDAO;
+import br.ufes.inf.nemo.gametime.persistence.GameDAO;
 import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
+import br.ufes.inf.nemo.util.ejb3.controller.PersistentObjectConverterFromId;
 
 
 @Named
@@ -34,7 +40,36 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 	public ManageGameAccountController() {
 	    viewPath = "/manageGameAccount/";
 	    bundleName = "msgsGametime";
+	   
 	}
+	
+	
+	
+	
+	private GameAccount contaplay;
+	public GameAccount getContaplay() { return contaplay; }
+	public void setContaplay(GameAccount contaplay) { this.contaplay = contaplay; }
+	
+	public String jogar(){	  
+		retrieveEntities();
+		return  getViewPath() + "jogar.xhtml?faces-redirect=" + getFacesRedirect();
+	}
+	
+	
+	/* JSF Converter PARA OBJETOS  */
+	private PersistentObjectConverterFromId<GameAccount> gameAccountConverter;
+
+	/* GET PARA O CONVERTER DE  */
+	public Converter getGameAccountConverter() {
+		if (gameAccountConverter == null) {
+			gameAccountConverter = new PersistentObjectConverterFromId<GameAccount>(getCrudService().getDAO());
+		}
+		return gameAccountConverter;
+	}
+	
+	
+	
+	
 	
 	/* METODO OBRIGATORIO */
 	@Override
@@ -74,5 +109,9 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 		selectedEntity.setUserOwner(sessionController.getAuthenticatedUser());
 		super.prepEntity();
 	}
+
+
+
+
 	
 }
