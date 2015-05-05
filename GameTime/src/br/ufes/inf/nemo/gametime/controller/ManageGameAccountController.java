@@ -1,7 +1,9 @@
 package br.ufes.inf.nemo.gametime.controller;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.convert.Converter;
@@ -10,7 +12,9 @@ import javax.inject.Named;
 
 import br.ufes.inf.nemo.gametime.application.ManageGameAccountService;
 import br.ufes.inf.nemo.gametime.domain.GameAccount;
+import br.ufes.inf.nemo.gametime.domain.GameAccountHistoric;
 import br.ufes.inf.nemo.gametime.persistence.GameAccountDAO;
+import br.ufes.inf.nemo.gametime.persistence.GameAccountHistoricDAO;
 import br.ufes.inf.nemo.util.ejb3.application.CrudService;
 import br.ufes.inf.nemo.util.ejb3.controller.CrudController;
 import br.ufes.inf.nemo.util.ejb3.controller.PersistentObjectConverterFromId;
@@ -34,6 +38,7 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 	private ManageGroupGameController manageGroupGameController;
 	
 	
+	
 	/*   CONSTRUTOR  DA CLASSE */
 	public ManageGameAccountController() {
 	    viewPath = "/manageGameAccount/";
@@ -44,16 +49,22 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 	
 	
 	
-	
-	
-	private int number;
-	 
+	private int number;	 
     public int getNumber() {
         return number;
     }
- 
-    public void increment() {
-        number--;
+    public String increment() {
+    	Date now = new Date();
+    	
+    	long d2 = now.getTime();  
+        long d1 = historic.getStartDate().getTime(); 
+    	
+        number = 60 - (((int)(d2 - d1))/60000) ; 
+        
+        if(number<=0){
+        	return parar();
+        }
+        return null;
     }
 	
 	
@@ -66,32 +77,68 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 		this.jogando = jogando;
 	}
 	
-	private Date dataInicio;
-	public Date getDataInicio() {
-		return dataInicio;
+	
+	
+	@EJB 
+	private GameAccountHistoricDAO historicDAO;
+	private GameAccountHistoric historic;
+	public GameAccountHistoric getHistoric() {
+		return historic;
 	}
-
-	public void setDataInicio(Date dataInicio) {
-		this.dataInicio = dataInicio;
+	public void setHistoric(GameAccountHistoric historic) {
+		this.historic = historic;
 	}
+	
+	
+	
+	@PreDestroy
+	public void finsh(){
+		if(historic!=null){
+			historic.setEndDate(new Date());
+			historicDAO.save(historic);
+		}
+	}
+	
 
 	public String iniciar(){
+		historic = new GameAccountHistoric();
+		historic.setStartDate(new Date());
+		historic.setUser(sessionController.getAuthenticatedUser());
+		historic.setGameAccount(contaplay);
+		historicDAO.save(historic);
 		jogando = true;
-		dataInicio= new Date();
-		number = 60;
+		increment();
 		return null;
 	}
+	
+	
 	public String parar(){
+		historic.setEndDate(new Date());
+		historicDAO.save(historic);
 		jogando = false;
-		return null;
+		return manageGroupGameController.list();
 	}
+	
+	
+	
+	public String jogar(){	  
+		retrieveEntities();
+		List<GameAccount> playing =((GameAccountDAO) manageGameAccountService.getDAO()).retrieveByPlaying(manageGroupGameController.getSelectedEntity());
+		entities.removeAll(playing);
+		return  getViewPath() + "jogar.xhtml?faces-redirect=" + getFacesRedirect();
+	}
+	
+	
+	
+	/* CONTA A SER USADA PARA J0GAR */
 	private GameAccount contaplay;
 	public GameAccount getContaplay() { return contaplay; }
 	public void setContaplay(GameAccount contaplay) { this.contaplay = contaplay; }
-	public String jogar(){	  
-		retrieveEntities();
-		return  getViewPath() + "jogar.xhtml?faces-redirect=" + getFacesRedirect();
-	}
+	
+	
+	
+	
+	
 	
 	
 	/* JSF Converter PARA OBJETOS  */
@@ -105,12 +152,9 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 	}
 	
 	
-	
-	
-	
 	/* METODO OBRIGATORIO */
 	@Override
-	protected CrudService<GameAccount> getCrudService() {
+	public CrudService<GameAccount> getCrudService() {
 		return manageGameAccountService;
 	}
 
@@ -146,10 +190,5 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 		selectedEntity.setUserOwner(sessionController.getAuthenticatedUser());
 		super.prepEntity();
 	}
-
-	
-
-
-
 	
 }

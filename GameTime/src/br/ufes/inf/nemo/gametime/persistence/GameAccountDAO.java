@@ -15,5 +15,7 @@ public interface GameAccountDAO extends BaseDAO<GameAccount>{
 	List<GameAccount> findByGroup(GroupGame group);
 
 	List<GameAccount> retrieveByGameAccount(GameAccount entity)throws PersistentObjectNotFoundException;
+	
+	List<GameAccount> retrieveByPlaying(GroupGame grou);
 
 }

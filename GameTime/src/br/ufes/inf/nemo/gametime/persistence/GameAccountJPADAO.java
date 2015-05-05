@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.gametime.persistence;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -9,7 +10,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
+
 import br.ufes.inf.nemo.gametime.domain.GameAccount;
+import br.ufes.inf.nemo.gametime.domain.GameAccountHistoric;
+import br.ufes.inf.nemo.gametime.domain.GameAccountHistoric_;
 import br.ufes.inf.nemo.gametime.domain.GameAccount_;
 import br.ufes.inf.nemo.gametime.domain.GroupGame;
 import br.ufes.inf.nemo.gametime.domain.GroupGame_;
@@ -69,6 +73,32 @@ public class GameAccountJPADAO extends BaseJPADAO<GameAccount> implements GameAc
 	
 		return result;
 	}
+	
+	
+	
+	@Override
+	public List<GameAccount> retrieveByPlaying(GroupGame group) {
+		
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<GameAccount> cq = cb.createQuery(GameAccount.class);
+		Root<GameAccountHistoric> root = cq.from(GameAccountHistoric.class);
+		Join<GameAccountHistoric,GameAccount> join = root.join(GameAccountHistoric_.gameAccount);
+	
+		Calendar teste =  Calendar.getInstance();
+		teste.set(11, teste.get(11)-1);
+		
+		cq.select(join);
+		cq.where(	
+				cb.equal(join.get(GameAccount_.groupGame), group) ,
+				cb.isNull(root.get(GameAccountHistoric_.endDate)),
+				cb.greaterThanOrEqualTo(root.get(GameAccountHistoric_.startDate), teste.getTime())
+			);
+		
+		List<GameAccount> result =   entityManager.createQuery(cq).getResultList();
+		return result;
+		
+	}
+	
 	
 
 }

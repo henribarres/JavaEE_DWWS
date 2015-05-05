@@ -27,18 +27,28 @@
                    		</ui:decorate>
                     </h:panelGroup>
                     
+                    
+                    
+                    
+                    
+                    
                     <h:panelGroup id="contadorField" rendered="#{manageGameAccountController.jogando}" >
                   		<h:outputText value="você ainda tem : "/>   
 	                  	<h:outputText id="txt_count" value="#{manageGameAccountController.number}" />
 	                  	<h:outputText value="  minutos  ">  </h:outputText>
-	    				<p:poll interval="60" listener="#{manageGameAccountController.increment}" update="txt_count" />
-	    				<h:outputText value="#{manageGameAccountController.dataInicio}"><f:convertDateTime pattern="dd/MM/yyyy  HH:mm:ss"/>  </h:outputText>
+	    				<p:poll interval="60" stop="#{not manageGameAccountController.jogando}" listener="#{manageGameAccountController.increment}" update="form" />
+	    				<br/>
+	    				<h:outputText value="inicio do jogo : "/>
+	    				<h:outputText value="#{manageGameAccountController.historic.startDate}"><f:convertDateTime pattern="dd/MM/yyyy  HH:mm:ss"/>  </h:outputText>
 					</h:panelGroup>
                     
                     
+                    
+                    
                     <ui:decorate template="/resources/formbutton.xhtml">
-                    	<p:commandButton action="#{manageGameAccountController.iniciar}" value="#{msgsGametime['manageGameAccount.jogar.button.play']}"  update=":form :globalMessages" />
-                    	<p:commandButton action="#{manageGameAccountController.parar}" value="#{msgsGametime['manageGameAccount.jogar.button.parar']}"  update=":form :globalMessages" />
+                    	<p:commandButton action="#{manageGroupGameController.list}" value="#{msgsGametime['crud.button.back']}" rendered="#{not manageGameAccountController.jogando}" />
+                    	<p:commandButton action="#{manageGameAccountController.iniciar}" value="#{msgsGametime['manageGameAccount.jogar.button.play']}" rendered="#{not manageGameAccountController.jogando}" update=":form :globalMessages" />
+                    	<p:commandButton action="#{manageGameAccountController.parar}" value="#{msgsGametime['manageGameAccount.jogar.button.parar']}" rendered="#{ manageGameAccountController.jogando}" update=":form :globalMessages" />
                     </ui:decorate>
                  
                 </h:form>

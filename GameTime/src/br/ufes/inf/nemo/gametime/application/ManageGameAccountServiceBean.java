@@ -1,7 +1,6 @@
 package br.ufes.inf.nemo.gametime.application;
 
 import java.util.List;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -24,7 +23,6 @@ public class ManageGameAccountServiceBean extends CrudServiceBean<GameAccount> i
 	private GameAccountDAO gameAccountDAO;
 	
 	
-	
 	/* METODO OBRIGATORIO*/
 	@Override
 	public BaseDAO<GameAccount> getDAO() {
@@ -37,7 +35,6 @@ public class ManageGameAccountServiceBean extends CrudServiceBean<GameAccount> i
 		return new GameAccount();
 	}
 
-	
 	@Override
 	public void validateCreate(GameAccount entity) throws CrudException {
 		CrudException crudException = null;
@@ -56,6 +53,17 @@ public class ManageGameAccountServiceBean extends CrudServiceBean<GameAccount> i
 		}
 		if (crudException != null) throw crudException;
 	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
 
