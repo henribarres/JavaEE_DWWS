@@ -10,5 +10,5 @@ import br.ufes.inf.nemo.gametime.domain.User;
 @Local
 public interface RegistrationService extends Serializable{
 
-	public void register(User user);
+	public void register(User user) throws Exception;
 }

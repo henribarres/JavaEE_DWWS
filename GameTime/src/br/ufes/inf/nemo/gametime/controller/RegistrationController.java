@@ -39,9 +39,14 @@ public class RegistrationController extends JSFController{
 	public String register(){
 		logger.log(Level.INFO, "USUARIO COM NOME \"{0}\" SE CADASTRANDO ", user.getName());
 		user.setAdmin(false);
-		registrationService.register(user);
-		return  "/index.xhtml?faces-redirect=true" ;
+		try {
+			registrationService.register(user);
+		} catch (Exception e) {
+			return  "/registration/error.xhtml" ;
+		}
+		return  "/registration/success.xhtml?faces-redirect=true" ;
 	}
+	
 	
 	public String begin(){
 		user = new User();
