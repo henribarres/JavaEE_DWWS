@@ -68,6 +68,8 @@ public class GameJPADAO extends BaseJPADAO<Game> implements GameDAO{
 		Game result = executeSingleResultQuery(cq, name , manufacturer);
 		logger.log(Level.INFO, "BUSCA COM SUCESSO DO GAME COM NOME E EMPRESA =  \"{0}\" ", name + " - " + manufacturer);
 		return result;
+		
+		
 	}
 
 }

@@ -2,7 +2,6 @@ package br.ufes.inf.nemo.gametime.controller;
 
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
 
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
@@ -194,10 +193,11 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 	}
 	
 	
+	
 	@Override
-	public String create() {
-		if(sessionController.isLoggedIn() &&  selectedEntity.getUserOwner().equals(sessionController.getAuthenticatedUser())){
-			return super.create();
+	public String save() {
+		if(sessionController.isLoggedIn() && manageGroupGameController.getSelectedEntity().getAdminUser().equals(sessionController.getAuthenticatedUser())){
+			return super.save();
 		}
 		else{
 			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.retrieve", summarizeSelectedEntity());
@@ -205,9 +205,10 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 		}
 	}
 	
+	
 	@Override
 	public String update() {
-		if(sessionController.isLoggedIn() &&  selectedEntity.getUserOwner().equals(sessionController.getAuthenticatedUser())){
+		if(sessionController.isLoggedIn() &&  manageGroupGameController.getSelectedEntity().getAdminUser().equals(sessionController.getAuthenticatedUser())){
 			return super.update();
 		}
 		else{
@@ -218,7 +219,7 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 	
 	@Override
 	public String delete() {
-		if(sessionController.isLoggedIn() &&  selectedEntity.getUserOwner().equals(sessionController.getAuthenticatedUser())){
+		if(sessionController.isLoggedIn() &&  manageGroupGameController.getSelectedEntity().getAdminUser().equals(sessionController.getAuthenticatedUser())){
 			return super.delete();
 		}
 		else{
@@ -228,18 +229,6 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 		
 	}
 	
-	@Override
-	public String retrieve() {
-		if(sessionController.isLoggedIn() &&  selectedEntity.getUserOwner().equals(sessionController.getAuthenticatedUser())){
-			return super.retrieve();
-		}
-		else{
-			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.retrieve", summarizeSelectedEntity());
-			return null;
-		}
-	}
-	
-
 	
 	
 	

@@ -32,7 +32,7 @@ public class ManageFriendInvitationController extends JSFController {
 
 	public String register(){
 		InviteService.register(invite);
-		return  "/index.xhtml?faces-redirect=true" ;
+		return  "/manageFriendInvitation/success.xhtml?faces-redirect=true" ;
 	}
 	
 	public String begin(){

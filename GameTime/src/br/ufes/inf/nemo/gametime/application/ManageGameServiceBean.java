@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-
 import br.ufes.inf.nemo.gametime.domain.Game;
 import br.ufes.inf.nemo.gametime.persistence.GameDAO;
 import br.ufes.inf.nemo.util.ejb3.application.CrudException;
@@ -65,6 +64,7 @@ public class ManageGameServiceBean extends CrudServiceBean<Game> implements Mana
 				crudException = addValidationError(crudException, crudExceptionMessage, "name", "manageGame.error.multipleInstancesError");
 				crudException.addValidationError("manufacturer", "manageGame.error.multipleInstancesError", null);
 			}
+			
 		}
 		if (crudException != null) throw crudException;
 	}
