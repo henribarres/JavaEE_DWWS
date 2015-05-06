@@ -21,7 +21,7 @@
 							<ui:param name="fieldName" value="form:email" />
 							<ui:param name="tooltip" value="#{msgsCore['manageFriendInvitation.form.email.tooltip']}" />
 							<ui:define name="label"><h:outputText value="#{msgsGametime['manageFriendInvitation.form.email']}" /></ui:define>
-							<p:inputText id="email" value="#{ManageFriendInvitationController.invite.email}" size="40" required="true" validatorMessage="#{msgsGametime['manageFriendInvitation.regex.email.message']}">
+							<p:inputText id="email" value="#{manageFriendInvitationController.invite.email}" size="40" required="true" validatorMessage="#{msgsGametime['manageFriendInvitation.regex.email.message']}">
 								<f:validateRegex pattern="#{msgsGametime['registration.regex.email']}" />
 								<p:ajax event="blur" update="emailField" />
 							</p:inputText>
@@ -29,7 +29,7 @@
 					</h:panelGroup>
 					
                     <ui:decorate template="/resources/formbutton.xhtml">
-                            <p:commandButton action="#{ManageFriendInvitationController.register}" value="#{msgsGametime['manageFriendInvitation.form.button']}" update=":form :globalMessages"/>
+                            <p:commandButton action="#{manageFriendInvitationController.register}" value="#{msgsGametime['manageFriendInvitation.form.button']}" update=":form :globalMessages"/>
                     </ui:decorate>
                     
 			</h:form>

@@ -2,10 +2,12 @@ package br.ufes.inf.nemo.gametime.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.convert.Converter;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -190,5 +192,57 @@ public class ManageGameAccountController extends CrudController<GameAccount>{
 		selectedEntity.setUserOwner(sessionController.getAuthenticatedUser());
 		super.prepEntity();
 	}
+	
+	
+	@Override
+	public String create() {
+		if(sessionController.isLoggedIn() &&  selectedEntity.getUserOwner().equals(sessionController.getAuthenticatedUser())){
+			return super.create();
+		}
+		else{
+			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.retrieve", summarizeSelectedEntity());
+			return null;
+		}
+	}
+	
+	@Override
+	public String update() {
+		if(sessionController.isLoggedIn() &&  selectedEntity.getUserOwner().equals(sessionController.getAuthenticatedUser())){
+			return super.update();
+		}
+		else{
+			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.retrieve", summarizeSelectedEntity());
+			return null;
+		}
+	}
+	
+	@Override
+	public String delete() {
+		if(sessionController.isLoggedIn() &&  selectedEntity.getUserOwner().equals(sessionController.getAuthenticatedUser())){
+			return super.delete();
+		}
+		else{
+			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.retrieve", summarizeSelectedEntity());
+			return null;
+		}
+		
+	}
+	
+	@Override
+	public String retrieve() {
+		if(sessionController.isLoggedIn() &&  selectedEntity.getUserOwner().equals(sessionController.getAuthenticatedUser())){
+			return super.retrieve();
+		}
+		else{
+			addGlobalI18nMessage(getBundleName(), FacesMessage.SEVERITY_INFO, getBundlePrefix() + ".forbiden.retrieve", summarizeSelectedEntity());
+			return null;
+		}
+	}
+	
+
+	
+	
+	
+	
 	
 }
