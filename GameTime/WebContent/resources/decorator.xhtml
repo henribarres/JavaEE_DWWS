@@ -41,7 +41,9 @@
 	                
 	                <li> <p:commandLink action="#{manageGroupGameController.list}" rendered="#{sessionController.loggedIn}" value="#{msgsGametime['title.groupGame']}"/> </li>
 	                <li> <p:commandLink action="#{sessionController.logout}" rendered="#{sessionController.loggedIn}" value="#{msgsGametime['title.logout']}"/> </li>
-	          	           	
+	                
+	               	<li> <p:commandLink action="#{ManageFriendInvitationController.begin}" rendered="#{sessionController.loggedIn}" value="#{msgsGametime['title.logout']}"/> </li>
+	                	          	           	
 	        
 	            </ul> 
 	        </div>    
