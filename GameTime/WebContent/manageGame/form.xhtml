@@ -36,10 +36,12 @@
                             <ui:param name="tooltip" value="#{msgsGametime['manageGame.form.name.tooltip']}" />
                             <ui:define name="label"><h:outputText value="#{msgsGametime['manageGame.form.name']}" /></ui:define>
                             <p:inputText id="name" value="#{manageGameController.selectedEntity.name}" size="50" required="true" disabled="#{manageGameController.readOnly}">
-                                <p:ajax event="blur" update="nameField" />
+                                <p:ajax event="blur" update=":form" listener="#{manageGameController.dbpedia}" />
                             </p:inputText>
                         </ui:decorate>
                     </h:panelGroup>
+
+
 
 					<h:panelGroup id="manufacturerField">
                         <ui:decorate template="/resources/formfield.xhtml">
@@ -79,7 +81,25 @@
                     
                     
                     
-
+                    <h:panelGroup id="uriField">
+                        <h:outputText value="Site : ">
+                        </h:outputText>
+                        <p:link href="#{manageGameController.selectedEntity.uri}"><h:outputText value="#{manageGameController.selectedEntity.uri}">
+                        </h:outputText> </p:link>
+                    </h:panelGroup>
+                    
+                    
+                    
+						<h:panelGroup id="funcionarioField">
+							<ui:decorate template="/resources/formfield.xhtml">
+								<ui:param name="fieldName" value="form:funcionario" />
+								<ui:define name="label"><h:outputText value="teste" /></ui:define>
+								<p:selectOneMenu id="funcionario" value="#{manageGameController.game}" converter="#{manageGroupGameController.gameConverter}"  >
+									<f:selectItems value="#{manageGameController.lista}" var="func" itemLabel="#{func.name}" itemValue="#{func}" />
+									<p:ajax update="funcionarioField" />
+								</p:selectOneMenu>
+							</ui:decorate>
+						</h:panelGroup>
 
 
 

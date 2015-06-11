@@ -1,5 +1,7 @@
 package br.ufes.inf.nemo.gametime.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,6 +10,24 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import com.hp.hpl.jena.datatypes.RDFDatatype;
+import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.rdf.model.AnonId;
+import com.hp.hpl.jena.rdf.model.Literal;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.RDFVisitor;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.rdf.model.StmtIterator;
 
 import br.ufes.inf.nemo.gametime.application.ManageGameService;
 import br.ufes.inf.nemo.gametime.domain.Game;
@@ -36,6 +56,126 @@ public class ManageGameController extends CrudController<Game>{
 	/* CONTROLLER PARA VERIFICAR SE O USUARIO ESTA LOGADO */
 	@Inject
 	private SessionController sessionController;
+	
+	
+	
+	
+	
+	
+	
+	private Game game;
+	
+	private List<Game> lista = new ArrayList<Game>();
+	public List<Game> getLista() {
+		return lista;
+	}
+	public void setLista(List<Game> lista) {
+		this.lista = lista;
+	}
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
+	
+	
+	
+	
+	
+	public void dbpedia() {
+		
+		lista = new ArrayList<Game>();
+
+		String format1 = " select ?node ?name ?genre ?fabricante ?homepage ?requisito "
+				+ "where { "
+				+ "		?node <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/VideoGame> ; "
+				+ " 	<http://xmlns.com/foaf/0.1/name> ?name ;"
+				+ "		<http://dbpedia.org/ontology/developer> ?fabricante ;"
+				+ "		<http://dbpedia.org/ontology/computingPlatform> ?requisito ;"
+				+ "		<http://dbpedia.org/ontology/genre> ?genre ."
+				+ "		filter regex(?name , \"%s\") "
+				+ ""
+				+ "		OPTIONAL { ?node <http://xmlns.com/foaf/0.1/homepage> ?homepage . }"
+				+ "}"
+				+ "limit 10";
+		
+		String format = String.format(format1, selectedEntity.getName());
+		
+		System.out.println(format);
+
+		Query query = QueryFactory.create(format);
+
+		QueryExecution qexec = QueryExecutionFactory.sparqlService(
+				"http://dbpedia.org/sparql", query);
+
+		
+		RDFNode qRes;
+		String qName;
+		String qOfficial;
+		String qComment;
+		String qArea;
+		String qPopulation;
+		String qThumb;
+		
+		
+		try {
+			ResultSet rs = qexec.execSelect();
+			
+			Game game ;
+			
+			for ( ; rs.hasNext() ; ) {
+				
+				game = new Game();
+				
+				QuerySolution querySolution = rs.nextSolution();
+			    
+				RDFNode rdfNode = querySolution.get("?node");
+			    
+				game.setName(querySolution.getLiteral("?name").getString());
+				
+				selectedEntity.setGenero(querySolution.getResource("?genre").getLocalName()); //getProperty(new Property()).getString() {
+					
+				selectedEntity.setManufacturer(querySolution.getResource("?fabricante").getLocalName());
+				
+				selectedEntity.setUri(querySolution.getResource("?homepage").getURI());
+				
+				selectedEntity.setRequisitos_minimos(querySolution.getResource("?requisito").getLocalName());
+				
+				
+				lista.add(game);
+			    
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+
+			qexec.close();
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -151,4 +291,42 @@ public class ManageGameController extends CrudController<Game>{
 		}
 		return "/error-permissao.xhtml?faces-redirect=" + getFacesRedirect();
 	}
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

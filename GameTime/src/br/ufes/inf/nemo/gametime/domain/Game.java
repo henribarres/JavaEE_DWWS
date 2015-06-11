@@ -25,6 +25,8 @@ public class Game extends  PersistentObjectSupport implements Comparable<Game>{
 	private String requisitos_minimos;
 
 	
+	private String uri;
+	
 	
 	
 	
@@ -46,6 +48,18 @@ public class Game extends  PersistentObjectSupport implements Comparable<Game>{
 
 	public String getRequisitos_minimos() { return requisitos_minimos; }
 	public void setRequisitos_minimos(String requisitos) { this.requisitos_minimos = requisitos; }
+
+
+
+	public String getUri() {
+		return uri;
+	}
+
+
+
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
 	
 
 }
