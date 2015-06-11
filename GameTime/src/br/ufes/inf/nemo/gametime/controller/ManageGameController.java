@@ -22,12 +22,15 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.AnonId;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.RDFVisitor;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.vocabulary.RDFS;
+import com.hp.hpl.jena.vocabulary.VCARD;
 
 import br.ufes.inf.nemo.gametime.application.ManageGameService;
 import br.ufes.inf.nemo.gametime.domain.Game;
@@ -121,6 +124,15 @@ public class ManageGameController extends CrudController<Game>{
 		String qThumb;
 		
 		
+		// create an empty model
+		 Model model = ModelFactory.createDefaultModel();
+
+		 // use the FileManager to find the input file
+		
+
+		// write it to standard out
+		
+		
 		try {
 			ResultSet rs = qexec.execSelect();
 			
@@ -133,6 +145,14 @@ public class ManageGameController extends CrudController<Game>{
 				QuerySolution querySolution = rs.nextSolution();
 			    
 				RDFNode rdfNode = querySolution.get("?node");
+			    //model.read(rdfNode.toString());
+			    //model.write(System.out);
+			    
+			    RDFNode teste = querySolution.getResource("?genre");
+			    model.read(teste.toString());
+			    model.write(System.out);
+			    /*System.out.println(model.getResource("label")
+			    		getProperty(querySolution.getResource("?genre"),RDFS.label));*/
 			    
 				String name = querySolution.getLiteral("?name").getString();
 				game.setName(name);
@@ -140,7 +160,10 @@ public class ManageGameController extends CrudController<Game>{
 				
 				lista.add(game);
 				
-				selectedEntity.setGenero(querySolution.getResource("?genre").getLocalName()); //getProperty(new Property()).getString() {
+				//System.out.println(querySolution.get("?genre").get);
+				
+				selectedEntity.setGenero(querySolution.getResource("?genre").getProperty(RDFS.label).getString());
+						//.getLocalName()); //getProperty(new Property()).getString() {
 					
 				selectedEntity.setManufacturer(querySolution.getResource("?fabricante").getLocalName());
 				
