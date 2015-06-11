@@ -136,16 +136,25 @@ public class ManageGameController extends CrudController<Game>{
 			    
 				game.setName(querySolution.getLiteral("?name").getString());
 				
+				lista.add(game);
+				
 				selectedEntity.setGenero(querySolution.getResource("?genre").getLocalName()); //getProperty(new Property()).getString() {
 					
 				selectedEntity.setManufacturer(querySolution.getResource("?fabricante").getLocalName());
 				
-				selectedEntity.setUri(querySolution.getResource("?homepage").getURI());
-				
 				selectedEntity.setRequisitos_minimos(querySolution.getResource("?requisito").getLocalName());
 				
+				try{
+					selectedEntity.setUri(querySolution.getResource("?homepage").getURI());
+				}
+				catch(Exception e){
+					
+				}
 				
-				lista.add(game);
+				
+				
+				
+				
 			    
 			}
 			
