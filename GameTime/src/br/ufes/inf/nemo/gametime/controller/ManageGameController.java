@@ -134,7 +134,9 @@ public class ManageGameController extends CrudController<Game>{
 			    
 				RDFNode rdfNode = querySolution.get("?node");
 			    
-				game.setName(querySolution.getLiteral("?name").getString());
+				String name = querySolution.getLiteral("?name").getString();
+				game.setName(name);
+				selectedEntity.setName(name);
 				
 				lista.add(game);
 				
