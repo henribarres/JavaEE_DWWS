@@ -48,6 +48,7 @@
 							<ui:param name="fieldName" value="form:funcionario" />
 							<ui:define name="label"><h:outputText value="Selecione" /></ui:define>
 							<p:selectOneMenu id="funcionario" value="#{manageGameController.selectedEntity}" converter="#{manageGameController.gameConverter}"  >
+								<f:selectItem  itemLabel="selecione o Game " itemValue="" />
 								<f:selectItems value="#{manageGameController.lista}" var="func" itemLabel="#{func.name}" itemValue="#{func}" />
 								<p:ajax update=":form"  />
 							</p:selectOneMenu>

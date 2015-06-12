@@ -23,10 +23,15 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.sparql.vocabulary.FOAF;
+import com.hp.hpl.jena.util.iterator.Filter;
+import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
 import br.ufes.inf.nemo.gametime.application.ManageGameService;
@@ -112,10 +117,142 @@ public class ManageGameController extends CrudController<Game>{
 	public Game getGame() { return game; }
 	public void setGame(Game game) { this.game = game; }
 	
+	Filter<Statement> filter_en = new Filter<Statement>() {
+		@Override
+		public boolean accept(Statement o) {
+			if(o.getLanguage().equals("en")){
+				return true;
+			}
+			return false;
+		}
+	};
 	
 	
 	
 	public void dbpedia() {
+		createNewEntity();
+		lista = new ArrayList<Game>();
+		Game game ;
+		
+		/* CRIA O MODELO DA DBPEDIA E AS PROPRIEDADES QUE SERÃO USADAS */
+		Model dbpediaModel = ModelFactory.createDefaultModel();
+		String dbpediaOwlNS = "http://dbpedia.org/ontology/";
+		dbpediaModel.setNsPrefix("dbpedia-owl", dbpediaOwlNS);
+		Property dbp_genre = ResourceFactory.createProperty(dbpediaOwlNS + "genre");
+		Property dbp_developer = ResourceFactory.createProperty(dbpediaOwlNS + "developer");
+		Property dbp_computingPlatform = ResourceFactory.createProperty(dbpediaOwlNS + "computingPlatform");
+		
+		
+		/*	CRIANDO A QUERY */
+		String format1 = " select ?node ?name ?homepage "
+				+ "where { "
+				+ "		?node <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/VideoGame> ; "
+				+ " 	<http://xmlns.com/foaf/0.1/name> ?name ;"
+				+ "		filter regex(?name , \"%s\") "
+				+ "		OPTIONAL { ?node <http://xmlns.com/foaf/0.1/homepage> ?homepage . } "
+				+ "}"
+				+ "limit 2";
+		String format = String.format(format1, selectedEntity.getName());
+		Query query = QueryFactory.create(format);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
+		
+
+		try{
+			
+			/*	EXECUTANDO A QUERY */
+			ResultSet rs = qexec.execSelect();
+			
+			/* PERCORRE OS RESULTADOS */
+			for ( ; rs.hasNext() ; ) {
+				
+				/* CRIA O RECURSO DO GAME ENCONTRADO */
+				QuerySolution querySolution = rs.nextSolution();
+				RDFNode jogoRdf = querySolution.getResource("?node");
+				Model jogoModel = ModelFactory.createDefaultModel();
+				jogoModel.read(jogoRdf.toString());
+			    Resource jogoRecurso = jogoModel.getResource(jogoRdf.toString());
+				
+			    
+			    game = new Game();
+				
+				/* PEGA O PARAMENTRO NOME DA EXECUÇÃO DA QUERY  */
+				String name = querySolution.getLiteral("?name").getString();
+				game.setName(name);
+				
+				
+			    
+			    /* PEGA OS  GENEROS DO RECURSO CRIADO ACIMA */
+			    Iterator<Statement> jogoPropriedades = jogoRecurso.listProperties(dbp_genre).toList().iterator(); 
+			    while(jogoPropriedades.hasNext()){
+			    	Statement jogoStatement = jogoPropriedades.next();
+			    	Model generoModel = ModelFactory.createDefaultModel();
+				    generoModel.read(jogoStatement.getObject().toString());
+				    Resource generoRecurso = generoModel.getResource(jogoStatement.getObject().toString());
+				    /* LABEL DO GENERO */			   
+				    Iterator<Statement> generoPropriedades = generoRecurso.listProperties(RDFS.label).filterKeep(filter_en).toList().iterator();
+				    Statement generoStatement = generoPropriedades.next();
+				    String genre = generoStatement.getObject().toString();
+				    /* ADICIONA O LABEL NA ENTIDADE GAME */
+				    if(game.getGenero()!=null){
+				    	game.setGenero(game.getGenero() + " ; " + genre.substring(0, genre.length()-3) ); }
+				    else {game.setGenero( genre.substring(0, genre.length()-3) );}
+			    }
+			    
+			    
+			    /* EMPRESA */  
+			    jogoPropriedades = jogoRecurso.listProperties(dbp_developer).toList().iterator(); 
+			    while(jogoPropriedades.hasNext()){
+			    	Statement jogoStatement = jogoPropriedades.next();
+			    	Model empresaModel = ModelFactory.createDefaultModel();
+		    		empresaModel.read(jogoStatement.getObject().toString());
+				    Resource empresaRecurso = empresaModel.getResource(jogoStatement.getObject().toString());
+				    /* LABEL DA EMPRESA */
+				    Iterator<Statement> empresaPropriedades = empresaRecurso.listProperties(RDFS.label).filterKeep(filter_en).toList().iterator(); 
+				    Statement empresaStatement = empresaPropriedades.next();
+			    	String empresa = empresaStatement.getObject().toString();
+				    if(game.getManufacturer()!=null)
+				    	game.setManufacturer(game.getManufacturer() + " ; " + empresa.substring(0, empresa.length()-3) );
+				    else game.setManufacturer( empresa.substring(0, empresa.length()-3) );
+			    } 
+			    	
+			    	
+
+			    /* REQUISITOS  */
+			    jogoPropriedades = jogoRecurso.listProperties(dbp_computingPlatform).toList().iterator(); 
+			    while(jogoPropriedades.hasNext()){
+			    	Statement jogoStatement = jogoPropriedades.next();
+			    	Model requisitoModel = ModelFactory.createDefaultModel();
+		    		requisitoModel.read(jogoStatement.getObject().toString());
+				    Resource requisitoRecurso = requisitoModel.getResource(jogoStatement.getObject().toString());
+				    /* LABEL DOS REQUISITOS*/
+				    Iterator<Statement> requisitoPropriedades = requisitoRecurso.listProperties(RDFS.label).filterKeep(filter_en).toList().iterator(); 
+				    Statement requisitoStatement = requisitoPropriedades.next();
+			    	String requisito = requisitoStatement.getObject().toString();
+				    if(game.getRequisitos_minimos()!=null)
+				    	game.setRequisitos_minimos(game.getRequisitos_minimos() + " ; " + requisito.substring(0, requisito.length()-3) );
+				    else game.setRequisitos_minimos( requisito.substring(0, requisito.length()-3) );
+			    }
+			    
+			    
+			    /* HOMEPAGE*/
+			    try{ game.setUri(querySolution.getResource("?homepage").getURI()); }
+				catch(Exception e){}
+			       
+			    /* ADICIONA O GAME NA LISTA DOS GAMES ENCONTRADOS */
+			    lista.add(game);
+			    			
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			qexec.close();
+		}
+				
+	}
+	
+	
+public void dbpedia1() {
 		
 		lista = new ArrayList<Game>();
 		
@@ -241,8 +378,6 @@ public class ManageGameController extends CrudController<Game>{
 		}
 				
 	}
-	
-	
 	
 	
 
