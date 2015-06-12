@@ -27,20 +27,35 @@
         <div class="crud">
             <ui:decorate template="/resources/form.xhtml">
                 <h:form id="form">
-                    <p:hotkey bind="#{msgsGametime['crud.hotkey.focusFirstField']}" handler="findObjectById('form:name').focus();" />
-
-
-                    <h:panelGroup id="nameField">
+                   
+                   
+                    
+                    
+                    
+                     <h:panelGroup id="nameField">
                         <ui:decorate template="/resources/formfield.xhtml">
                             <ui:param name="fieldName" value="form:name" />
-                            <ui:param name="tooltip" value="#{msgsGametime['manageGame.form.name.tooltip']}" />
-                            <ui:define name="label"><h:outputText value="#{msgsGametime['manageGame.form.name']}" /></ui:define>
+                            <ui:define name="label"><h:outputText value="Proucurar/Nome" /></ui:define>
                             <p:inputText id="name" value="#{manageGameController.selectedEntity.name}" size="50" required="true" disabled="#{manageGameController.readOnly}">
                                 <p:ajax event="blur" update=":form" listener="#{manageGameController.dbpedia}" />
                             </p:inputText>
                         </ui:decorate>
                     </h:panelGroup>
+                    
 
+					<h:panelGroup id="funcionarioField">
+						<ui:decorate template="/resources/formfield.xhtml">
+							<ui:param name="fieldName" value="form:funcionario" />
+							<ui:define name="label"><h:outputText value="Selecione" /></ui:define>
+							<p:selectOneMenu id="funcionario" value="#{manageGameController.selectedEntity}" converter="#{manageGameController.gameConverter}"  >
+								<f:selectItems value="#{manageGameController.lista}" var="func" itemLabel="#{func.name}" itemValue="#{func}" />
+								<p:ajax update=":form"  />
+							</p:selectOneMenu>
+						</ui:decorate>
+					</h:panelGroup>
+
+
+                   
 
 
 					<h:panelGroup id="manufacturerField">
@@ -88,54 +103,24 @@
                         </h:outputText> </p:link>
                     </h:panelGroup>
                     
+                  
                     
-                    
-						<h:panelGroup id="funcionarioField">
-							<ui:decorate template="/resources/formfield.xhtml">
-								<ui:param name="fieldName" value="form:funcionario" />
-								<ui:define name="label"><h:outputText value="teste" /></ui:define>
-								<p:selectOneMenu id="funcionario" value="#{manageGameController.game}" converter="#{manageGroupGameController.gameConverter}"  >
-									<f:selectItems value="#{manageGameController.lista}" var="func" itemLabel="#{func.name}" itemValue="#{func}" />
-									<p:ajax update="funcionarioField" />
-								</p:selectOneMenu>
-							</ui:decorate>
-						</h:panelGroup>
-
-
 
                     <ui:decorate template="/resources/formbutton.xhtml">
                         <h:panelGroup rendered="#{! manageGameController.readOnly}">
                             <p:commandButton action="#{manageGameController.list}" value="#{msgsGametime['crud.button.cancel']}" immediate="true" icon="buttonCancel" />
                             <p:commandButton action="#{manageGameController.save}" value="#{msgsGametime['crud.button.save']}" icon="buttonOk" update=":form :globalMessages" />
-                            <p:hotkey bind="#{msgsGametime['crud.hotkey.backToList']}" action="#{manageGameController.list}" immediate="true" />
-                            <p:hotkey bind="#{msgsGametime['crud.hotkey.save']}" action="#{manageGameController.save}" update=":form :globalMessages" />
-                        </h:panelGroup>
+                            </h:panelGroup>
                         <h:panelGroup rendered="#{manageGameController.readOnly}">
                             <p:commandButton action="#{manageGameController.list}" value="#{msgsGametime['crud.button.back']}" immediate="true" icon="buttonBack" />
-                            <p:hotkey bind="#{msgsGametime['crud.hotkey.backToList']}" action="#{manageGameController.list}" immediate="true" />
                         </h:panelGroup>
                     </ui:decorate>
                     
-                    
-                    
+                  
                     
                 </h:form>
             </ui:decorate>
         </div>
 </h:panelGroup>
     </ui:define>
-
-
-		    <ui:define name="help">
-		<h:panelGroup rendered="#{sessionController.loggedIn and sessionController.authenticatedUser.admin}">
-		        <h4><h:outputText value="#{msgsGametime['text.hotkeys']}" />:</h4>
-		        <ul>
-		            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.focusFirstField']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.focusFirstField']}" />;</li>
-		            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.backToList']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.backToList']}" />;</li>
-		            <li><b><h:outputText value="#{msgsGametime['crud.hotkey.save']}" /></b>: <h:outputText value="#{msgsGametime['crud.help.hotkeys.save']}" />.</li>
-		        </ul>
-		</h:panelGroup>
-		    </ui:define>
-		    
-    
 </ui:composition>

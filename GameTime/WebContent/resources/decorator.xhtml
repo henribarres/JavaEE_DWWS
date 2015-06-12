@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
@@ -11,6 +12,26 @@
 	<title><ui:insert name="title" /></title>
 </h:head>
 <h:body>
+		
+		<!-- Salao Ajax status indicator: -->
+		<div id="ajaxStatus">
+			<h:form id="statusForm">
+				<p:ajaxStatus>
+					<f:facet name="start">
+						<h:graphicImage alt="#{msgsSalao['text.ajax.loading.alt']}" title="#{msgsSalao['text.ajax.loading']}"
+							url="/resources/icons/ajaxstatus-start.gif" />
+					</f:facet>
+					<f:facet name="error">
+						<h:graphicImage alt="#{msgsSalao['text.ajax.error.alt']}" title="#{msgsSalao['text.ajax.error']}"
+							url="/resources/icons/ajaxstatus-error.png" />
+					</f:facet>
+					<f:facet name="complete">
+						<h:graphicImage alt="#{msgsSalao['text.ajax.complete.alt']}" title="#{msgsSalao['text.ajax.complete']}"
+							url="/resources/icons/ajaxstatus-complete.png" />
+					</f:facet>
+				</p:ajaxStatus>
+			</h:form>
+		</div>
 		
 	<div id="templatemo_container">
 	    
