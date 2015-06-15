@@ -127,7 +127,12 @@ public class ManageGameController extends CrudController<Game>{
 		}
 	};
 	
-	
+	public void atualizarGame() { 
+		selectedEntity = game;
+		if(game == null)
+			selectedEntity =  new Game();
+		
+	}
 	
 	public void dbpedia() {
 		createNewEntity();

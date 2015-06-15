@@ -43,14 +43,14 @@
                     </h:panelGroup>
                     
 
-					<h:panelGroup id="funcionarioField">
+					<h:panelGroup id="selectGameField">
 						<ui:decorate template="/resources/formfield.xhtml">
-							<ui:param name="fieldName" value="form:funcionario" />
+							<ui:param name="fieldName" value="form:selectGame" />
 							<ui:define name="label"><h:outputText value="Selecione" /></ui:define>
-							<p:selectOneMenu id="funcionario" value="#{manageGameController.selectedEntity}" converter="#{manageGameController.gameConverter}"  >
+							<p:selectOneMenu id="selectGame" value="#{manageGameController.game}" converter="#{manageGameController.gameConverter}"  >
 								<f:selectItem  itemLabel="selecione o Game " itemValue="" />
 								<f:selectItems value="#{manageGameController.lista}" var="func" itemLabel="#{func.name}" itemValue="#{func}" />
-								<p:ajax update=":form"  />
+								<p:ajax update=":form" listener="#{manageGameController.atualizarGame}" />
 							</p:selectOneMenu>
 						</ui:decorate>
 					</h:panelGroup>
