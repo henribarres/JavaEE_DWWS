@@ -1,0 +1,24 @@
+/* MENU ITEMS */
+.menuAccessLogin 					{ background-image: url(/GameTime/resources/icons/menu-access-login.png) !important; }
+.menuAccessLogout 					{ background-image: url(/GameTime/resources/icons/menu-access-logout.png) !important; }
+.menuCoreRegister				 	{ background-image: url(/GameTime/resources/icons/menu-core-register.png) !important; }
+.menuCoreCrudsManageInstitutions 	{ background-image: url(/GameTime/resources/icons/menu-core-cruds-manageInstitutions.png) !important; }
+.menuCoreCrudsManageSpiritists 		{ background-image: url(/GameTime/resources/icons/menu-core-cruds-manageSpiritists.png) !important; }
+.menuCoreInstallSystem 				{ background-image: url(/GameTime/resources/icons/menu-core-installSystem-install.png) !important; }
+.menuSecretariatMailingSendMailing 	{ background-image: url(/GameTime/resources/icons/menu-secretariat-mailing-sendMailing.png) !important; }
+
+/* BUTTONS */
+
+.buttonAdd 		{ background-image: url(/GameTime/resources/icons/button-add.png) !important; }
+.buttonPlay		{ background-image: url(/GameTime/resources/icons/play.png) !important; }
+.buttonAccounts { background-image: url(/GameTime/resources/icons/new_counts.png) !important; }
+.buttonBack 	{ background-image: url(/GameTime/resources/icons/button-back.png) !important; }
+.buttonCancel 	{ background-image: url(/GameTime/resources/icons/button-cancel.png) !important; }
+.buttonEdit 	{ background-image: url(/GameTime/resources/icons/button-edit.png) !important; }
+.buttonNew 		{ background-image: url(/GameTime/resources/icons/button-new.png) !important; }
+.buttonOk 		{ background-image: url(/GameTime/resources/icons/button-ok.png) !important; }
+.buttonRemove 	{ background-image: url(/GameTime/resources/icons/button-remove.png) !important; }
+.buttonReport 	{ background-image: url(/GameTime/resources/icons/button-report.png) !important; }
+.buttonSendmail { background-image: url(/GameTime/resources/icons/button-sendmail.png) !important; }
+.buttonTrash 	{ background-image: url(/GameTime/resources/icons/button-trash.png) !important; }
+.buttonView 	{ background-image: url(/GameTime/resources/icons/button-view.png) !important; }

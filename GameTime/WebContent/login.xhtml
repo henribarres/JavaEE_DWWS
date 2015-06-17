@@ -40,12 +40,12 @@
 						
 						<!-- BOTÃO PARA ENVIAR AS INFORMAÇÕES  DE LOGIN-->
 						<ui:decorate template="/resources/formbutton.xhtml">
-							<p:commandButton action="#{sessionController.login}" value="#{msgsGametime['login.button.login']}"  update=":globalMessages form" />
+							<p:commandButton action="#{sessionController.login}" value="#{msgsGametime['login.button.login']}"  update=":globalMessages form" icon="menuAccessLogin"/>
 						</ui:decorate>   
 			      	</h:form>
 			      	
 			      	<ui:decorate template="/resources/formbutton.xhtml">
-						<p:commandButton action="#{sessionController.autoLogin}" value="#{msgsGametime['login.button.auto.login']}"  update=":globalMessages form" />
+						<p:commandButton action="#{sessionController.autoLogin}" value="#{msgsGametime['login.button.auto.login']}"  update=":globalMessages form" icon="menuAccessLogin"/>
 					</ui:decorate>  
 			      	
 				</ui:decorate>
